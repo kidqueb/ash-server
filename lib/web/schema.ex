@@ -34,5 +34,5 @@ defmodule AppWeb.Schema do
   # end
   # def middleware(middleware, _field, _object) do
   #   middleware
-  end
+  # end
 end
