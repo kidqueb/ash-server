@@ -1,0 +1,2 @@
+<p><a href="<%= @url %>login/<%= @token %>">Click here to login</a></p>
+<p>This link is valid for 30 minutes.</p>

@@ -1,0 +1,50 @@
+use Mix.Config
+
+# For development, we disable any cache and enable
+# debugging and code reloading.
+#
+# The watchers configuration can be used to run external
+# watchers to your application. For example, we use it
+# with webpack to recompile .js and .css sources.
+config :app, AppWeb.Endpoint,
+  http: [port: 4000],
+  https: [
+    port: 4001,
+    cipher_suite: :strong,
+    certfile: "priv/cert/selfsigned.pem",
+    keyfile: "priv/cert/selfsigned_key.pem"
+  ],
+  debug_errors: true,
+  code_reloader: true,
+  check_origin: false,
+  watchers: []
+
+# Email dispatch
+config :app, App.Mailer,
+  adapter: Bamboo.LocalAdapter
+
+# Guardian key
+config :app, App.Guardian,
+  secret_key: "mMxsk8o/FJakSiIeKPg3viQaaNy6o388BFDXEOgj7wQ2iycAzB8v+z17C3KZ+U/Y"
+
+# Test watcher
+config :mix_test_watch,
+  clear: true
+
+# Do not include metadata nor timestamps in development logs
+config :logger, :console, format: "[$level] $message\n"
+
+# Set a higher stacktrace during development. Avoid configuring such
+# in production as building large stacktraces may be expensive.
+config :phoenix, :stacktrace_depth, 20
+
+# Initialize plugs at runtime for faster development compilation
+config :phoenix, :plug_init_mode, :runtime
+
+# Configure your database
+config :app, App.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "phoeniqs_graphql_dev",
+  hostname: "localhost",
+  pool_size: 10

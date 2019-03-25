@@ -1,0 +1,5 @@
+Here is your login token:
+
+<%= @token %>
+
+It is valid for 30 minutes.
