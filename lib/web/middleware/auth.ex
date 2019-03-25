@@ -1,11 +1,5 @@
 defmodule AppWeb.AuthMiddleware do
-  @behavior Absinthe.Middleware
-
-  if Mix.env == :dev do
-    def call(resolution, _config) do
-      resolution
-    end
-  end
+  @behaviour Absinthe.Middleware
 
   def call(resolution = %{context: %{current_user: _}}, _config) do
     resolution

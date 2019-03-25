@@ -27,14 +27,12 @@ defmodule AppWeb.Schema do
   #   import_fields :thing_subscriptions
   # end
 
-  # =============================
-  # Global Middleware (auth)
-  # =============================
-  def middleware(middleware, _field, %Absinthe.Type.Object{identifier: identifier})
-      when identifier in [:query, :subscription, :mutation] do
-    [AppWeb.AuthMiddleware | middleware]
-  end
-  def middleware(middleware, _field, _object) do
-    middleware
+
+  # def middleware(middleware, _field, %Absinthe.Type.Object{identifier: identifier})
+  #     when identifier in [:query, :subscription, :mutation] do
+  #   [AppWeb.AuthMiddleware | middleware]
+  # end
+  # def middleware(middleware, _field, _object) do
+  #   middleware
   end
 end
