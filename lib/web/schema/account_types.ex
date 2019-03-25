@@ -5,7 +5,7 @@ defmodule AppWeb.Schema.AccountTypes do
   # =============================
   # Auth
   # =============================
-  object :auth_response do
+  object :generic_response do
     field :success, :boolean
     field :user, :user
   end
@@ -44,7 +44,7 @@ defmodule AppWeb.Schema.AccountTypes do
   end
 
   object :user_mutations do
-    field :attempt_login, :auth_response do
+    field :attempt_login, :generic_response do
       arg :email, non_null(:string)
       resolve &AppWeb.UserResolver.attempt_login/2
     end
@@ -54,7 +54,7 @@ defmodule AppWeb.Schema.AccountTypes do
       resolve &AppWeb.UserResolver.login/2
     end
 
-    field :create_user, :auth_response do
+    field :create_user, :generic_response do
       arg :email, non_null(:string)
       arg :first_name, non_null(:string)
       arg :last_name, non_null(:string)
@@ -69,7 +69,7 @@ defmodule AppWeb.Schema.AccountTypes do
       resolve &AppWeb.UserResolver.update/2
     end
 
-    field :delete_user, :user do
+    field :delete_user, :generic_response do
       arg :id, non_null(:id)
 
       resolve &AppWeb.UserResolver.delete/2

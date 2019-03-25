@@ -96,15 +96,16 @@ defmodule App.Accounts do
 
   ## Examples
 
-      iex> delete_user(user)
+      iex> delete_user(user_id)
       {:ok, %User{}}
 
-      iex> delete_user(user)
+      iex> delete_user(user_id)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_user(%User{} = user) do
-    Repo.delete(user)
+  def delete_user(user_id) do
+    get_user!(user_id)
+    |> Repo.delete
   end
 
   @doc """

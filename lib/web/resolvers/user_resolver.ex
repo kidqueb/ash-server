@@ -26,7 +26,10 @@ defmodule AppWeb.UserResolver do
   end
 
   def delete(%{id: id}, _info) do
-    Accounts.delete_user(id)
+    case Accounts.delete_user(id) do
+      {:ok, user} -> {:ok, %{success: true, user: user}}
+      {:error, changeset} -> ErrorHelper.format_errors(changeset)
+    end
   end
 
   def attempt_login(%{email: email}, _info) do
