@@ -1,13 +1,12 @@
 defmodule AppWeb.Router do
   use AppWeb, :router
-  alias App.Guardian
 
   pipeline :app do
     plug :accepts, ["json"]
   end
 
   pipeline :jwt_authenticated do
-    plug Guardian.AuthPipeline
+    plug AppWeb.Context
   end
 
   # Dev outbox for email login
@@ -15,24 +14,12 @@ defmodule AppWeb.Router do
     forward "/outbox", Bamboo.SentEmailViewerPlug
   end
 
-  # Public Routes
-  scope "/", AppWeb do
-    pipe_through :app
+  scope "/" do
+    pipe_through [:app, :jwt_authenticated]
+    forward "/graphql", Absinthe.Plug, schema: AppWeb.Schema
 
-    get "/login/:token", SessionController, :show, as: :login
-    post "/login", SessionController, :create, as: :login
-  end
-
-  # Authenticated Routes
-  scope "/", AppWeb do
-    if Mix.env == :dev || Mix.env == :test do
-      pipe_through [:app]
-    else
-      pipe_through [:app, :jwt_authenticated]
-    end
-
-    resources "/users", UserController, except: [:new, :edit] do
-      # nested resources
+    if Mix.env == :dev do
+      forward "/graphiql", Absinthe.Plug.GraphiQL, schema: AppWeb.Schema
     end
   end
 end

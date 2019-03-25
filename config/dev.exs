@@ -25,7 +25,7 @@ config :app, App.Mailer,
 
 # Guardian key
 config :app, App.Guardian,
-  secret_key: "mMxsk8o/FJakSiIeKPg3viQaaNy6o388BFDXEOgj7wQ2iycAzB8v+z17C3KZ+U/Y"
+  secret_key: "M1pKbbFJX0Qsez5vMl8bzKeQOdbvQigRZcHz1IYIKrmhC9zSsWO0uNi8ACmzpsar"
 
 # Test watcher
 config :mix_test_watch,
