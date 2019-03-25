@@ -5,7 +5,7 @@ defmodule App.UserFactory do
     quote do
       def user_factory do
         %User{
-          email: "tombrady@nfl.com",
+          email: sequence("tombrady@nfl.com"),
           first_name: "Tom",
           last_name: "Brady"
         }
