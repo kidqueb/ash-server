@@ -5,16 +5,9 @@ defmodule AppWeb.UserResolver do
     {:ok, Accounts.list_users()}
   end
 
-  def find(%{id: id}, %{context: context}) do
-    IO.inspect(context)
-    case Accounts.get_user!(id) do
-      nil -> {:error, "User id #{id} not found"}
-      user -> {:ok, user}
-    end
-  end
   def find(%{id: id}, _info) do
     case Accounts.get_user!(id) do
-      nil -> {:error, "User id #{id} not found"}
+      nil -> {:error, "User id #{id} not found."}
       user -> {:ok, user}
     end
   end
@@ -47,13 +40,5 @@ defmodule AppWeb.UserResolver do
       {:error, reason} ->
         {:error, reason}
     end
-  end
-
-  def me(_args, %{context: %{current_user: current_user}}) do
-    {:ok, Accounts.get_user!(current_user.id)}
-  end
-
-  def me(_args, _info) do
-    {:error, "Not authenticated."}
   end
 end

@@ -3,13 +3,13 @@ defmodule AppWeb.Schema.AccountTypes do
   use Absinthe.Ecto, repo: App.Repo
 
   # =============================
-  # AuthToken
+  # Auth
   # =============================
-  object :message do
+  object :attempt_message do
     field :message, :string
   end
 
-  object :jwt do
+  object :login_success do
     field :token, :string
     field :user, non_null(:user), resolve: assoc(:user)
   end
@@ -43,12 +43,12 @@ defmodule AppWeb.Schema.AccountTypes do
   end
 
   object :user_mutations do
-    field :attempt_login, :message do
+    field :attempt_login, :attempt_message do
       arg :email, non_null(:string)
       resolve &AppWeb.UserResolver.attempt_login/2
     end
 
-    field :login, :jwt do
+    field :login, :login_success do
       arg :token, non_null(:string)
       resolve &AppWeb.UserResolver.login/2
     end

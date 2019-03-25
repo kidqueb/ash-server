@@ -14,6 +14,14 @@ defmodule AppWeb.Router do
     forward "/outbox", Bamboo.SentEmailViewerPlug
   end
 
+  scope "/", AppWeb do
+    pipe_through :app
+
+    post "/signup", UserResolver, :create
+    get "/login", UserResolver, :login
+    get "/logout", UserResolver, :logout
+  end
+
   scope "/" do
     pipe_through [:app, :jwt_authenticated]
     forward "/graphql", Absinthe.Plug, schema: AppWeb.Schema
