@@ -5,8 +5,9 @@ defmodule AppWeb.Schema.AccountTypes do
   # =============================
   # Auth
   # =============================
-  object :attempt_message do
-    field :message, :string
+  object :auth_response do
+    field :success, :boolean
+    field :user, :user
   end
 
   object :login_success do
@@ -43,7 +44,7 @@ defmodule AppWeb.Schema.AccountTypes do
   end
 
   object :user_mutations do
-    field :attempt_login, :attempt_message do
+    field :attempt_login, :auth_response do
       arg :email, non_null(:string)
       resolve &AppWeb.UserResolver.attempt_login/2
     end
@@ -53,11 +54,10 @@ defmodule AppWeb.Schema.AccountTypes do
       resolve &AppWeb.UserResolver.login/2
     end
 
-    field :create_user, :user do
+    field :create_user, :auth_response do
       arg :email, non_null(:string)
       arg :first_name, non_null(:string)
       arg :last_name, non_null(:string)
-      arg :password, non_null(:string)
 
       resolve &AppWeb.UserResolver.create/2
     end

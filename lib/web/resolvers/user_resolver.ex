@@ -1,5 +1,6 @@
 defmodule AppWeb.UserResolver do
   alias App.{Accounts, Guardian}
+  alias AppWeb.ErrorHelper
 
   def all(_args, _info) do
     {:ok, Accounts.list_users()}
@@ -13,7 +14,10 @@ defmodule AppWeb.UserResolver do
   end
 
   def create(args, _info) do
-    Accounts.create_user(args)
+    case Accounts.create_user(args) do
+      {:ok, user} -> {:ok, %{success: true, user: user}}
+      {:error, changeset} -> ErrorHelper.format_errors(changeset)
+    end
   end
 
   def update(%{id: id, user: user_params}, _info) do
@@ -27,7 +31,7 @@ defmodule AppWeb.UserResolver do
 
   def attempt_login(%{email: email}, _info) do
     Accounts.provide_token(email)
-    {:ok, %{message: "Email with login link has been sent to the given email address."}}
+    {:ok, %{success: true}}
   end
 
   def login(%{token: token}, _info) do

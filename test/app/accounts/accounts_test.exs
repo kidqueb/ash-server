@@ -1,8 +1,9 @@
 defmodule App.AccountsTest do
   use App.DataCase
+  import App.Factory
+
   alias App.Accounts
   alias AppWeb.Endpoint
-  import App.Factory
 
   @token_max_age 30 * 60 # from Accounts context
 

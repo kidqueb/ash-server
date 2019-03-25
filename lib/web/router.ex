@@ -27,7 +27,7 @@ defmodule AppWeb.Router do
     forward "/graphql", Absinthe.Plug, schema: AppWeb.Schema
 
     if Mix.env == :dev do
-      forward "/graphiql", Absinthe.Plug.GraphiQL, schema: AppWeb.Schema
+      forward "/", Absinthe.Plug.GraphiQL, schema: AppWeb.Schema
     end
   end
 end
