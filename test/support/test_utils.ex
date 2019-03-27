@@ -4,7 +4,7 @@ defmodule App.TestUtils do
   """
 
   use Phoenix.ConnTest
-  @endpoint Web.Endpoint # We need to set the default endpoint for ConnTest
+  @endpoint AppWeb.Endpoint # We need to set the default endpoint for ConnTest
 
 
   @doc """

@@ -2,8 +2,6 @@ defmodule AppWeb.UserResolverTest do
   use AppWeb.ConnCase
   import App.Factory
 
-  alias App.TestUtils
-
   describe "user resolver" do
     test "lists all users", %{conn: conn} do
       users = insert_list(3, :user)
@@ -15,11 +13,9 @@ defmodule AppWeb.UserResolverTest do
         }
       """
 
-      res = conn
-        |> post("/graphql", %{query: query})
-        |> json_response(200)
+      res = post_gql(conn, %{query: query})
 
-      assert res["data"] == %{"users" => TestUtils.to_id_array(users)}
+      assert res["data"] == %{"users" => to_id_array(users)}
     end
 
     test "finds an user by id", %{conn: conn} do
@@ -32,9 +28,7 @@ defmodule AppWeb.UserResolverTest do
         }
       """
 
-      res = conn
-        |> post("/graphql", %{query: query})
-        |> json_response(200)
+      res = post_gql(conn, %{query: query})
 
       assert res["data"] == %{"user" => %{"id" => to_string(user.id)}}
     end
@@ -57,9 +51,7 @@ defmodule AppWeb.UserResolverTest do
         }
       """
 
-      res = conn
-        |> post("/graphql", %{query: query})
-        |> json_response(200)
+      res = post_gql(conn, %{query: query})
 
       assert res["data"]["createUser"] == %{
         "success" => true,
@@ -92,9 +84,7 @@ defmodule AppWeb.UserResolverTest do
         }
       }
 
-      res = conn
-        |> post("/graphql", %{query: query, variables: variables})
-        |> json_response(200)
+      res = post_gql(conn, %{query: query, variables: variables})
 
       assert res["data"]["updateUser"] == %{
         "id" => to_string(user.id),
@@ -115,9 +105,7 @@ defmodule AppWeb.UserResolverTest do
       }
     """
 
-    res = conn
-      |> post("/graphql", %{query: query})
-      |> json_response(200)
+    res = post_gql(conn, %{query: query})
 
     assert res["data"]["deleteUser"] == %{"success" => true}
   end
