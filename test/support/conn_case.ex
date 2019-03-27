@@ -24,6 +24,8 @@ defmodule AppWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint AppWeb.Endpoint
+
+      import App.TestUtils
     end
   end
 
