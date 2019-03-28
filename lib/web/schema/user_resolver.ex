@@ -7,7 +7,7 @@ defmodule AppWeb.UserResolver do
   end
 
   def find(%{id: id}, _info) do
-    case Accounts.get_user!(id) do
+    case Accounts.get_user(id) do
       nil -> {:error, "User id #{id} not found."}
       user -> {:ok, user}
     end
@@ -15,7 +15,7 @@ defmodule AppWeb.UserResolver do
 
   def create(args, _info) do
     case Accounts.create_user(args) do
-      {:ok, user} -> {:ok, %{success: true, user: user}}
+      {:ok, _user} -> {:ok, %{success: true}}
       {:error, changeset} -> ErrorHelper.format_errors(changeset)
     end
   end
@@ -27,7 +27,7 @@ defmodule AppWeb.UserResolver do
 
   def delete(%{id: id}, _info) do
     case Accounts.delete_user(id) do
-      {:ok, user} -> {:ok, %{success: true, user: user}}
+      {:ok, _user} -> {:ok, %{success: true}}
       {:error, changeset} -> ErrorHelper.format_errors(changeset)
     end
   end
