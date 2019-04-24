@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Phx.Gen.Json do
+defmodule Mix.Tasks.Ash.Gen.Gql do
   @shortdoc "Generates controller, views, and context for a JSON resource"
 
   @moduledoc """
@@ -44,7 +44,7 @@ defmodule Mix.Tasks.Phx.Gen.Json do
 
   Alternatively, the `--context-app` option may be supplied to the generator:
 
-      mix phx.gen.json Sales User users --context-app warehouse
+      mix ash.gen.gql Sales User users --context-app warehouse
 
   ## Web namespace
 
@@ -52,7 +52,7 @@ defmodule Mix.Tasks.Phx.Gen.Json do
   You can customize the web module namespace by passing the `--web` flag with a
   module name, for example:
 
-      mix phx.gen.json Sales User users --web Sales
+      mix ash.gen.gql Sales User users --web Sales
 
   Which would generate a `lib/app_web/controllers/sales/user_controller.ex` and
   `lib/app_web/views/sales/user_view.ex`.
@@ -70,7 +70,7 @@ defmodule Mix.Tasks.Phx.Gen.Json do
   the plural name provided for the resource. To customize this value,
   a `--table` option may be provided. For example:
 
-      mix phx.gen.json Accounts User users --table cms_users
+      mix ash.gen.gql Accounts User users --table cms_users
 
   ## binary_id
 
@@ -103,7 +103,7 @@ defmodule Mix.Tasks.Phx.Gen.Json do
   @doc false
   def run(args) do
     if Mix.Project.umbrella? do
-      Mix.raise "mix phx.gen.json can only be run inside an application directory"
+      Mix.raise "mix ash.gen.gql can only be run inside an application directory"
     end
 
     {context, schema} = Gen.Context.build(args)
