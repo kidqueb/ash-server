@@ -15,7 +15,7 @@ defmodule AshWeb.UserResolver do
 
   def create(args, _info) do
     case Accounts.create_user(args) do
-      {:ok, _user} -> {:ok, %{success: true}}
+      {:ok, user} -> {:ok, user}
       {:error, changeset} -> ErrorHelper.format_errors(changeset)
     end
   end
@@ -27,7 +27,7 @@ defmodule AshWeb.UserResolver do
 
   def delete(%{id: id}, _info) do
     case Accounts.delete_user(id) do
-      {:ok, _user} -> {:ok, %{success: true}}
+      {:ok, user} -> {:ok, user}
       {:error, changeset} -> ErrorHelper.format_errors(changeset)
     end
   end

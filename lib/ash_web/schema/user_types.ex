@@ -49,7 +49,7 @@ defmodule AshWeb.Schema.UserTypes do
       resolve &AshWeb.UserResolver.login/2
     end
 
-    field :create_user, :success_response do
+    field :create_user, :user do
       arg :email, :string
       arg :first_name, :string
       arg :last_name, :string
@@ -64,7 +64,7 @@ defmodule AshWeb.Schema.UserTypes do
       resolve &AshWeb.UserResolver.update/2
     end
 
-    field :delete_user, :success_response do
+    field :delete_user, :user do
       arg :id, non_null(:id)
 
       resolve &AshWeb.UserResolver.delete/2

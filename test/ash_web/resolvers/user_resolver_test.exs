@@ -43,14 +43,20 @@ defmodule AshWeb.UserResolverTest do
             firstName: "Tim",
             lastName: "Tebow"
           ) {
-            success
+            email
+            firstName
+            lastName
           }
         }
       """
 
       res = post_gql(conn, %{query: query})
 
-      assert res["data"]["createUser"] == %{"success" => true}
+      assert res["data"]["createUser"] == %{
+        "email" => "tim@tebow.com",
+        "firstName" => "Tim",
+        "lastName" => "Tebow"
+      }
     end
 
     test "updates a user", %{conn: conn} do
@@ -93,13 +99,13 @@ defmodule AshWeb.UserResolverTest do
     query = """
       mutation {
         deleteUser(id: #{user.id}) {
-          success
+          id
         }
       }
     """
 
     res = post_gql(conn, %{query: query})
 
-    assert res["data"]["deleteUser"] == %{"success" => true}
+    assert res["data"]["deleteUser"] == %{"id" => to_string(user.id)}
   end
 end
