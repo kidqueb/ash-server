@@ -139,18 +139,15 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
     web_path = to_string(schema.web_path)
 
     [
-      {:eex,     "controller.ex",          Path.join([web_prefix, "controllers", web_path, "#{schema.singular}_controller.ex"])},
-      {:eex,     "view.ex",                Path.join([web_prefix, "views", web_path, "#{schema.singular}_view.ex"])},
-      {:eex,     "controller_test.exs",    Path.join([test_prefix, "controllers", web_path, "#{schema.singular}_controller_test.exs"])},
-      {:new_eex, "changeset_view.ex",      Path.join([web_prefix, "views/changeset_view.ex"])},
-      {:new_eex, "fallback_controller.ex", Path.join([web_prefix, "controllers/fallback_controller.ex"])},
+      {:eex,     "resolver.ex",            Path.join([web_prefix, "schema", web_path, "#{schema.singular}", "resolver.ex"])},
+      {:eex,     "types.ex",               Path.join([web_prefix, "schema", web_path, "#{schema.singular}", "types.ex"])},
     ]
   end
 
   @doc false
   def copy_new_files(%Context{} = context, paths, binding) do
     files = files_to_be_generated(context)
-    Mix.Phoenix.copy_from paths, "priv/templates/phx.gen.json", binding, files
+    Mix.Phoenix.copy_from paths, "priv/templates/ash.gen.gql", binding, files
     if context.generate?, do: Gen.Context.copy_new_files(context, paths, binding)
 
     context
