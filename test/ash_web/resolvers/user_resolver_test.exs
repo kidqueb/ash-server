@@ -5,6 +5,7 @@ defmodule AshWeb.UserResolverTest do
   describe "user resolver" do
     test "lists all users", %{conn: conn} do
       users = insert_list(3, :user)
+
       query = """
         {
           users {
@@ -20,6 +21,7 @@ defmodule AshWeb.UserResolverTest do
 
     test "finds an user by id", %{conn: conn} do
       user = insert(:user)
+
       query = """
         {
           user(id: #{user.id}) {
@@ -42,29 +44,18 @@ defmodule AshWeb.UserResolverTest do
             lastName: "Tebow"
           ) {
             success
-            user {
-              email
-              firstName
-              lastName
-            }
           }
         }
       """
 
       res = post_gql(conn, %{query: query})
 
-      assert res["data"]["createUser"] == %{
-        "success" => true,
-        "user" => %{
-          "email" => "tim@tebow.com",
-          "firstName" => "Tim",
-          "lastName" => "Tebow"
-        }
-      }
+      assert res["data"]["createUser"] == %{"success" => true}
     end
 
     test "updates a user", %{conn: conn} do
       user = insert(:user)
+
       query = """
         mutation UpdateUser($id: ID!, $user: UpdateUserParams!) {
           updateUser(id:$id, user:$user) {
@@ -75,6 +66,7 @@ defmodule AshWeb.UserResolverTest do
           }
         }
       """
+
       variables = %{
         id: user.id,
         user: %{
@@ -87,16 +79,17 @@ defmodule AshWeb.UserResolverTest do
       res = post_gql(conn, %{query: query, variables: variables})
 
       assert res["data"]["updateUser"] == %{
-        "id" => to_string(user.id),
-        "email" => "tim@tebow.com",
-        "firstName" => "Tim",
-        "lastName" => "Tebow"
-      }
+               "id" => to_string(user.id),
+               "email" => "tim@tebow.com",
+               "firstName" => "Tim",
+               "lastName" => "Tebow"
+             }
     end
   end
 
   test "deletes a user", %{conn: conn} do
     user = insert(:user)
+
     query = """
       mutation {
         deleteUser(id: #{user.id}) {

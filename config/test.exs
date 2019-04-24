@@ -17,6 +17,6 @@ config :logger, level: :warn
 config :ash, Ash.Repo,
   username: "postgres",
   password: "postgres",
-  database: "phoeniqs_graphql_test",
+  database: "ash_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

@@ -1,9 +1,9 @@
-defmodule Ash.Ashlication do
-  # See https://hexdocs.pm/elixir/Ashlication.html
-  # for more information on OTP Ashlications
+defmodule Ash.Application do
+  # See https://hexdocs.pm/elixir/Application.html
+  # for more information on OTP Applications
   @moduledoc false
 
-  use Ashlication
+  use Application
 
   def start(_type, _args) do
     # List all child processes to be supervised

@@ -25,7 +25,7 @@ defmodule Ash.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Ash.Ashlication, []},
+      mod: {Ash.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

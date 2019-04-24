@@ -45,6 +45,6 @@ config :phoenix, :plug_init_mode, :runtime
 config :ash, Ash.Repo,
   username: "postgres",
   password: "postgres",
-  database: "phoeniqs_graphql_dev",
+  database: "ash_dev",
   hostname: "localhost",
   pool_size: 10
