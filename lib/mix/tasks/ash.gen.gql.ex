@@ -116,7 +116,6 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
 
     context
     |> copy_new_files(paths, binding)
-    |> print_shell_instructions()
   end
 
   defp prompt_for_conflicts(context) do
@@ -151,29 +150,5 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
     if context.generate?, do: Gen.Context.copy_new_files(context, paths, binding)
 
     context
-  end
-
-  @doc false
-  def print_shell_instructions(%Context{schema: schema, context_app: ctx_app} = context) do
-    if schema.web_namespace do
-      Mix.shell.info """
-
-      Add the resource to your #{schema.web_namespace} :api scope in #{Mix.Phoenix.web_path(ctx_app)}/router.ex:
-
-          scope "/#{schema.web_path}", #{inspect Module.concat(context.web_module, schema.web_namespace)} do
-            pipe_through :api
-            ...
-            resources "/#{schema.plural}", #{inspect schema.alias}Controller
-          end
-      """
-    else
-      Mix.shell.info """
-
-      Add the resource to your :api scope in #{Mix.Phoenix.web_path(ctx_app)}/router.ex:
-
-          resources "/#{schema.plural}", #{inspect schema.alias}Controller, except: [:new, :edit]
-      """
-    end
-    if context.generate?, do: Gen.Context.print_shell_instructions(context)
   end
 end
