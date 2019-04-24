@@ -30,7 +30,6 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
     field :create_<%= schema.singular %>, :<%= schema.singular %> do
       <%= for {k, v} <- schema.attrs do %>field <%= inspect k %>, <%= inspect v %><%= schema.migration_defaults[k] %>
       <% end %>
-
       resolve &<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.create/2
     end
 
