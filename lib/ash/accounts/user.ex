@@ -19,6 +19,7 @@ defmodule Ash.Accounts.User do
     |> cast(attrs, [:email, :first_name, :last_name])
     |> validate_required([:email, :first_name, :last_name])
     |> validate_format(:email, ~r/@/)
+    |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email)
   end
 end
