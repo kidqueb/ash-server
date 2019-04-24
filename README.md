@@ -1,4 +1,4 @@
-# App
+# Ash
 
 ## Getting Started
 To start your Phoenix server:

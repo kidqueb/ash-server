@@ -1,9 +1,9 @@
-defmodule App.MixProject do
+defmodule Ash.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :app,
+      app: :ash,
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -25,7 +25,7 @@ defmodule App.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {App.Application, []},
+      mod: {Ash.Ashlication, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

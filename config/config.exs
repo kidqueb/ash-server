@@ -7,19 +7,19 @@
 # General application configuration
 use Mix.Config
 
-config :app,
-  namespace: App,
-  ecto_repos: [App.Repo]
+config :ash,
+  namespace: Ash,
+  ecto_repos: [Ash.Repo]
 
 # Configures the endpoint
-config :app, AppWeb.Endpoint,
+config :ash, AshWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "8T5iuEzxfHDVecy3CnarEBWVOKZpJ3nNTydbtLorZVFlAwMgrpjRxt5URNWTaxHc",
-  render_errors: [view: AppWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: App.PubSub, adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: AshWeb.ErrorView, accepts: ~w(json)],
+  pubsub: [name: Ash.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # JWT
-config :app, App.Guardian,
+config :ash, Ash.Guardian,
   issuer: "api"
 
 # Configures Elixir's Logger

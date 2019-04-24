@@ -1,4 +1,4 @@
-defmodule AppWeb.ConnCase do
+defmodule AshWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -19,21 +19,21 @@ defmodule AppWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      alias AppWeb.Router.Helpers, as: Routes
-      import App.Factory
+      alias AshWeb.Router.Helpers, as: Routes
+      import Ash.Factory
 
       # The default endpoint for testing
-      @endpoint AppWeb.Endpoint
+      @endpoint AshWeb.Endpoint
 
-      import App.TestUtils
+      import Ash.TestUtils
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(App.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Ash.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(App.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Ash.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

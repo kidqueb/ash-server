@@ -1,4 +1,4 @@
-alias App.Accounts
+alias Ash.Accounts
 
 Accounts.create_user %{
   first_name: "Nick",

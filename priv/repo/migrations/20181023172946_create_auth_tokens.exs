@@ -1,4 +1,4 @@
-defmodule App.Repo.Migrations.CreateTokens do
+defmodule Ash.Repo.Migrations.CreateTokens do
   use Ecto.Migration
 
   def change do

@@ -1,5 +1,5 @@
-defmodule App.Factory do
-  use ExMachina.Ecto, repo: App.Repo
-  use App.UserFactory
-  use App.AuthTokenFactory
+defmodule Ash.Factory do
+  use ExMachina.Ecto, repo: Ash.Repo
+  use Ash.UserFactory
+  use Ash.AuthTokenFactory
 end
