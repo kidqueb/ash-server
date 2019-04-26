@@ -135,8 +135,8 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
     web_path = to_string(schema.web_path)
 
     [
-      {:eex,     "resolver.ex",            Path.join([web_prefix, "schema", web_path, "#{schema.singular}", "resolver.ex"])},
-      {:eex,     "types.ex",               Path.join([web_prefix, "schema", web_path, "#{schema.singular}", "types.ex"])},
+      {:eex,    "resolver.ex",    Path.join([web_prefix, "schema", web_path, "#{schema.singular}", "resolver.ex"])},
+      {:eex,    "types.ex",       Path.join([web_prefix, "schema", web_path, "#{schema.singular}", "types.ex"])},
     ]
   end
 
