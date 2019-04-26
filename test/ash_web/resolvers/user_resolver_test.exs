@@ -19,7 +19,7 @@ defmodule AshWeb.UserResolverTest do
       assert res["data"] == %{"users" => to_id_array(users)}
     end
 
-    test "finds an user by id", %{conn: conn} do
+    test "finds a user by id", %{conn: conn} do
       user = insert(:user)
 
       query = """

@@ -135,7 +135,7 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
   def files_to_be_generated(%Context{schema: schema, context_app: context_app}) do
     web_prefix = Mix.Phoenix.web_path(context_app)
     # test_prefix = Mix.Phoenix.web_test_path(context_app)
-    web_path = to_string(schema.web_path)
+    # web_path = to_string(schema.web_path)
 
     [
       {:eex,     "resolver.ex",            Path.join([web_prefix, "schema", "#{schema.singular}", "resolver.ex"])},
