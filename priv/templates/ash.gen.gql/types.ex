@@ -6,7 +6,7 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
   object :<%= schema.singular %> do
     field :id, :id
     <%= for {k, v} <- schema.attrs do %>field <%= inspect k %>, <%= inspect v %>
-    <% end %><%= for {_, i, _, s} <- schema.assocs do %>field <%= inspect(i) %>, non_null(<%= inspect(s) %>)
+    <% end %><%= for {_, i, _, s} <- schema.assocs do %>field <%= inspect(i) %>, <%= inspect(i) %>, resolve: assoc(<%= inspect(i) %>)
     <% end %>
   end
 
