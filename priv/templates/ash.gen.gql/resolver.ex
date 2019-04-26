@@ -1,5 +1,5 @@
 defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver do
-  alias <%= inspect context.module %>.<%= inspect context.alias %>
+  alias <%= inspect context.module %>
   alias <%= inspect context.web_module %>.ErrorHelper
 
   def all(_args, _info) do
