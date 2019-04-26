@@ -26,22 +26,36 @@ defmodule AshWeb.UserResolverTest do
         {
           user(id: #{user.id}) {
             id
+            email
+            firstName
+            lastName
           }
         }
       """
 
       res = post_gql(conn, %{query: query})
 
-      assert res["data"] == %{"user" => %{"id" => to_string(user.id)}}
+      assert res["data"] == %{"user" => %{
+        "id" => to_string(user.id),
+        "email" => user.email,
+        "firstName" => user.first_name,
+        "lastName" => user.last_name
+      }}
     end
 
     test "creates a new user", %{conn: conn} do
+      user_params = params_for(:user, %{
+        email: "tim@tebow.com",
+        first_name: "Tim",
+        last_name: "Tebow"
+      })
+
       query = """
         mutation {
           createUser(
-            email: "tim@tebow.com",
-            firstName: "Tim",
-            lastName: "Tebow"
+            email: "#{user_params.email}",
+            firstName: "#{user_params.first_name}",
+            lastName: "#{user_params.last_name}"
           ) {
             email
             firstName
@@ -53,9 +67,9 @@ defmodule AshWeb.UserResolverTest do
       res = post_gql(conn, %{query: query})
 
       assert res["data"]["createUser"] == %{
-        "email" => "tim@tebow.com",
-        "firstName" => "Tim",
-        "lastName" => "Tebow"
+        "email" => user_params.email,
+        "firstName" => user_params.first_name,
+        "lastName" => user_params.last_name
       }
     end
 
