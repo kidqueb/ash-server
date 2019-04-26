@@ -24,8 +24,8 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
 
     * a context module in `lib/app/accounts/accounts.ex` for the accounts API
     * a schema in `lib/app/accounts/user.ex`, with an `users` table
-    * a resolver in `lib/app_web/views/user_view.ex`
-    * a types module in `lib/app_web/controllers/user_controller.ex`
+    * a resolver in `lib/app_web/schema/user/resolver.ex`
+    * type definitions in `lib/app_web/schema/user/types.ex`
 
   A migration file for the repository and test files for the context and
   controller features will also be generated.
@@ -54,8 +54,8 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
 
       mix ash.gen.gql Sales User users --web Sales
 
-  Which would generate a `lib/app_web/controllers/sales/user_controller.ex` and
-  `lib/app_web/views/sales/user_view.ex`.
+  Which would generate a `lib/app_web/schema/sales/user/resolver.ex` and
+  `lib/app_web/schema/sales/user/types.ex`.
 
   ## Generating without a schema or context file
 
@@ -90,9 +90,6 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
   You can override those options per invocation by providing corresponding
   switches, e.g. `--no-binary-id` to use normal ids despite the default
   configuration or `--migration` to force generation of the migration.
-
-  Read the documentation for `phx.gen.schema` for more information on
-  attributes.
   """
 
   use Mix.Task
@@ -135,11 +132,11 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
   def files_to_be_generated(%Context{schema: schema, context_app: context_app}) do
     web_prefix = Mix.Phoenix.web_path(context_app)
     # test_prefix = Mix.Phoenix.web_test_path(context_app)
-    # web_path = to_string(schema.web_path)
+    web_path = to_string(schema.web_path)
 
     [
-      {:eex,     "resolver.ex",            Path.join([web_prefix, "schema", "#{schema.singular}", "resolver.ex"])},
-      {:eex,     "types.ex",               Path.join([web_prefix, "schema", "#{schema.singular}", "types.ex"])},
+      {:eex,     "resolver.ex",            Path.join([web_prefix, "schema", web_path, "#{schema.singular}", "resolver.ex"])},
+      {:eex,     "types.ex",               Path.join([web_prefix, "schema", web_path, "#{schema.singular}", "types.ex"])},
     ]
   end
 
