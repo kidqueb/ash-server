@@ -14,9 +14,9 @@ defmodule AshWeb.UserResolverTest do
         }
       """
 
-      res = post_gql(conn, %{query: query})
+      response = post_gql(conn, %{query: query})
 
-      assert res["data"]["users"] == to_id_array(users)
+      assert response["data"]["users"] == to_id_array(users)
     end
 
     test "finds a user by id", %{conn: conn} do
@@ -33,9 +33,9 @@ defmodule AshWeb.UserResolverTest do
         }
       """
 
-      res = post_gql(conn, %{query: query})
+      response = post_gql(conn, %{query: query})
 
-      assert res["data"]["user"] == %{
+      assert response["data"]["user"] == %{
         "id" => to_string(user.id),
         "email" => user.email,
         "firstName" => user.first_name,
@@ -64,9 +64,9 @@ defmodule AshWeb.UserResolverTest do
         }
       """
 
-      res = post_gql(conn, %{query: query})
+      response = post_gql(conn, %{query: query})
 
-      assert res["data"]["createUser"] == %{
+      assert response["data"]["createUser"] == %{
         "email" => user_params.email,
         "firstName" => user_params.first_name,
         "lastName" => user_params.last_name
@@ -96,9 +96,9 @@ defmodule AshWeb.UserResolverTest do
         }
       }
 
-      res = post_gql(conn, %{query: query, variables: variables})
+      response = post_gql(conn, %{query: query, variables: variables})
 
-      assert res["data"]["updateUser"] == %{
+      assert response["data"]["updateUser"] == %{
         "id" => to_string(user.id),
         "email" => "tim@tebow.com",
         "firstName" => "Tim",
@@ -118,9 +118,9 @@ defmodule AshWeb.UserResolverTest do
       }
     """
 
-    res = post_gql(conn, %{query: query})
+    response = post_gql(conn, %{query: query})
 
-    assert res["data"]["deleteUser"] == %{
+    assert response["data"]["deleteUser"] == %{
       "id" => to_string(user.id)
     }
   end
