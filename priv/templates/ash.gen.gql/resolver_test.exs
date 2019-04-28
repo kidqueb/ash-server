@@ -24,7 +24,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
       query = """
         {
-          <%= schema.singular %>(id: #{user.id}) {
+          <%= schema.singular %>(id: #{<%= schema.singular %>.id}) {
             id
             email
             firstName
