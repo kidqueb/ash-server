@@ -1,6 +1,6 @@
 defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>ResolverTest do
   use <%= inspect context.web_module %>.ConnCase
-  import <%= inspect context.module %>.Factory
+  import <%= inspect context.module %>.<%= inspect schema.module %>Factory
 
   describe "<%= schema.singular %> resolver" do
     test "lists all <%= schema.plural %>", %{conn: conn} do
