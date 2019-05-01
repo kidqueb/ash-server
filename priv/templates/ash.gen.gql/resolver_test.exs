@@ -25,7 +25,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
       query = """
         {
           <%= schema.singular %>(id: #{<%= schema.singular %>.id}) {
-            id<%= for {k, v} <- schema.attrs do %>
+            id<%= for {k, _v} <- schema.attrs do %>
             <%= k %><% end %>
           }
         }
@@ -34,21 +34,21 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
       response = post_gql(conn, %{query: query})
 
       assert response["data"]["<%= schema.singular %>"] == %{
-        "id" => to_string(<%= schema.singular %>.id),<%= for {k, v} <- schema.attrs do %>
+        "id" => to_string(<%= schema.singular %>.id),<%= for {k, _v} <- schema.attrs do %>
         "<%= k %>" => <%= schema.singular %>.<%= k %>,<% end %>
       }
     end
 
     test "creates a new <%= schema.singular %>", %{conn: conn} do
-      <%= schema.singular %>_params = params_for(:<%= schema.singular %>, %{<%= for {k, v} <- schema.attrs do %>
-        <%= k %>: <%= schema.params.create[k] %>,<% end %>
+      <%= schema.singular %>_params = params_for(:<%= schema.singular %>, %{<%= for {k, _v} <- schema.attrs do %>
+        <%= k %>: <%= inspect schema.params.create[k] %>,<% end %>
       })
 
       query = """
         mutation {
-          create<%= inspect schema.alias %>(<%= for {k, v} <- schema.attrs do %>
+          create<%= inspect schema.alias %>(<%= for {k, _v} <- schema.attrs do %>
             <%= k %>: "#{<%= schema.singular %>_params.<%= k %>}",<% end %>
-          ) {<%= for {k, v} <- schema.attrs do %>
+          ) {<%= for {k, _v} <- schema.attrs do %>
             <%= k %><% end %>
           }
         }
@@ -56,7 +56,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
       response = post_gql(conn, %{query: query})
 
-      assert response["data"]["create<%= inspect schema.alias %>"] == %{<%= for {k, v} <- schema.attrs do %>
+      assert response["data"]["create<%= inspect schema.alias %>"] == %{<%= for {k, _v} <- schema.attrs do %>
         "<%= k %>" => <%= schema.singular %>_params.<%= k %>,<% end %>
       }
     end
@@ -65,9 +65,9 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
       <%= schema.singular %> = insert(:<%= schema.singular %>)
 
       query = """
-        mutation Update<%= inspect schema.alias %>($id: ID!, $user: Update<%= inspect schema.module %>Params!) {
+        mutation Update<%= inspect schema.alias %>($id: ID!, $<%= schema.singular %>: Update<%= inspect schema.alias %>Params!) {
           update<%= inspect schema.alias %>(id:$id, <%= schema.singular %>:$<%= schema.singular %>) {
-            id<%= for {k, v} <- schema.attrs do %>
+            id<%= for {k, _v} <- schema.attrs do %>
             <%= k %><% end %>
           }
         }
@@ -75,16 +75,16 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
       variables = %{
         id: <%= schema.singular %>.id,
-        <%= schema.singular %>: %{<%= for {k, v} <- schema.attrs do %>
-          <%= k %> => <%= inspect schema.params.update[k] %>,<% end %>
+        <%= schema.singular %>: %{<%= for {k, _v} <- schema.attrs do %>
+          <%= k %>: <%= inspect schema.params.update[k] %>,<% end %>
         }
       }
 
       response = post_gql(conn, %{query: query, variables: variables})
 
       assert response["data"]["update<%= inspect schema.alias %>"] == %{
-        "id" => to_string(<%= schema.singular %>.id), <%= for {k, v} <- schema.attrs do %>
-          "<%= k %>" => <%= inspect schema.params.update[k] %>,<% end %>
+        "id" => to_string(<%= schema.singular %>.id), <%= for {k, _v} <- schema.attrs do %>
+        "<%= k %>" => variables.<%= schema.singular %>.<%= k %>,<% end %>
       }
     end
   end
@@ -94,7 +94,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
     query = """
       mutation {
-        delete<%= inspect schema.alias %>(id: #{user.id}) {
+        delete<%= inspect schema.alias %>(id: #{<%= schema.singular %>.id}) {
           id
         }
       }

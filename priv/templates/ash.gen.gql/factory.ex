@@ -1,4 +1,4 @@
-defmodule <%= inspect context.module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Factory do
+defmodule <%= inspect context.base_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Factory do
   alias <%= inspect schema.module %>
 
   defmacro __using__(_opts) do
