@@ -1,1 +1,1 @@
-use <%= inspect context.base_module %><%= inspect schema.alias %>Factory
+  use <%= inspect context.base_module %>.<%= inspect schema.alias %>Factory

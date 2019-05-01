@@ -158,7 +158,7 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
   end
 
   defp inject_factory_access(paths, binding) do
-    content_to_inject = Mix.Phoenix.eval_from(paths, "priv/templates/ash.gen.context/factory_access.ex", binding)
+    content_to_inject = Mix.Phoenix.eval_from(paths, "priv/templates/ash.gen.gql/factory_access.ex", binding)
     file_path = "test/support/factory.ex"
     file = File.read!(file_path)
 
