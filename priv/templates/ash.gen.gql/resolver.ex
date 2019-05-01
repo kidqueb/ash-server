@@ -1,5 +1,5 @@
 defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver do
-  alias <%= inspect Module.concat(schema.web_namespace, schema.alias) %>
+  alias <%= inspect context.module %>
   alias <%= inspect context.web_module %>.ErrorHelper
 
   def all(_args, _info) do
@@ -8,17 +8,10 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
   def find(%{id: id}, _info) do
     try do
-      <%= schema.singular%> = <%= inspect Module.concat(schema.web_namespace, schema.alias) %>.get_<%= schema.singular%>!(id)
+      <%= schema.singular%> = <%= inspect context.module %>.get_<%= schema.singular%>!(id)
       {:ok, <%= schema.singular%>}
     rescue
       e -> {:error, Exception.message(e)}
-    end
-  end
-
-  def find(%{id: id}, _info) do
-    case <%= inspect context.alias %>.get_<%= schema.singular%>(id) do
-      nil -> {:error, "<%= inspect Module.concat(schema.web_namespace, schema.alias) %> id #{id} not found."}
-      <%= schema.singular%> -> {:ok, <%= schema.singular%>}
     end
   end
 
