@@ -148,8 +148,33 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
     files = files_to_be_generated(context)
     Mix.Phoenix.copy_from paths, "priv/templates/ash.gen.gql", binding, files
     if context.generate?, do: Gen.Context.copy_new_files(context, paths, binding)
+    inject_factory_access(paths, binding)
 
     context
+  end
+
+  defp write_file(content, file) do
+    File.write!(file, content)
+  end
+
+  defp inject_factory_access(paths, binding) do
+    content_to_inject = Mix.Phoenix.eval_from(paths, "priv/templates/ash.gen.context/factory_access.ex", binding)
+    file_path = "test/support/factory.ex"
+    file = File.read!(file_path)
+
+    if String.contains?(file, content_to_inject) do
+      :ok
+    else
+      Mix.shell.info([:green, "* injecting ", :reset, Path.relative_to_cwd(file_path)])
+
+      file
+      |> String.trim_trailing()
+      |> String.trim_trailing("end")
+      |> EEx.eval_string(binding)
+      |> Kernel.<>(content_to_inject)
+      |> Kernel.<>("end\n")
+      |> write_file(file_path)
+    end
   end
 
   @doc false
