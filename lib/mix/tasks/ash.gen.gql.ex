@@ -137,7 +137,7 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
     [
       {:eex,    "resolver.ex",        Path.join([web_prefix, "schema", web_path, "#{schema.singular}_resolver.ex"])},
       {:eex,    "types.ex",           Path.join([web_prefix, "schema", web_path, "#{schema.singular}_types.ex"])},
-      {:eex,    "factory.ex",         Path.join([test_prefix, "support/factories", "#{schema.singular}_factory.ex"])},
+      {:eex,    "factory.ex",         Path.join(["test/support/factories", "#{schema.singular}_factory.ex"])},
       {:eex,    "resolver_test.exs",  Path.join([test_prefix, "schema", web_path, "#{schema.singular}_resolver_test.exs"])}
     ]
   end

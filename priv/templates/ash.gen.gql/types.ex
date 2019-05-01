@@ -12,6 +12,7 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
 
   input_object :update_<%= schema.singular %>_params do
     <%= for {k, v} <- schema.attrs do %>field <%= inspect k %>, <%= inspect v %>
+    <% end %><%= for {_n, i, _m, _s} <- schema.assocs do %>field <%= inspect i %>, :id
     <% end %>
   end
 
@@ -29,6 +30,7 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
   object :<%= schema.singular %>_mutations do
     field :create_<%= schema.singular %>, :<%= schema.singular %> do
       <%= for {k, v} <- schema.attrs do %>arg <%= inspect k %>, <%= inspect v %>
+      <% end %><%= for {_n, i, _m, _s} <- schema.assocs do %>arg <%= inspect i %>, :id
       <% end %>
       resolve &<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.create/2
     end
