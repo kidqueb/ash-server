@@ -9,7 +9,6 @@ defmodule AshWeb.Schema do
   # Queries
   # """
   query do
-    # Accounts
     import_fields(:user_queries)
   end
 
@@ -17,7 +16,6 @@ defmodule AshWeb.Schema do
   # Mutations
   # """
   mutation do
-    # Accounts
     import_fields(:user_mutations)
   end
 
