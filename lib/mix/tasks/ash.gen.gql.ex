@@ -113,6 +113,7 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
 
     context
     |> copy_new_files(paths, binding)
+    |> print_shell_instructions()
   end
 
   defp prompt_for_conflicts(context) do
@@ -149,5 +150,26 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
     if context.generate?, do: Gen.Context.copy_new_files(context, paths, binding)
 
     context
+  end
+
+  @doc false
+  def print_shell_instructions(%Context{schema: schema, context_app: ctx_app} = context) do
+    # Add the #{schema.singular} factory to test/support/factory.ex:
+    # use #{inspect context.base_module}.#{inspect schema.alias}Factory
+
+    Mix.shell.info """
+      Import the #{schema.singular} types and fields into #{Mix.Phoenix.web_path(ctx_app)}/schema.ex:
+
+        import_types(#{inspect Module.concat(context.web_module, schema.web_namespace)}.Schema.#{inspect schema.alias}Types)
+
+        query do
+          import_fields(:#{schema.singular}_queries)
+        end
+
+        mutation do
+          import_fields(:#{schema.singular}_mutations)
+        end
+      """
+    if context.generate?, do: Gen.Context.print_shell_instructions(context)
   end
 end
