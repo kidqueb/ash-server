@@ -25,9 +25,8 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
       query = """
         {
           <%= schema.singular %>(id: #{<%= schema.singular %>.id}) {
-            id
-            <%= for {k, v} <- schema.attrs do %><%= k %>
-            <% end %>
+            id<%= for {k, v} <- schema.attrs do %>
+            <%= k %><% end %>
           }
         }
       """
@@ -35,40 +34,30 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
       response = post_gql(conn, %{query: query})
 
       assert response["data"]["<%= schema.singular %>"] == %{
-        "id" => to_string(<%= schema.singular %>.id),
-        "email" => user.email,
-        "firstName" => user.first_name,
-        "lastName" => user.last_name
+        "id" => to_string(<%= schema.singular %>.id),<%= for {k, v} <- schema.attrs do %>
+        "<%= k %>" => <%= schema.singular %>.<%= k %>,<% end %>
       }
     end
 
     test "creates a new <%= schema.singular %>", %{conn: conn} do
-      <%= schema.singular %>_params = params_for(:<%= schema.singular %>, %{
-        email: "tim@tebow.com",
-        first_name: "Tim",
-        last_name: "Tebow"
+      <%= schema.singular %>_params = params_for(:<%= schema.singular %>, %{<%= for {k, v} <- schema.attrs do %>
+        <%= k %>: <%= schema.params.create[k] %>,<% end %>
       })
 
       query = """
         mutation {
-          create<%= inspect schema.module %>(
-            email: "#{<%= schema.singular %>_params.email}",
-            firstName: "#{<%= schema.singular %>_params.first_name}",
-            lastName: "#{<%= schema.singular %>_params.last_name}"
-          ) {
-            email
-            firstName
-            lastName
+          create<%= inspect schema.alias %>(<%= for {k, v} <- schema.attrs do %>
+            <%= k %>: "#{<%= schema.singular %>_params.<%= k %>}",<% end %>
+          ) {<%= for {k, v} <- schema.attrs do %>
+            <%= k %><% end %>
           }
         }
       """
 
       response = post_gql(conn, %{query: query})
 
-      assert response["data"]["create<%= inspect schema.module %>"] == %{
-        "email" => <%= schema.singular %>_params.email,
-        "firstName" => <%= schema.singular %>_params.first_name,
-        "lastName" => <%= schema.singular %>_params.last_name
+      assert response["data"]["create<%= inspect schema.alias %>"] == %{<%= for {k, v} <- schema.attrs do %>
+        "<%= k %>" => <%= schema.singular %>_params.<%= k %>,<% end %>
       }
     end
 
@@ -76,32 +65,26 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
       <%= schema.singular %> = insert(:<%= schema.singular %>)
 
       query = """
-        mutation Update<%= inspect schema.module %>($id: ID!, $user: Update<%= inspect schema.module %>Params!) {
-          update<%= inspect schema.module %>(id:$id, <%= schema.singular %>:$<%= schema.singular %>) {
-            id
-            email
-            firstName
-            lastName
+        mutation Update<%= inspect schema.alias %>($id: ID!, $user: Update<%= inspect schema.module %>Params!) {
+          update<%= inspect schema.alias %>(id:$id, <%= schema.singular %>:$<%= schema.singular %>) {
+            id<%= for {k, v} <- schema.attrs do %>
+            <%= k %><% end %>
           }
         }
       """
 
       variables = %{
         id: <%= schema.singular %>.id,
-        user: %{
-          email: "tim@tebow.com",
-          firstName: "Tim",
-          lastName: "Tebow"
+        <%= schema.singular %>: %{<%= for {k, v} <- schema.attrs do %>
+          <%= k %> => <%= inspect schema.params.update[k] %>,<% end %>
         }
       }
 
       response = post_gql(conn, %{query: query, variables: variables})
 
-      assert response["data"]["update<%= inspect schema.module %>"] == %{
-        "id" => to_string(<%= schema.singular %>.id),
-        "email" => "tim@tebow.com",
-        "firstName" => "Tim",
-        "lastName" => "Tebow"
+      assert response["data"]["update<%= inspect schema.alias %>"] == %{
+        "id" => to_string(<%= schema.singular %>.id), <%= for {k, v} <- schema.attrs do %>
+          "<%= k %>" => <%= inspect schema.params.update[k] %>,<% end %>
       }
     end
   end
@@ -111,7 +94,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
     query = """
       mutation {
-        delete<%= inspect schema.module %>(id: #{user.id}) {
+        delete<%= inspect schema.alias %>(id: #{user.id}) {
           id
         }
       }
@@ -119,7 +102,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
     response = post_gql(conn, %{query: query})
 
-    assert response["data"]["delete<%= inspect schema.module %>"] == %{
+    assert response["data"]["delete<%= inspect schema.alias %>"] == %{
       "id" => to_string(<%= schema.singular %>.id)
     }
   end

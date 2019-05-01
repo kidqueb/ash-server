@@ -4,16 +4,14 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
 
 
   object :<%= schema.singular %> do
-    field :id, :id
-    <%= for {k, v} <- schema.attrs do %>field <%= inspect k %>, <%= inspect v %>
-    <% end %><%= for {n, _i, _m, _s} <- schema.assocs do %>field <%= inspect n %>, <%= inspect n %>, resolve: assoc(<%= inspect n %>)
-    <% end %>
+    field :id, :id <%= for {k, v} <- schema.attrs do %>
+    field <%= inspect k %>, <%= inspect v %><% end %><%= for {n, _i, _m, _s} <- schema.assocs do %>
+    field <%= inspect n %>, <%= inspect n %>, resolve: assoc(<%= inspect n %>)<% end %>
   end
 
-  input_object :update_<%= schema.singular %>_params do
-    <%= for {k, v} <- schema.attrs do %>field <%= inspect k %>, <%= inspect v %>
-    <% end %><%= for {_n, i, _m, _s} <- schema.assocs do %>field <%= inspect i %>, :id
-    <% end %>
+  input_object :update_<%= schema.singular %>_params do <%= for {k, v} <- schema.attrs do %>
+    field <%= inspect k %>, <%= inspect v %><% end %> <%= for {_n, i, _m, _s} <- schema.assocs do %>
+    field <%= inspect i %>, :id<% end %>
   end
 
   object :<%= schema.singular %>_queries do
@@ -28,10 +26,9 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
   end
 
   object :<%= schema.singular %>_mutations do
-    field :create_<%= schema.singular %>, :<%= schema.singular %> do
-      <%= for {k, v} <- schema.attrs do %>arg <%= inspect k %>, <%= inspect v %>
-      <% end %><%= for {_n, i, _m, _s} <- schema.assocs do %>arg <%= inspect i %>, :id
-      <% end %>
+    field :create_<%= schema.singular %>, :<%= schema.singular %> do <%= for {k, v} <- schema.attrs do %>
+      arg <%= inspect k %>, <%= inspect v %><% end %><%= for {_n, i, _m, _s} <- schema.assocs do %>
+      arg <%= inspect i %>, :id<% end %>
       resolve &<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.create/2
     end
 
