@@ -1,9 +1,18 @@
 defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver do
-  alias <%= inspect context.module %>
+  alias <%= inspect Module.concat(schema.web_namespace, schema.alias) %>
   alias <%= inspect context.web_module %>.ErrorHelper
 
   def all(_args, _info) do
     {:ok, <%= inspect context.alias %>.list_<%= schema.plural %>()}
+  end
+
+  def find(%{id: id}, _info) do
+    try do
+      <%= schema.singular%> = <%= inspect Module.concat(schema.web_namespace, schema.alias) %>.get_<%= schema.singular%>!(id)
+      {:ok, <%= schema.singular%>}
+    rescue
+      e -> {:error, Exception.message(e)}
+    end
   end
 
   def find(%{id: id}, _info) do

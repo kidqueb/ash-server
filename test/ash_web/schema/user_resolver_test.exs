@@ -8,9 +8,7 @@ defmodule AshWeb.UserResolverTest do
 
       query = """
         {
-          users {
-            id
-          }
+          users { id }
         }
       """
 
@@ -41,6 +39,19 @@ defmodule AshWeb.UserResolverTest do
         "firstName" => user.first_name,
         "lastName" => user.last_name
       }
+    end
+
+    test "errors when looking for a nonexistent user by id", %{conn: conn} do
+      query = """
+        {
+          user(id: "doesnt_exist") { id }
+        }
+      """
+
+      response = post_gql(conn, %{query: query})
+
+      assert response["data"] == nil
+      assert response["errors"]
     end
 
     test "creates a new user", %{conn: conn} do
@@ -112,9 +123,7 @@ defmodule AshWeb.UserResolverTest do
 
     query = """
       mutation {
-        deleteUser(id: #{user.id}) {
-          id
-        }
+        deleteUser(id: #{user.id}) { id }
       }
     """
 
