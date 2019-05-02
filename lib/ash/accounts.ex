@@ -99,16 +99,15 @@ defmodule Ash.Accounts do
 
   ## Examples
 
-      iex> delete_user(user_id)
+      iex> delete_user(user)
       {:ok, %User{}}
 
-      iex> delete_user(user_id)
+      iex> delete_user(user)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_user(user_id) do
-    get_user!(user_id)
-    |> Repo.delete
+  def delete_user(%User{} = user) do
+    Repo.delete(user)
   end
 
   @doc """
@@ -143,14 +142,14 @@ defmodule Ash.Accounts do
   end
 
   @doc """
-  Deletes a User.
+  Deletes a AuthToken.
 
   ## Examples
 
-      iex> delete_user(user)
-      {:ok, %User{}}
+      iex> delete_auth_token(auth_token)
+      {:ok, %AuthToken{}}
 
-      iex> delete_user(user)
+      iex> delete_auth_token(auth_token)
       {:error, %Ecto.Changeset{}}
 
   """
@@ -197,10 +196,10 @@ defmodule Ash.Accounts do
 
   ## Examples
 
-      iex> delete_auth_request(user)
+      iex> delete_auth_request(auth_request)
       {:ok, %AuthRequest{}}
 
-      iex> delete_auth_request(user)
+      iex> delete_auth_request(auth_request)
       {:error, %Ecto.Changeset{}}
 
   """

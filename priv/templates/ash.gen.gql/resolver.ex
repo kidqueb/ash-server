@@ -28,9 +28,11 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
   end
 
   def delete(%{id: id}, _info) do
-    case <%= inspect context.alias %>.delete_<%= schema.singular%>(id) do
-      {:ok, <%= schema.singular%>} -> {:ok, <%= schema.singular%>}
-      {:error, changeset} -> ErrorHelper.format_errors(changeset)
+    try do
+      <%= schema.singular%> = <%= inspect context.module %>.delete_<%= schema.singular%>!(id)
+      {:ok, <%= schema.singular%>}
+    rescue
+      e -> {:error, Exception.message(e)}
     end
   end
 end

@@ -28,10 +28,8 @@ defmodule AshWeb.UserResolver do
   end
 
   def delete(%{id: id}, _info) do
-    case Accounts.delete_user(id) do
-      {:ok, user} -> {:ok, user}
-      {:error, changeset} -> ErrorHelper.format_errors(changeset)
-    end
+    Accounts.get_user!(id)
+    |> Accounts.delete_user
   end
 
   def attempt_login(%{email: email}, _info) do
