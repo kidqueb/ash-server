@@ -4,14 +4,12 @@ defmodule AshWeb.Schema do
   import_types(Absinthe.Type.Custom)
   import_types(AshWeb.Schema.GenericTypes)
   import_types(AshWeb.Schema.UserTypes)
-  import_types(AshWeb.Schema.PostTypes)
 
   # """
   # Queries
   # """
   query do
     import_fields(:user_queries)
-    import_fields(:post_queries)
   end
 
   # """
@@ -19,7 +17,6 @@ defmodule AshWeb.Schema do
   # """
   mutation do
     import_fields(:user_mutations)
-    import_fields(:post_mutations)
   end
 
   # """
