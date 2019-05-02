@@ -62,7 +62,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
       query = """
         mutation {
           create<%= inspect Module.concat(schema.web_namespace, schema.alias) %>(<%= for {k, _v} <- schema.attrs do %>
-            <%= k %>: "#{<%= schema.singular %>_params.<%= k %>}",<% end %>
+            <%= k %>: #{inspect <%= schema.singular %>_params.<%= k %>},<% end %>
           ) {<%= for {k, _v} <- schema.attrs do %>
             <%= k %><% end %>
           }
