@@ -23,8 +23,12 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
   end
 
   def update(%{id: id, <%= schema.singular%>: <%= schema.singular%>_params}, _info) do
-    <%= inspect context.alias %>.get_<%= schema.singular%>!(id)
-    |> <%= inspect context.alias %>.update_<%= schema.singular%>(<%= schema.singular%>_params)
+    try do
+      <%= inspect context.alias %>.get_<%= schema.singular%>!(id)
+      |> <%= inspect context.alias %>.update_<%= schema.singular%>(<%= schema.singular%>_params)
+    rescue
+      e -> {:error, Exception.message(e)}
+    end
   end
 
   def delete(%{id: id}, _info) do
