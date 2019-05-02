@@ -28,8 +28,12 @@ defmodule AshWeb.UserResolver do
   end
 
   def delete(%{id: id}, _info) do
-    Accounts.get_user!(id)
-    |> Accounts.delete_user
+    try do
+      Accounts.get_user!(id)
+      |> Accounts.delete_user
+    rescue
+      e -> {:error, Exception.message(e)}
+    end
   end
 
   def attempt_login(%{email: email}, _info) do

@@ -29,8 +29,8 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
   def delete(%{id: id}, _info) do
     try do
-      <%= schema.singular%> = <%= inspect context.module %>.delete_<%= schema.singular%>!(id)
-      {:ok, <%= schema.singular%>}
+      <%= inspect context.module %>.get_<%= schema.singular%>!(id)
+      |> <%= inspect context.module %>.delete_<%= schema.singular%>
     rescue
       e -> {:error, Exception.message(e)}
     end
