@@ -136,10 +136,10 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
     web_path = to_string(schema.web_path)
 
     [
-      {:eex,    "resolver.ex",        Path.join([web_prefix, "schema", web_path, "#{schema.singular}/#{schema.singular}_resolver.ex"])},
-      {:eex,    "types.ex",           Path.join([web_prefix, "schema", web_path, "#{schema.singular}/#{schema.singular}_types.ex"])},
-      {:eex,    "factory.ex",         Path.join(["test/support/factories", "#{schema.singular}_factory.ex"])},
-      {:eex,    "resolver_test.exs",  Path.join([test_prefix, "schema", web_path, "#{schema.singular}_resolver_test.exs"])}
+      {:eex,  "resolver.ex",        Path.join([web_prefix, "schema", web_path, "#{schema.singular}/#{schema.singular}_resolver.ex"])},
+      {:eex,  "types.ex",           Path.join([web_prefix, "schema", web_path, "#{schema.singular}/#{schema.singular}_types.ex"])},
+      {:eex,  "factory.ex",         Path.join(["test/support/factories", "#{schema.singular}_factory.ex"])},
+      {:eex,  "resolver_test.exs",  Path.join([test_prefix, "schema", web_path, "#{schema.singular}_resolver_test.exs"])}
     ]
   end
 
@@ -183,6 +183,7 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
     # use #{inspect context.base_module}.#{inspect schema.alias}Factory
 
     Mix.shell.info """
+
       Import the #{schema.singular} types and fields into #{Mix.Phoenix.web_path(ctx_app)}/schema.ex:
 
         import_types(#{inspect Module.concat(context.web_module, schema.web_namespace)}.Schema.#{inspect schema.alias}Types)
