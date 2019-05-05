@@ -143,7 +143,7 @@ defmodule Mix.Tasks.Ash.Gen.Context do
 
   defp inject_schema_access(%Context{file: file} = context, paths, binding) do
     unless Context.pre_existing?(context) do
-      Mix.Generator.create_file(file, Mix.Phoenix.eval_from(paths, "priv/templates/phx.gen.gql/context.ex", binding))
+      Mix.Generator.create_file(file, Mix.Phoenix.eval_from(paths, "priv/templates/phx.gen.context/context.ex", binding))
     end
 
     paths
