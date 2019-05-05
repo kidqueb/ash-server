@@ -30,7 +30,7 @@
       <%= schema.singular %> = insert(:<%= schema.singular %>)
       <%= schema.singular %>_params = params_for(:<%= schema.singular %>, <%= inspect schema.params.update %>)
 
-      assert {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} = <%= inspect context.alias %>.update_<%= schema.singular %>(<%= schema.singular %>, @update_attrs)<%= for {field, value} <- schema.params.update do %>
+      assert {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} = <%= inspect context.alias %>.update_<%= schema.singular %>(<%= schema.singular %>, post_params)<%= for {field, value} <- schema.params.update do %>
       assert <%= schema.singular %>.<%= field %> == <%= schema.singular %>_params.<%= field %><% end %>
     end
 
