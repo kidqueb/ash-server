@@ -95,7 +95,7 @@ defmodule Mix.Tasks.Ash.Gen.Gql do
   use Mix.Task
 
   alias Mix.Phoenix.Context
-  alias Mix.Tasks.Phx.Gen
+  alias Mix.Tasks.Ash.Gen
 
   @doc false
   def run(args) do
