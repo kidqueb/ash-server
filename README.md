@@ -17,14 +17,19 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-### Authentication
-Passwordless auth that allows user's to sign up with just an email address. Email links need to be customized based on the front-ends architecture. In development we can go to [`localhost:4000/outbox`](http://localhost:4000/outbox) to intercept all emails being sent out from Bamboo.
+## Authentication
+By default Ash uses a hybrid authentication setup. Passwords aren't required and a login attempts made without a password will be sent a login link.
 
-### Generate GQL
+This allows user's to sign up with just an email address. Email links need to be customized based on the front-ends architecture. In development we can go to [`localhost:4000/outbox`](http://localhost:4000/outbox) to intercept all emails being sent out from Bamboo.
+
+### Password Auth
+
+## Generators
+
+### `ash.gen.gql`
 Included in the boilerplate is a generator for GraphQL resources. It's usage is nearly identical to `phx.gen.json`.
 
-#### Usage
-`mix ash.gen.gql Context Model models column:boolean other_column:string user_id:references:users`
+    mix ash.gen.gql Context Model models [schema]
 
 In addition to the typical schema and context files, this command will create the following files:
 
@@ -35,14 +40,12 @@ In addition to the typical schema and context files, this command will create th
 
 It will also prompt you to add the following lines to your `schema.ex`
 
-```
- import_types(AshWeb.Schema.ModelTypes)
- 
- query do
-  import_field(:model_queries)
- end
- 
- mutation do
-  import_field(:model_mutations)
- end
-```
+    import_types(AshWeb.Schema.ModelTypes)
+
+    query do
+      import_field(:model_queries)
+    end
+
+    mutation do
+      import_field(:model_mutations)
+    end

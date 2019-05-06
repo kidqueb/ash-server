@@ -3,7 +3,7 @@ defmodule Ash.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :email, :string, null: false
+      add :email, :citext, null: false
       add :first_name, :string, null: false
       add :last_name, :string, null: false
 

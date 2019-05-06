@@ -55,6 +55,8 @@ defmodule Ash.MixProject do
       {:absinthe_phoenix, "~> 1.4.0"},
       {:bamboo, "~> 1.1"},
       {:guardian, "~> 1.2.1"},
+      {:comeonin, "~> 5.1.2"},
+      {:argon2_elixir, "~> 2.0.5"},
       {:ex_machina, "~> 2.3", only: :test},
       {:faker, "~> 0.11", only: :test},
       {:excoveralls, "~> 0.10", only: :test},
