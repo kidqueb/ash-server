@@ -10,7 +10,7 @@ defmodule Ash.AccountsTest do
   describe "users" do
     alias Ash.Accounts.{User, AuthToken}
 
-    @invalid_attrs %{email: nil, first_name: nil, last_name: nil}
+    @invalid_attrs %{email: nil, username: nil, first_name: nil, last_name: nil}
 
     test "list_users/0 returns all users" do
       user = insert(:user)

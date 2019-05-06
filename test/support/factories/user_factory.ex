@@ -6,8 +6,10 @@ defmodule Ash.UserFactory do
       def user_factory do
         %User{
           email: sequence("tombrady@nfl.com"),
+          username: sequence("tb12"),
           first_name: "Tom",
-          last_name: "Brady"
+          last_name: "Brady",
+          password_hash: ""
         }
       end
     end
