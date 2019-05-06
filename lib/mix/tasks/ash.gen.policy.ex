@@ -104,7 +104,7 @@ defmodule Mix.Tasks.Ash.Gen.Policy do
     {opts, parsed, _} = parse_opts(args)
     [context_name, schema_name, plural | schema_args] = validate_args!(parsed)
     schema_module = inspect(Module.concat(context_name, schema_name))
-    schema = nil
+    schema = Gen.Schema.build([schema_module, plural | schema_args], opts, __MODULE__)
     context = Context.new(context_name, schema, opts)
     {context, schema}
   end
@@ -124,17 +124,19 @@ defmodule Mix.Tasks.Ash.Gen.Policy do
   end
 
   @doc false
-  def files_to_be_generated(%Context{schema: schema}) do
-    if schema.generate? do
-      Gen.Schema.files_to_be_generated(schema)
-    else
-      []
-    end
+  def files_to_be_generated(%Context{schema: schema, basename: basename, context_app: context_app}) do
+    web_prefix = Mix.Phoenix.web_path(context_app)
+    test_prefix = Mix.Phoenix.web_test_path(context_app)
+    web_path = to_string(schema.web_path)
+
+    [
+      {:eex,  "policy.ex",        Path.join([web_prefix, basename, web_path, "_#{basename}_policy.ex"])},
+      {:eex,  "policy_test.exs",  Path.join([test_prefix, basename, web_path, "#{basename}_policy_test.exs"])}
+    ]
   end
 
   @doc false
-  def copy_new_files(%Context{schema: schema} = context, paths, binding) do
-    if schema.generate?, do: Gen.Schema.copy_new_files(schema, paths, binding)
+  def copy_new_files(context, paths, binding) do
     inject_policy(context, paths, binding)
     inject_tests(context, paths, binding)
 
@@ -147,7 +149,7 @@ defmodule Mix.Tasks.Ash.Gen.Policy do
     end
 
     paths
-    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.policy/authorizations.ex}", binding)
+    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.policy/authorizations.ex", binding)
     |> inject_eex_before_final_end(file, binding)
   end
 
