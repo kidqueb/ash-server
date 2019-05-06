@@ -7,9 +7,11 @@ defmodule AshWeb.UserResolver do
   end
 
   def find(%{id: id}, _info) do
-    case Accounts.get_user(id) do
-      nil -> {:error, "User id #{id} not found."}
-      user -> {:ok, user}
+    try do
+      user = Accounts.get_user!(id)
+      {:ok, user}
+    rescue
+      e -> {:error, Exception.message(e)}
     end
   end
 
@@ -26,9 +28,11 @@ defmodule AshWeb.UserResolver do
   end
 
   def delete(%{id: id}, _info) do
-    case Accounts.delete_user(id) do
-      {:ok, user} -> {:ok, user}
-      {:error, changeset} -> ErrorHelper.format_errors(changeset)
+    try do
+      Accounts.get_user!(id)
+      |> Accounts.delete_user
+    rescue
+      e -> {:error, Exception.message(e)}
     end
   end
 
