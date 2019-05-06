@@ -147,7 +147,7 @@ defmodule Mix.Tasks.Ash.Gen.Policy do
     end
 
     paths
-    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.policy/authorizations.ex}", binding)
+    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.policy/authorizations.ex", binding)
     |> inject_eex_before_final_end(file, binding)
   end
 
