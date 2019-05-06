@@ -104,7 +104,7 @@ defmodule Mix.Tasks.Ash.Gen.Policy do
     {opts, parsed, _} = parse_opts(args)
     [context_name, schema_name, plural | schema_args] = validate_args!(parsed)
     schema_module = inspect(Module.concat(context_name, schema_name))
-    schema = Gen.Schema.build([schema_module, plural | schema_args], opts, __MODULE__)
+    schema = nil
     context = Context.new(context_name, schema, opts)
     {context, schema}
   end
@@ -147,7 +147,7 @@ defmodule Mix.Tasks.Ash.Gen.Policy do
     end
 
     paths
-    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.policy/authorizations.ex", binding)
+    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.policy/authorizations.ex}", binding)
     |> inject_eex_before_final_end(file, binding)
   end
 
