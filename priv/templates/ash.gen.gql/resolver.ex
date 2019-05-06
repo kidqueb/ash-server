@@ -1,4 +1,4 @@
-defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver do
+defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver do
   alias <%= inspect context.module %>
   alias <%= inspect context.web_module %>.ErrorHelper
 
@@ -8,7 +8,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
   def find(%{id: id}, _info) do
     try do
-      <%= schema.singular%> = <%= inspect context.module %>.get_<%= schema.singular%>!(id)
+      <%= schema.singular%> = <%= inspect context.alias %>.get_<%= schema.singular%>!(id)
       {:ok, <%= schema.singular%>}
     rescue
       e -> {:error, Exception.message(e)}
@@ -33,7 +33,7 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
   def delete(%{id: id}, _info) do
     try do
-      <%= inspect context.module %>.get_<%= schema.singular%>!(id)
+      <%= inspect context.alias %>.get_<%= schema.singular%>!(id)
       |> <%= inspect context.module %>.delete_<%= schema.singular%>
     rescue
       e -> {:error, Exception.message(e)}

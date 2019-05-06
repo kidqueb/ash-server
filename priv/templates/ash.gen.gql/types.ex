@@ -2,6 +2,7 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
   use Absinthe.Schema.Notation
   use Absinthe.Ecto, repo: <%= inspect schema.repo %>
 
+  alias <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver
 
   object :<%= schema.singular %> do
     field :id, :id <%= for {k, v} <- schema.attrs do %>
@@ -17,11 +18,11 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
   object :<%= schema.singular %>_queries do
     field :<%= schema.singular %>, non_null(:<%= schema.singular %>) do
       arg :id, non_null(:id)
-      resolve &<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.find/2
+      resolve &<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.find/2
     end
 
     field :<%= schema.plural %>, list_of(:<%= schema.singular %>) do
-      resolve &<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.all/2
+      resolve &<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.all/2
     end
   end
 
@@ -29,20 +30,20 @@ defmodule <%= inspect context.web_module %>.Schema.<%= inspect Module.concat(sch
     field :create_<%= schema.singular %>, :<%= schema.singular %> do <%= for {k, v} <- schema.attrs do %>
       arg <%= inspect k %>, <%= inspect v %><% end %><%= for {_n, i, _m, _s} <- schema.assocs do %>
       arg <%= inspect i %>, :id<% end %>
-      resolve &<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.create/2
+      resolve &<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.create/2
     end
 
     field :update_<%= schema.singular %>, :<%= schema.singular %> do
       arg :id, non_null(:id)
       arg :<%= schema.singular %>, :update_<%= schema.singular %>_params
 
-      resolve &<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.update/2
+      resolve &<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.update/2
     end
 
     field :delete_<%= schema.singular %>, :<%= schema.singular %> do
       arg :id, non_null(:id)
 
-      resolve &<%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.delete/2
+      resolve &<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Resolver.delete/2
     end
   end
 end

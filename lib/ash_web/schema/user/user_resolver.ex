@@ -1,5 +1,5 @@
-defmodule AshWeb.UserResolver do
-  alias Ash.{Accounts, Guardian}
+defmodule AshWeb.Schema.UserResolver do
+  alias Ash.Accounts
   alias AshWeb.ErrorHelper
 
   def all(_args, _info) do
@@ -33,23 +33,6 @@ defmodule AshWeb.UserResolver do
       |> Accounts.delete_user
     rescue
       e -> {:error, Exception.message(e)}
-    end
-  end
-
-  def attempt_login(%{email: email}, _info) do
-    Accounts.provide_token(email)
-    {:ok, %{success: true}}
-  end
-
-  def login(%{token: token}, _info) do
-    case Accounts.verify_token_value(token) do
-      {:ok, user} ->
-        with {:ok, jwt, _claims} <- Guardian.encode_and_sign(user) do
-          {:ok, %{token: jwt, user: user}}
-        end
-
-      {:error, reason} ->
-        {:error, reason}
     end
   end
 end

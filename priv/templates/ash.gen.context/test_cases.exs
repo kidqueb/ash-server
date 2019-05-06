@@ -2,8 +2,6 @@
   describe "<%= schema.plural %>" do
     alias <%= inspect schema.module %>
 
-    @valid_attrs <%= inspect schema.params.create %>
-    @update_attrs <%= inspect schema.params.update %>
     @invalid_attrs <%= inspect for {key, _} <- schema.params.create, into: %{}, do: {key, nil} %>
 
     test "list_<%= schema.plural %>/0 returns all <%= schema.plural %>" do
@@ -18,7 +16,7 @@
 
     test "create_<%= schema.singular %>/1 with valid data creates a <%= schema.singular %>" do
       <%= schema.singular %>_params = params_for(:<%= schema.singular %>)
-      assert {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} = <%= inspect context.alias %>.create_<%= schema.singular %>(<%= schema.singular %>_params)<%= for {field, value} <- schema.params.create do %>
+      assert {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} = <%= inspect context.alias %>.create_<%= schema.singular %>(<%= schema.singular %>_params)<%= for {field, _value} <- schema.params.create do %>
       assert <%= schema.singular %>.<%= field %> == post_params.<%= field %><% end %>
     end
 
@@ -30,7 +28,7 @@
       <%= schema.singular %> = insert(:<%= schema.singular %>)
       <%= schema.singular %>_params = params_for(:<%= schema.singular %>, <%= inspect schema.params.update %>)
 
-      assert {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} = <%= inspect context.alias %>.update_<%= schema.singular %>(<%= schema.singular %>, post_params)<%= for {field, value} <- schema.params.update do %>
+      assert {:ok, %<%= inspect schema.alias %>{} = <%= schema.singular %>} = <%= inspect context.alias %>.update_<%= schema.singular %>(<%= schema.singular %>, post_params)<%= for {field, _value} <- schema.params.update do %>
       assert <%= schema.singular %>.<%= field %> == <%= schema.singular %>_params.<%= field %><% end %>
     end
 

@@ -25,6 +25,7 @@ defmodule AshWeb.UserResolverTest do
           user(id: #{user.id}) {
             id
             email
+            username
             firstName
             lastName
           }
@@ -36,6 +37,7 @@ defmodule AshWeb.UserResolverTest do
       assert response["data"]["user"] == %{
         "id" => to_string(user.id),
         "email" => user.email,
+        "username" => user.username,
         "firstName" => user.first_name,
         "lastName" => user.last_name
       }
@@ -57,6 +59,7 @@ defmodule AshWeb.UserResolverTest do
     test "creates a new user", %{conn: conn} do
       user_params = params_for(:user, %{
         email: "tim@tebow.com",
+        username: "teboned",
         first_name: "Tim",
         last_name: "Tebow"
       })
@@ -65,10 +68,12 @@ defmodule AshWeb.UserResolverTest do
         mutation {
           createUser(
             email: "#{user_params.email}",
+            username: "#{user_params.username}",
             firstName: "#{user_params.first_name}",
             lastName: "#{user_params.last_name}"
           ) {
             email
+            username
             firstName
             lastName
           }
@@ -79,6 +84,7 @@ defmodule AshWeb.UserResolverTest do
 
       assert response["data"]["createUser"] == %{
         "email" => user_params.email,
+        "username" => user_params.username,
         "firstName" => user_params.first_name,
         "lastName" => user_params.last_name
       }
@@ -92,6 +98,7 @@ defmodule AshWeb.UserResolverTest do
           updateUser(id:$id, user:$user) {
             id
             email
+            username
             firstName
             lastName
           }
@@ -102,6 +109,7 @@ defmodule AshWeb.UserResolverTest do
         id: user.id,
         user: %{
           email: "tim@tebow.com",
+          username: "teboned",
           firstName: "Tim",
           lastName: "Tebow"
         }
@@ -112,6 +120,7 @@ defmodule AshWeb.UserResolverTest do
       assert response["data"]["updateUser"] == %{
         "id" => to_string(user.id),
         "email" => "tim@tebow.com",
+        "username" => "teboned",
         "firstName" => "Tim",
         "lastName" => "Tebow"
       }
