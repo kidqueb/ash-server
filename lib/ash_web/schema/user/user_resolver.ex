@@ -36,6 +36,17 @@ defmodule AshWeb.UserResolver do
     end
   end
 
+  def attempt_login(%{email: email, password: password}, _info) when password != "" do
+    case Accounts.authenticate_password(email, password) do
+      {:ok, user} ->
+        with {:ok, jwt, _claims} <- Guardian.encode_and_sign(user) do
+          {:ok, %{token: jwt, user: user}}
+        end
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
   def attempt_login(%{email: email}, _info) do
     Accounts.provide_token(email)
     {:ok, %{success: true}}

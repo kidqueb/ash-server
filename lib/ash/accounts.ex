@@ -274,4 +274,21 @@ defmodule Ash.Accounts do
       auth_token.value
     end
   end
+
+  # """
+  # Check a given password vs a user's actual password
+  # """
+  def authenticate_password(email, given_password) do
+    get_user_by_email!(email)
+    |> check_password(given_password)
+  end
+
+  defp check_password(nil, _), do: {:error, "Incorrect username or password"}
+  defp check_password(%User{password_hash: ""}, _), do: {:error, "Check your email"}
+  defp check_password(user, given_password) do
+    case Argon2.check_pass(given_password, user.password_hash) do
+      true -> (:ok, user)
+      false -> {:error, "Incorrect username or password"}
+    end
+  end
 end

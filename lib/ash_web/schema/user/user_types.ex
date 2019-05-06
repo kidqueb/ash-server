@@ -16,6 +16,7 @@ defmodule AshWeb.Schema.UserTypes do
   object :user do
     field :id, :id
     field :email, :string
+    field :username, :string
     field :first_name, :string
     field :last_name, :string
     field :published_at, :naive_datetime
@@ -23,8 +24,10 @@ defmodule AshWeb.Schema.UserTypes do
 
   input_object :update_user_params do
     field :email, :string
+    field :username, :string
     field :first_name, :string
     field :last_name, :string
+    field :password, :string
   end
 
   object :user_queries do
@@ -51,8 +54,10 @@ defmodule AshWeb.Schema.UserTypes do
 
     field :create_user, :user do
       arg :email, :string
+      arg :username, :string
       arg :first_name, :string
       arg :last_name, :string
+      arg :password, :string
 
       resolve &AshWeb.UserResolver.create/2
     end
