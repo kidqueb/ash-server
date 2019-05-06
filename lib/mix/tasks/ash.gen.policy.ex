@@ -1,10 +1,10 @@
-defmodule Mix.Tasks.Ash.Gen.Context do
-  @shortdoc "Generates a context with functions around an Ecto schema"
+defmodule Mix.Tasks.Ash.Gen.Policy do
+  @shortdoc "Generates a context policy with authorization functions"
 
   @moduledoc """
   Generates a context with functions around an Ecto schema.
 
-      mix ash.gen.context Accounts User users name:string age:integer
+      mix ash.gen.policy Accounts User users name:string age:integer
 
   The first argument is the context module followed by the schema module
   and its plural name (used as the schema table name).
@@ -40,7 +40,7 @@ defmodule Mix.Tasks.Ash.Gen.Context do
   the plural name provided for the resource. To customize this value,
   a `--table` option may be provided. For example:
 
-      mix ash.gen.context Accounts User users --table cms_users
+      mix ash.gen.policy Accounts User users --table cms_users
 
   ## binary_id
 
@@ -78,7 +78,7 @@ defmodule Mix.Tasks.Ash.Gen.Context do
   @doc false
   def run(args) do
     if Mix.Project.umbrella? do
-      Mix.raise "mix ash.gen.context can only be run inside an application directory"
+      Mix.raise "mix ash.gen.policy can only be run inside an application directory"
     end
 
     {context, schema} = build(args)
@@ -135,19 +135,19 @@ defmodule Mix.Tasks.Ash.Gen.Context do
   @doc false
   def copy_new_files(%Context{schema: schema} = context, paths, binding) do
     if schema.generate?, do: Gen.Schema.copy_new_files(schema, paths, binding)
-    inject_schema_access(context, paths, binding)
+    inject_policy(context, paths, binding)
     inject_tests(context, paths, binding)
 
     context
   end
 
-  defp inject_schema_access(%Context{file: file} = context, paths, binding) do
+  defp inject_policy(%Context{file: file} = context, paths, binding) do
     unless Context.pre_existing?(context) do
-      Mix.Generator.create_file(file, Mix.Phoenix.eval_from(paths, "priv/templates/ash.gen.context/context.ex", binding))
+      Mix.Generator.create_file(file, Mix.Phoenix.eval_from(paths, "priv/templates/ash.gen.policy/policy.ex", binding))
     end
 
     paths
-    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.context/#{schema_access_template(context)}", binding)
+    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.policy/authorizations.ex}", binding)
     |> inject_eex_before_final_end(file, binding)
   end
 
@@ -157,11 +157,11 @@ defmodule Mix.Tasks.Ash.Gen.Context do
 
   defp inject_tests(%Context{test_file: test_file} = context, paths, binding) do
     unless Context.pre_existing_tests?(context) do
-      Mix.Generator.create_file(test_file, Mix.Phoenix.eval_from(paths, "priv/templates/ash.gen.context/context_test.exs", binding))
+      Mix.Generator.create_file(test_file, Mix.Phoenix.eval_from(paths, "priv/templates/ash.gen.policy/policy_test.exs", binding))
     end
 
     paths
-    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.context/test_cases.exs", binding)
+    |> Mix.Phoenix.eval_from("priv/templates/ash.gen.policy/test_cases.exs", binding)
     |> inject_eex_before_final_end(test_file, binding)
   end
 
@@ -192,14 +192,6 @@ defmodule Mix.Tasks.Ash.Gen.Context do
     end
   end
 
-  defp schema_access_template(%Context{schema: schema}) do
-    if schema.generate? do
-      "schema_access.ex"
-    else
-      "access_no_schema.ex"
-    end
-  end
-
   defp validate_args!([context, schema, _plural | _] = args) do
     cond do
       not Context.valid?(context) ->
@@ -227,37 +219,26 @@ defmodule Mix.Tasks.Ash.Gen.Context do
     Mix.raise """
     #{msg}
 
-    mix phx.gen.html, phx.gen.json and ash.gen.context expect a
-    context module name, followed by singular and plural names of
-    the generated resource, ending with any number of attributes.
-    For example:
+    mix ash.gen.policy expects a context module name, followed by singular
+    and plural names of the generated resource. For example:
 
-        mix phx.gen.html Accounts User users name:string
-        mix phx.gen.json Accounts User users name:string
-        mix ash.gen.context Accounts User users name:string
+        mix ash.gen.policy Accounts User users
 
-    The context serves as the API boundary for the given resource.
-    Multiple resources may belong to a context and a resource may be
-    split over distinct contexts (such as Accounts.User and Payments.User).
+    The policy is similar to a context in that it houses functions directly
+    related to a context's resources, except it isn't manipulating data. The
+    policy determines if a function is allowed to be executed on a record.
     """
   end
 
   def prompt_for_code_injection(%Context{} = context) do
     if Context.pre_existing?(context) do
       function_count = Context.function_count(context)
-      file_count = Context.file_count(context)
 
       Mix.shell.info """
-      You are generating into an existing context.
-      The #{inspect context.module} context currently has #{function_count} functions and \
-      #{file_count} files in its directory.
-
-        * It's OK to have multiple resources in the same context as \
-          long as they are closely related
-        * If they are not closely related, another context probably works better
-
-      If you are not sure, prefer creating a new context over adding to the existing one.
+      You are generating into an existing policy.
+      The #{inspect context.module} policy currently has #{function_count} functions.
       """
+
       unless Mix.shell.yes?("Would you like to proceed?") do
         System.halt()
       end
