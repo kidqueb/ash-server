@@ -5,7 +5,7 @@ defmodule AshWeb.Schema.UserTypes do
   # """
   # Auth
   # """
-  object :login_success do
+  object :login_response do
     field :token, :string
     field :user, non_null(:user), resolve: assoc(:user)
   end
@@ -42,13 +42,15 @@ defmodule AshWeb.Schema.UserTypes do
   end
 
   object :user_mutations do
-    field :attempt_login, :success_response do
+    field :email_login, :success_response do
       arg :email, non_null(:string)
-      resolve &AshWeb.UserResolver.attempt_login/2
+      resolve &AshWeb.UserResolver.email_login/2
     end
 
-    field :login, :login_success do
-      arg :token, non_null(:string)
+    field :login, :login_response do
+      arg :token, :string
+      arg :email, :string
+      arg :password, :string
       resolve &AshWeb.UserResolver.login/2
     end
 

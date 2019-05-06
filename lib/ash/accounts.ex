@@ -283,12 +283,14 @@ defmodule Ash.Accounts do
     |> check_password(given_password)
   end
 
-  defp check_password(nil, _), do: {:error, "Incorrect username or password"}
-  defp check_password(%User{password_hash: ""}, _), do: {:error, "Check your email"}
+  defp check_password(nil, _), do: {:error, "Incorrect email or password"}
+  defp check_password(%User{password_hash: ""}, _) do
+    {:error, "Incorrect email or password"}
+  end
   defp check_password(user, given_password) do
-    case Argon2.check_pass(given_password, user.password_hash) do
-      true -> (:ok, user)
-      false -> {:error, "Incorrect username or password"}
+    case Argon2.check_pass(user, given_password) do
+      {:ok, user} -> {:ok, user}
+      {:error, _reason} -> {:error, "Incorrect email or password"}
     end
   end
 end
