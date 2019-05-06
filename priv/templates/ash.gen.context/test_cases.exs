@@ -2,8 +2,6 @@
   describe "<%= schema.plural %>" do
     alias <%= inspect schema.module %>
 
-    @valid_attrs <%= inspect schema.params.create %>
-    @update_attrs <%= inspect schema.params.update %>
     @invalid_attrs <%= inspect for {key, _} <- schema.params.create, into: %{}, do: {key, nil} %>
 
     test "list_<%= schema.plural %>/0 returns all <%= schema.plural %>" do
