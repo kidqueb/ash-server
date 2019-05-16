@@ -10,7 +10,7 @@ defmodule Ash.AccountsTest do
   describe "users" do
     alias Ash.Accounts.{User, AuthToken}
 
-    @invalid_attrs %{email: nil, first_name: nil, last_name: nil}
+    @invalid_attrs %{email: nil, username: nil, first_name: nil, last_name: nil}
 
     test "list_users/0 returns all users" do
       user = insert(:user)
@@ -64,7 +64,8 @@ defmodule Ash.AccountsTest do
 
     test "delete_user/1 deletes the user" do
       user = insert(:user)
-      assert {:ok, %User{}} = Accounts.delete_user(user.id)
+
+      assert {:ok, %User{}} = Accounts.delete_user(user)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_user!(user.id) end
     end
 

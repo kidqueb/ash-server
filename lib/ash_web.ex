@@ -30,7 +30,7 @@ defmodule AshWeb do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/web/templates",
+        root: "lib/ash_web/templates",
         namespace: AshWeb
 
       # Import convenience functions from controllers

@@ -41,7 +41,6 @@ defmodule Ash.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
-  def get_user(id), do: Repo.get(User, id)
 
   @doc """
   Gets a single user by their email.
@@ -100,16 +99,15 @@ defmodule Ash.Accounts do
 
   ## Examples
 
-      iex> delete_user(user_id)
+      iex> delete_user(user)
       {:ok, %User{}}
 
-      iex> delete_user(user_id)
+      iex> delete_user(user)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_user(user_id) do
-    get_user!(user_id)
-    |> Repo.delete
+  def delete_user(%User{} = user) do
+    Repo.delete(user)
   end
 
   @doc """
@@ -144,14 +142,14 @@ defmodule Ash.Accounts do
   end
 
   @doc """
-  Deletes a User.
+  Deletes a AuthToken.
 
   ## Examples
 
-      iex> delete_user(user)
-      {:ok, %User{}}
+      iex> delete_auth_token(auth_token)
+      {:ok, %AuthToken{}}
 
-      iex> delete_user(user)
+      iex> delete_auth_token(auth_token)
       {:error, %Ecto.Changeset{}}
 
   """
@@ -198,10 +196,10 @@ defmodule Ash.Accounts do
 
   ## Examples
 
-      iex> delete_auth_request(user)
+      iex> delete_auth_request(auth_request)
       {:ok, %AuthRequest{}}
 
-      iex> delete_auth_request(user)
+      iex> delete_auth_request(auth_request)
       {:error, %Ecto.Changeset{}}
 
   """
@@ -274,6 +272,25 @@ defmodule Ash.Accounts do
   defp create_token(user) do
     with {:ok, auth_token} <- create_auth_token(user) do
       auth_token.value
+    end
+  end
+
+  # """
+  # Check a given password vs a user's actual password
+  # """
+  def authenticate_password(email, given_password) do
+    get_user_by_email!(email)
+    |> check_password(given_password)
+  end
+
+  defp check_password(nil, _), do: {:error, "Incorrect email or password"}
+  defp check_password(%User{password_hash: ""}, _) do
+    {:error, "Incorrect email or password"}
+  end
+  defp check_password(user, given_password) do
+    case Argon2.check_pass(user, given_password) do
+      {:ok, user} -> {:ok, user}
+      {:error, _reason} -> {:error, "Incorrect email or password"}
     end
   end
 end
