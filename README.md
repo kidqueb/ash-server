@@ -21,15 +21,17 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 By default Ash uses a hybrid authentication setup. User's aren't required to use a password if they don't want. It is up to the front-end to make the call on if it should request a token to be sent to the user or if they're trying to login with a email/password combination.
 
 ### Usage
-To request a token sent to a user's email we can use the `email_login` mutation.
+To request a token sent to a user's email we can use the `emailLogin` mutation.
 
     mutation {
-      email_login(email: "example@email.com") {
+      emailLogin(email: "example@email.com") {
         success
       }
     }
 
-    # {data: { success: true }}
+    # {data: { 
+    #   emailLogin: { success: true }
+    # }}
 
 In dev, emails can be intercepted at [`localhost:4000/outbox`](http://localhost:4000/outbox) or you can grab the token from the logged params. Once they recieve the token via email it can be authenticated with the `login` mutation.
 
@@ -43,13 +45,13 @@ In dev, emails can be intercepted at [`localhost:4000/outbox`](http://localhost:
       }
     }
 
-    # {data: {
+    # ... login: {
     #   token: "jwt_to_be_sent_with_requests",
     #   user: {
     #     id: 1
     #     email: example@email.com
     #   }
-    # }}
+    # }} ...
 
 Alternatively we can use the `login` mutation to authenticate a email/password combination if they've setup a password.
 
@@ -63,13 +65,13 @@ Alternatively we can use the `login` mutation to authenticate a email/password c
       }
     }
 
-    # {data: {
+    # ... login: {
     #   token: "jwt_to_be_sent_with_requests",
     #   user: {
     #     id: 1
     #     email: example@email.com
     #   }
-    # }}
+    # }} ...
 
 ### Using _only_ **Passwordless** Auth
 In order to rip out the password auth you can make the following changes:
