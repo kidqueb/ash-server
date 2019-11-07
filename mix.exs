@@ -60,7 +60,7 @@ defmodule Ash.MixProject do
       {:ex_machina, "~> 2.3", only: :test},
       {:faker, "~> 0.11", only: :test},
       {:excoveralls, "~> 0.10", only: :test},
-      {:mix_test_watch, "~> 0.8", only: :dev, runtime: false}
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false}
     ]
   end
 

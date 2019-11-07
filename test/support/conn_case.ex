@@ -14,17 +14,18 @@ defmodule AshWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  import Ash.Factory
 
   using do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       alias AshWeb.Router.Helpers, as: Routes
-      import Ash.Factory
 
       # The default endpoint for testing
       @endpoint AshWeb.Endpoint
 
+      import Ash.Factory
       import Ash.TestUtils
     end
   end
@@ -32,10 +33,23 @@ defmodule AshWeb.ConnCase do
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Ash.Repo)
 
+    conn = Phoenix.ConnTest.build_conn()
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Ash.Repo, {:shared, self()})
     end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    {conn, current_user} = if tags[:authenticated] do
+      user = insert(:user)
+      {:ok, token, _claims} = Ash.Guardian.encode_and_sign(user)
+
+      conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer " <> token)
+
+      {conn, user}
+    else
+      {conn, nil}
+    end
+
+    {:ok, conn: conn, current_user: current_user}
   end
 end
