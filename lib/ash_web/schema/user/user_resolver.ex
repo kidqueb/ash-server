@@ -30,7 +30,7 @@ defmodule AshWeb.Schema.UserResolver do
   def delete(%{id: id}, _info) do
     try do
       Accounts.get_user!(id)
-      |> Accounts.delete_user
+      |> Accounts.delete_user()
     rescue
       e -> {:error, Exception.message(e)}
     end

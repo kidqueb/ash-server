@@ -59,6 +59,7 @@ defmodule Ash.MixProject do
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_ecto, "~> 0.1.3"},
       {:absinthe_phoenix, "~> 1.4.0"},
+      {:dataloader, "~> 1.0.0"},
 
       # Authentication
       {:guardian, "~> 2.0.0"},

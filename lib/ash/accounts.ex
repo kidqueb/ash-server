@@ -9,6 +9,14 @@ defmodule Ash.Accounts do
   alias Ash.Accounts.{User, AuthToken, AuthRequest}
   alias AshWeb.Endpoint
 
+  def data do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  def query(queryable, _params) do
+    queryable
+  end
+
   # sets expiration for our auth tokens (30 min)
   @token_max_age 30 * 60
 

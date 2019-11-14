@@ -8,8 +8,7 @@ defmodule AshWeb.AuthMiddleware do
   def call(resolution, _config) do
     resolution
     |> Absinthe.Resolution.put_result(
-      {:error,
-       %{code: :unauthorized, error: "Not authenticated", message: "Not authenticated"}}
+      {:error, %{code: :unauthorized, error: "Not authenticated", message: "Not authenticated"}}
     )
   end
 end

@@ -12,12 +12,14 @@ defmodule AshWeb.Schema.AuthResolver do
       {:error, reason} -> {:error, reason}
     end
   end
+
   def login(%{email: email, password: password}, _info) do
     case Accounts.authenticate_password(email, password) do
       {:ok, user} -> encode_and_sign(user)
       {:error, reason} -> {:error, reason}
     end
   end
+
   def login(_attrs, _info) do
     {:error, "Incorrect email or password"}
   end
