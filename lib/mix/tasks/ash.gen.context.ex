@@ -70,10 +70,19 @@ defmodule Mix.Tasks.Ash.Gen.Context do
   alias Mix.Phoenix.{Context, Schema}
   alias Mix.Tasks.Phx.Gen
 
-  @switches [binary_id: :boolean, table: :string, web: :string,
-             schema: :boolean, context: :boolean, context_app: :string]
+  @switches [
+    binary_id: :boolean,
+    table: :string,
+    web: :string,
+    schema: :boolean,
+    context: :boolean,
+    context_app: :string
+  ]
 
-  @default_opts [schema: true, context: true]
+  @default_opts [
+    schema: true,
+    context: true
+  ]
 
   @doc false
   def run(args) do

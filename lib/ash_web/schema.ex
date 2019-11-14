@@ -23,6 +23,9 @@ defmodule AshWeb.Schema do
     import_fields(:auth_mutations)
   end
 
+  # """
+  # Plugins
+  # """
   def plugins do
     [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
   end
