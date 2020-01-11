@@ -1,21 +1,27 @@
 defmodule AshWeb.Router do
   use AshWeb, :router
 
-  pipeline :ash do
+  pipeline :api do
     plug :accepts, ["json"]
+    plug ProperCase.Plug.SnakeCaseParams
+    plug AshWeb.AuthPlug, otp_app: :ash
   end
 
-  pipeline :jwt_authenticated do
-    plug AshWeb.Context
+  pipeline :api_protected do
+    plug AshWeb.GraphqlContext
   end
 
-  # Dev outbox for email login
-  if Mix.env() == :dev do
-    forward "/outbox", Bamboo.SentEmailViewerPlug
+  scope "/auth", AshWeb do
+    pipe_through :api
+
+    resources "/signup", RegistrationController, singleton: true, only: [:create]
+    resources "/session", SessionController, singleton: true, only: [:create, :delete]
+    post "/renew", SessionController, :renew
+    get "/me", SessionController, :me
   end
 
   scope "/" do
-    pipe_through [:ash, :jwt_authenticated]
+    pipe_through [:api, :api_protected]
     forward "/graphql", Absinthe.Plug, schema: AshWeb.Schema
 
     if Mix.env() == :dev do

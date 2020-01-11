@@ -61,14 +61,9 @@ defmodule Ash.MixProject do
       {:absinthe_phoenix, "~> 1.4.0"},
       {:dataloader, "~> 1.0.0"},
 
-      # Authentication
-      {:guardian, "~> 2.0.0"},
-      {:comeonin, "~> 5.1.2"},
-      {:argon2_elixir, "~> 2.1.2"},
-
       # Misc
-      {:gettext, "~> 0.11"},  # Translations
-      {:bamboo, "~> 1.1"},    # Email
+      {:gettext, "~> 0.11"},      # Translations
+      {:proper_case, "~> 1.0.2"}, # snake_case to camelCase
 
       # Test Utils
       {:ex_machina, "~> 2.3", only: :test},

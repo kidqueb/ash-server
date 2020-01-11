@@ -18,10 +18,6 @@ config :ash, AshWeb.Endpoint,
   render_errors: [view: AshWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: Ash.PubSub, adapter: Phoenix.PubSub.PG2]
 
-# JWT
-config :ash, Ash.Guardian,
-  issuer: "api"
-
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

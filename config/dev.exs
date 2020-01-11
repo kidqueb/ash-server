@@ -23,10 +23,6 @@ config :ash, AshWeb.Endpoint,
 config :ash, Ash.Mailer,
   adapter: Bamboo.LocalAdapter
 
-# Guardian key
-config :ash, Ash.Guardian,
-  secret_key: "M1pKbbFJX0Qsez5vMl8bzKeQOdbvQigRZcHz1IYIKrmhC9zSsWO0uNi8ACmzpsar"
-
 # Test watcher
 config :mix_test_watch,
   clear: true

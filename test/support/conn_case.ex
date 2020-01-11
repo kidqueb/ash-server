@@ -14,7 +14,7 @@ defmodule AshWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
-  import Ash.Factory
+  # import Ash.Factory
 
   using do
     quote do
@@ -39,17 +39,6 @@ defmodule AshWeb.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(Ash.Repo, {:shared, self()})
     end
 
-    {conn, current_user} = if tags[:authenticated] do
-      user = insert(:user)
-      {:ok, token, _claims} = Ash.Guardian.encode_and_sign(user)
-
-      conn = Plug.Conn.put_req_header(conn, "authorization", "Bearer " <> token)
-
-      {conn, user}
-    else
-      {conn, nil}
-    end
-
-    {:ok, conn: conn, current_user: current_user}
+    {:ok, conn: conn}
   end
 end
