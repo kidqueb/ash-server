@@ -1,4 +1,4 @@
-defmodule ChapterChatWeb.AuthPlug do
+defmodule AshWeb.AuthPlug do
   @moduledoc false
   use Pow.Plug.Base
 

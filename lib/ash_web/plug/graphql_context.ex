@@ -1,4 +1,4 @@
-defmodule ChapterChatWeb.GraphqlContext do
+defmodule AshWeb.GraphqlContext do
   @behaviour Plug
 
   def init(opts), do: opts

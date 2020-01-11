@@ -35,5 +35,7 @@ defmodule AshWeb.Endpoint do
     key: "_api_key",
     signing_salt: "Q/W647/4"
 
+  plug Pow.Plug.Session, otp_app: :ash
+
   plug AshWeb.Router
 end
