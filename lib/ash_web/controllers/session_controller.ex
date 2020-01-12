@@ -32,8 +32,7 @@ defmodule AppWeb.SessionController do
             token: conn.private[:api_auth_token],
             renewToken: conn.private[:api_renew_token],
             user: %{
-              name: conn.assigns.current_user.name,
-              username: conn.assigns.current_user.username
+              email: conn.assigns.current_user.email,
             }
           }
         })

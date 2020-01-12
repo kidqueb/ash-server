@@ -29,7 +29,7 @@ defmodule AppWeb.Schema do
 
   def dataloader do
     Dataloader.new()
-    |> Dataloader.add_source(Accounts, Accounts.data())
+    |> Dataloader.add_source(Accounts, Accounts.Loader.data())
   end
 
   def context(ctx) do

@@ -6,10 +6,8 @@ defmodule App.UserFactory do
       def user_factory do
         %User{
           email: sequence("tombrady@nfl.com"),
-          username: sequence("tb12"),
-          first_name: "Tom",
-          last_name: "Brady",
-          password_hash: ""
+          password: "test",
+          confirm_password: "test",
         }
       end
     end

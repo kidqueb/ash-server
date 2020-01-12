@@ -4,17 +4,10 @@ defmodule App.Accounts do
   """
 
   import Ecto.Query, warn: false
+  use App.Helpers.UsePolicy
 
   alias App.Repo
   alias App.Accounts.User
-
-  def data do
-    Dataloader.Ecto.new(Repo, query: &query/2)
-  end
-
-  def query(queryable, _params) do
-    queryable
-  end
 
   @doc """
   Returns the list of users.
@@ -61,6 +54,22 @@ defmodule App.Accounts do
 
   """
   def get_user_by_email!(email), do: Repo.get_by(User, email: email)
+
+  @doc """
+  Gets a single user by their username.
+
+  Raises `Ecto.NoResultsError` if the User does not exist.
+
+  ## Examples
+
+      iex> get_user_by_email!("user@gmail.com")
+      %User{}
+
+      iex> get_user_by_email!("notuser@gmail.com")
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_user_by_username!(username), do: Repo.get_by(User, username: username)
 
   @doc """
   Creates a user.

@@ -15,7 +15,7 @@ defmodule AppWeb.Router do
     pipe_through :api
 
     resources "/signup", RegistrationController, singleton: true, only: [:create]
-    resources "/session", SessionController, singleton: true, only: [:create, :delete]
+    resources "/login", SessionController, singleton: true, only: [:create, :delete]
     post "/renew", SessionController, :renew
     get "/me", SessionController, :me
   end

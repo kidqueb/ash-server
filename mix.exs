@@ -63,6 +63,7 @@ defmodule App.MixProject do
 
       # Authorization
       {:pow, "~> 1.0.16"},
+      {:bodyguard, "~> 2.4"},
 
       # Misc
       {:gettext, "~> 0.11"},      # Translations
