@@ -1,6 +1,5 @@
-defmodule Ash.Accounts.User do
+defmodule App.Accounts.User do
   use Ecto.Schema
-  import Ecto.Changeset
   use Pow.Ecto.Schema
 
   schema "users" do

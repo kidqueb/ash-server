@@ -1,14 +1,14 @@
-defmodule Ash.AccountsTest do
-  use Ash.DataCase
-  import Ash.Factory
+defmodule App.AccountsTest do
+  use App.DataCase
+  import App.Factory
 
-  alias Ash.Accounts
-  alias AshWeb.Endpoint
+  alias App.Accounts
+  alias AppWeb.Endpoint
 
   @token_max_age 30 * 60 # from Accounts context
 
   describe "users" do
-    alias Ash.Accounts.{User, AuthToken}
+    alias App.Accounts.{User, AuthToken}
 
     @invalid_attrs %{email: nil, username: nil, first_name: nil, last_name: nil}
 

@@ -1,5 +1,5 @@
-defmodule Ash.Repo do
+defmodule App.Repo do
   use Ecto.Repo,
-    otp_app: :ash,
+    otp_app: :app,
     adapter: Ecto.Adapters.Postgres
 end

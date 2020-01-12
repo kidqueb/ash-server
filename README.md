@@ -1,4 +1,4 @@
-# Ash
+# App
 
 ## Dependencies
 * Phoenix - Web Framework
@@ -17,7 +17,7 @@ To start your Phoenix server:
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Authentication
-By default Ash uses a hybrid authentication setup. User's aren't required to use a password if they don't want. It is up to the front-end to make the call on if it should request a token to be sent to the user or if they're trying to login with a email/password combination.
+By default App uses a hybrid authentication setup. User's aren't required to use a password if they don't want. It is up to the front-end to make the call on if it should request a token to be sent to the user or if they're trying to login with a email/password combination.
 
 ### Usage
 To request a token sent to a user's email we can use the `emailLogin` mutation.
@@ -107,7 +107,7 @@ In addition to the typical schema and context files, this command will create th
 
 It will also prompt you to add the following lines to your `schema.ex`
 
-    import_types(AshWeb.Schema.ModelTypes)
+    import_types(AppWeb.Schema.ModelTypes)
 
     query do
       import_field(:model_queries)

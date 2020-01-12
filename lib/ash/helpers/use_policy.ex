@@ -1,4 +1,4 @@
-defmodule Ash.Helpers.UsePolicy do
+defmodule App.Helpers.UsePolicy do
   defmacro __using__(_opts) do
     quote do
       defdelegate authorize(action, user, params), to: __MODULE__.Policy

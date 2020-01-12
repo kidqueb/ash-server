@@ -1,12 +1,12 @@
-defmodule Ash.Accounts do
+defmodule App.Accounts do
   @moduledoc """
   Handles user creation and authorization.
   """
 
   import Ecto.Query, warn: false
 
-  alias Ash.Repo
-  alias Ash.Accounts.User
+  alias App.Repo
+  alias App.Accounts.User
 
   def data do
     Dataloader.Ecto.new(Repo, query: &query/2)

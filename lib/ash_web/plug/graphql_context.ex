@@ -1,4 +1,4 @@
-defmodule AshWeb.GraphqlContext do
+defmodule AppWeb.GraphqlContext do
   @behaviour Plug
 
   def init(opts), do: opts

@@ -7,16 +7,16 @@
 # General application configuration
 use Mix.Config
 
-config :ash,
-  namespace: Ash,
-  ecto_repos: [Ash.Repo]
+config :app,
+  namespace: App,
+  ecto_repos: [App.Repo]
 
 # Configures the endpoint
-config :ash, AshWeb.Endpoint,
+config :app, AppWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "8T5iuEzxfHDVecy3CnarEBWVOKZpJ3nNTydbtLorZVFlAwMgrpjRxt5URNWTaxHc",
-  render_errors: [view: AshWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Ash.PubSub, adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: AppWeb.ErrorView, accepts: ~w(json)],
+  pubsub: [name: App.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -27,9 +27,10 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Authorization with Pow
-config :ash, :pow,
-  user: Ash.Users.User,
-  repo: Ash.Repo
+config :app, :pow,
+  user: App.Accounts.User,
+  repo: App.Repo,
+  extensions: [PowPersistentSession]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

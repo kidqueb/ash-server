@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :ash, AshWeb.Endpoint,
+config :app, AppWeb.Endpoint,
   http: [port: 4000],
   https: [
     port: 4001,
@@ -18,10 +18,6 @@ config :ash, AshWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: []
-
-# Email dispatch
-config :ash, Ash.Mailer,
-  adapter: Bamboo.LocalAdapter
 
 # Test watcher
 config :mix_test_watch,
@@ -38,7 +34,7 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
-config :ash, Ash.Repo,
+config :app, App.Repo,
   username: "postgres",
   password: "postgres",
   database: "ash_dev",

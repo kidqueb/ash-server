@@ -1,21 +1,21 @@
 [
   context: %Mix.Phoenix.Context{
     alias: Forum,
-    base_module: Ash,
+    base_module: App,
     basename: "forum",
-    context_app: :ash,
+    context_app: :app,
     dir: "lib/ash/forum",
     file: "lib/ash/forum.ex",
     generate?: true,
-    module: Ash.Forum,
+    module: App.Forum,
     name: "Forum",
     opts: [schema: true, context: true],
     schema: %Mix.Phoenix.Schema{
       alias: Post,
-      assocs: [{:author, :author_id, "Ash.Forum.Author", :users}],
+      assocs: [{:author, :author_id, "App.Forum.Author", :users}],
       attrs: [body: :string, is_active: :boolean],
       binary_id: nil,
-      context_app: :ash,
+      context_app: :app,
       defaults: %{body: "", is_active: ", default: false"},
       embedded?: false,
       file: "lib/ash/forum/post.ex",
@@ -29,7 +29,7 @@
         is_active: ", default: false, null: false"
       },
       migration_module: Ecto.Migration,
-      module: Ash.Forum.Post,
+      module: App.Forum.Post,
       opts: [schema: true, context: true],
       params: %{
         create: %{body: "some body", is_active: true},
@@ -37,7 +37,7 @@
         update: %{body: "some updated body", is_active: false}
       },
       plural: "posts",
-      repo: Ash.Repo,
+      repo: App.Repo,
       route_helper: "post",
       sample_id: -1,
       singular: "post",
@@ -49,14 +49,14 @@
       web_path: nil
     },
     test_file: "test/ash/forum/forum_test.exs",
-    web_module: AshWeb
+    web_module: AppWeb
   },
   schema: %Mix.Phoenix.Schema{
     alias: Post,
-    assocs: [{:author, :author_id, "Ash.Forum.Author", :users}],
+    assocs: [{:author, :author_id, "App.Forum.Author", :users}],
     attrs: [body: :string, is_active: :boolean],
     binary_id: nil,
-    context_app: :ash,
+    context_app: :app,
     defaults: %{body: "", is_active: ", default: false"},
     embedded?: false,
     file: "lib/ash/forum/post.ex",
@@ -67,7 +67,7 @@
     migration?: true,
     migration_defaults: %{body: "", is_active: ", default: false, null: false"},
     migration_module: Ecto.Migration,
-    module: Ash.Forum.Post,
+    module: App.Forum.Post,
     opts: [schema: true, context: true],
     params: %{
       create: %{body: "some body", is_active: true},
@@ -75,7 +75,7 @@
       update: %{body: "some updated body", is_active: false}
     },
     plural: "posts",
-    repo: Ash.Repo,
+    repo: App.Repo,
     route_helper: "post",
     sample_id: -1,
     singular: "post",

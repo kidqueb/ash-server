@@ -1,10 +1,10 @@
-defmodule AshWeb.Schema do
+defmodule AppWeb.Schema do
   use Absinthe.Schema
 
-  alias Ash.Accounts
+  alias App.Accounts
 
   import_types(Absinthe.Type.Custom)
-  import_types(AshWeb.Schema.UserTypes)
+  import_types(AppWeb.Schema.UserTypes)
 
   # """
   # Queries
@@ -45,7 +45,7 @@ defmodule AshWeb.Schema do
 
   # def middleware(middleware, _field, %Absinthe.Type.Object{identifier: identifier})
   #     when identifier in [:query, :subscription, :mutation] do
-  #   [AshWeb.AuthMiddleware | middleware]
+  #   [AppWeb.AuthMiddleware | middleware]
   # end
   # def middleware(middleware, _field, _object) do
   #   middleware

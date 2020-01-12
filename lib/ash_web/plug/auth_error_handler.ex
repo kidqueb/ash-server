@@ -1,5 +1,5 @@
-defmodule AshWeb.AuthErrorHandler do
-  use AshWeb, :controller
+defmodule AppWeb.AuthErrorHandler do
+  use AppWeb, :controller
   alias Plug.Conn
 
   @spec call(Conn.t(), :not_authenticated) :: Conn.t()

@@ -1,4 +1,4 @@
-defmodule AshWeb.ErrorHelper do
+defmodule AppWeb.ErrorHelper do
   @doc """
   Format's the given changeset and returns an :error tuple
   that is formatted in a way that Absinthe can handle.

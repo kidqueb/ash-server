@@ -1,11 +1,11 @@
-defmodule Ash.MixProject do
+defmodule App.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :ash,
+      app: :app,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -25,7 +25,7 @@ defmodule Ash.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Ash.Application, []},
+      mod: {App.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -60,6 +60,9 @@ defmodule Ash.MixProject do
       {:absinthe_ecto, "~> 0.1.3"},
       {:absinthe_phoenix, "~> 1.4.0"},
       {:dataloader, "~> 1.0.0"},
+
+      # Authorization
+      {:pow, "~> 1.0.16"},
 
       # Misc
       {:gettext, "~> 0.11"},      # Translations

@@ -1,4 +1,4 @@
-defmodule Ash.Factory do
-  use ExMachina.Ecto, repo: Ash.Repo
-  use Ash.UserFactory
+defmodule App.Factory do
+  use ExMachina.Ecto, repo: App.Repo
+  use App.UserFactory
 end

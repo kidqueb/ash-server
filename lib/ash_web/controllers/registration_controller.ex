@@ -1,8 +1,8 @@
-defmodule AshWeb.RegistrationController do
-  use AshWeb, :controller
+defmodule AppWeb.RegistrationController do
+  use AppWeb, :controller
 
   alias Plug.Conn
-  alias AshWeb.ErrorHelper
+  alias AppWeb.ErrorHelper
 
   @spec create(Conn.t(), map()) :: Conn.t()
   def create(conn, %{"user" => user_params}) do

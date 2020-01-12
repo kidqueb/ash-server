@@ -1,11 +1,11 @@
-defmodule AshWeb.ChangesetView do
-  use AshWeb, :view
+defmodule AppWeb.ChangesetView do
+  use AppWeb, :view
 
   @doc """
   Traverses and translates changeset errors.
 
   See `Ecto.Changeset.traverse_errors/2` and
-  `AshWeb.ErrorHelpers.translate_error/1` for more details.
+  `AppWeb.ErrorHelpers.translate_error/1` for more details.
   """
   def translate_errors(changeset) do
     Ecto.Changeset.traverse_errors(changeset, &translate_error/1)

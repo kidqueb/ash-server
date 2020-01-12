@@ -1,8 +1,8 @@
-defmodule AshWeb.Schema.UserTypes do
+defmodule AppWeb.Schema.UserTypes do
   use Absinthe.Schema.Notation
-  use Absinthe.Ecto, repo: Ash.Repo
+  use Absinthe.Ecto, repo: App.Repo
 
-  alias AshWeb.Schema.UserResolver
+  alias AppWeb.Schema.UserResolver
 
   object :user do
     field :id, :id

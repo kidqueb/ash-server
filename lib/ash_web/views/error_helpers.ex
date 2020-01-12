@@ -1,4 +1,4 @@
-defmodule AshWeb.ErrorHelpers do
+defmodule AppWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -25,9 +25,9 @@ defmodule AshWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(AshWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(AppWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(AshWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(AppWeb.Gettext, "errors", msg, opts)
     end
   end
 end

@@ -1,12 +1,12 @@
-defmodule AshWeb do
+defmodule AppWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use AshWeb, :controller
-      use AshWeb, :view
+      use AppWeb, :controller
+      use AppWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,11 +19,11 @@ defmodule AshWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: AshWeb
+      use Phoenix.Controller, namespace: AppWeb
 
       import Plug.Conn
-      import AshWeb.Gettext
-      alias AshWeb.Router.Helpers, as: Routes
+      import AppWeb.Gettext
+      alias AppWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -31,14 +31,14 @@ defmodule AshWeb do
     quote do
       use Phoenix.View,
         root: "lib/ash_web/templates",
-        namespace: AshWeb
+        namespace: AppWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
 
-      import AshWeb.ErrorHelpers
-      import AshWeb.Gettext
-      alias AshWeb.Router.Helpers, as: Routes
+      import AppWeb.ErrorHelpers
+      import AppWeb.Gettext
+      alias AppWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -53,7 +53,7 @@ defmodule AshWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import AshWeb.Gettext
+      import AppWeb.Gettext
     end
   end
 

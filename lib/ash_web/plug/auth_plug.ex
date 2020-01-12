@@ -1,4 +1,4 @@
-defmodule AshWeb.AuthPlug do
+defmodule AppWeb.AuthPlug do
   @moduledoc false
   use Pow.Plug.Base
 

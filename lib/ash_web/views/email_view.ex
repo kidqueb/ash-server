@@ -1,3 +1,3 @@
-defmodule AshWeb.EmailView do
-  use AshWeb, :view
+defmodule AppWeb.EmailView do
+  use AppWeb, :view
 end

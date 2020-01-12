@@ -1,6 +1,6 @@
-defmodule AshWeb.Schema.UserResolver do
-  alias Ash.Accounts
-  alias AshWeb.ErrorHelper
+defmodule AppWeb.Schema.UserResolver do
+  alias App.Accounts
+  alias AppWeb.ErrorHelper
 
   def all(_args, _info) do
     {:ok, Accounts.list_users()}

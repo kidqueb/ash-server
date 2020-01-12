@@ -1,6 +1,6 @@
-defmodule AshWeb.UserResolverTest do
-  use AshWeb.ConnCase
-  import Ash.Factory
+defmodule AppWeb.UserResolverTest do
+  use AppWeb.ConnCase
+  import App.Factory
 
   describe "user resolver" do
     test "lists all users", %{conn: conn} do

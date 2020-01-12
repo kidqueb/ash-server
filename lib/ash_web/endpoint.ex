@@ -1,7 +1,7 @@
-defmodule AshWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :ash
+defmodule AppWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :app
 
-  socket "/socket", AshWeb.UserSocket,
+  socket "/socket", AppWeb.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -35,7 +35,8 @@ defmodule AshWeb.Endpoint do
     key: "_api_key",
     signing_salt: "Q/W647/4"
 
-  plug Pow.Plug.Session, otp_app: :ash
+  plug Pow.Plug.Session, otp_app: :app
+  plug PowPersistentSession.Plug.Cookie
 
-  plug AshWeb.Router
+  plug AppWeb.Router
 end

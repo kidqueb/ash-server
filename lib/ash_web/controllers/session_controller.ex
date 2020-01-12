@@ -1,9 +1,9 @@
-defmodule AshWeb.SessionController do
-  use AshWeb, :controller
+defmodule AppWeb.SessionController do
+  use AppWeb, :controller
 
-  alias Ash.Accounts
-  alias Ash.Accounts.User
-  alias AshWeb.AuthPlug
+  alias App.Accounts
+  alias App.Accounts.User
+  alias AppWeb.AuthPlug
 
   def create(conn, %{"user" => %{"username" => username, "password" => password}}) do
     case Accounts.get_user_by_username!(username) do

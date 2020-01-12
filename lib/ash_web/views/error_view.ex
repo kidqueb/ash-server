@@ -1,5 +1,5 @@
-defmodule AshWeb.ErrorView do
-  use AshWeb, :view
+defmodule AppWeb.ErrorView do
+  use AppWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.
