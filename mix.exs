@@ -69,7 +69,7 @@ defmodule AshServer.MixProject do
 
       # Misc
       {:gettext, "~> 0.11"},      # Translations
-      {:proper_case, "~> 1.0.2"}, # snake_case to camelCase
+      {:proper_case, "~> 1.3.0"}, # snake_case to camelCase
 
       # Test Utils
       {:ex_machina, "~> 2.3", only: :test},
