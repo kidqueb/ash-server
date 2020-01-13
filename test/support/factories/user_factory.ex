@@ -1,5 +1,5 @@
-defmodule App.UserFactory do
-  alias App.Accounts.User
+defmodule AshTpl.UserFactory do
+  alias AshTpl.Accounts.User
 
   defmacro __using__(_opts) do
     quote do

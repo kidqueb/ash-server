@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :app, AppWeb.Endpoint,
+config :ash_tpl, AshTplWeb.Endpoint,
   http: [port: 4000],
   https: [
     port: 4001,
@@ -34,7 +34,7 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
-config :app, App.Repo,
+config :ash_tpl, AshTpl.Repo,
   username: "postgres",
   password: "postgres",
   database: "ash_dev",

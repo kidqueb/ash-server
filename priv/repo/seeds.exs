@@ -1,4 +1,4 @@
-alias App.Accounts
+alias AshTpl.Accounts
 
 Accounts.create_user %{
   email: "n.quebb@gmail.com",

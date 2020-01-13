@@ -1,9 +1,9 @@
-defmodule App.MixProject do
+defmodule AshTpl.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :app,
+      app: :ash_tpl,
       version: "0.1.0",
       elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -25,7 +25,7 @@ defmodule App.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {App.Application, []},
+      mod: {AshTpl.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -39,6 +39,8 @@ defmodule App.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ash, git: "https://github.com/kidqueb/ash-gen.git"},
+
       # HTTP Server
       {:plug_cowboy, "~> 2.0"},
       {:corsica, "~> 1.0"},

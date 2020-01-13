@@ -1,4 +1,4 @@
-defmodule AppWeb.ConnCase do
+defmodule AshTplWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -14,34 +14,34 @@ defmodule AppWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
-  import App.Factory
+  import AshTpl.Factory
 
   using do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      alias AppWeb.Router.Helpers, as: Routes
+      alias AshTplWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint AppWeb.Endpoint
+      @endpoint AshTplWeb.Endpoint
 
-      import App.Factory
-      import App.TestUtils
+      import AshTpl.Factory
+      import AshTpl.TestUtils
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(App.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(AshTpl.Repo)
 
     conn = Phoenix.ConnTest.build_conn()
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(App.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(AshTpl.Repo, {:shared, self()})
     end
 
     conn = if tags[:authenticated] do
       user = insert(:user)
-      Pow.Plug.assign_current_user(conn, user, otp_app: :app)
+      Pow.Plug.assign_current_user(conn, user, otp_app: :ash_tpl)
     else
       conn
     end
