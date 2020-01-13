@@ -1,4 +1,4 @@
-defmodule AshTpl.DataCase do
+defmodule AshServer.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,22 +16,22 @@ defmodule AshTpl.DataCase do
 
   using do
     quote do
-      alias AshTpl.Repo
+      alias AshServer.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import AshTpl.DataCase
+      import AshServer.DataCase
 
-      import AshTpl.TestUtils
+      import AshServer.TestUtils
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(AshTpl.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(AshServer.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(AshTpl.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(AshServer.Repo, {:shared, self()})
     end
 
     :ok

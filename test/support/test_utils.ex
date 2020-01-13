@@ -1,10 +1,10 @@
-defmodule AshTpl.TestUtils do
+defmodule AshServer.TestUtils do
   @moduledoc """
   A set of utility functions for making tests a little easier to read/manage.
   """
 
   use Phoenix.ConnTest
-  @endpoint AshTplWeb.Endpoint # We need to set the default endpoint for ConnTest
+  @endpoint AshServerWeb.Endpoint # We need to set the default endpoint for ConnTest
 
 
   @doc """

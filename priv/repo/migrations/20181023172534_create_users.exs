@@ -1,4 +1,4 @@
-defmodule AshTpl.Repo.Migrations.CreateUsers do
+defmodule AshServer.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do

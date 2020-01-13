@@ -1,4 +1,4 @@
-defmodule AshTplWeb.ChannelCase do
+defmodule AshServerWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule AshTplWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint AshTplWeb.Endpoint
+      @endpoint AshServerWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(AshTpl.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(AshServer.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(AshTpl.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(AshServer.Repo, {:shared, self()})
     end
 
     :ok

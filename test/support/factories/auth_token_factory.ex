@@ -1,5 +1,5 @@
-defmodule AshTpl.AuthTokenFactory do
-  alias AshTpl.Accounts.AuthToken
+defmodule AshServer.AuthTokenFactory do
+  alias AshServer.Accounts.AuthToken
 
   defmacro __using__(_opts) do
     quote do

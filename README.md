@@ -1,4 +1,4 @@
-# AshTpl
+# Ash Server
 
 ## Dependencies
 * Phoenix - Web Framework
@@ -34,7 +34,7 @@ In addition to the typical schema and context files, this command will create th
 
 It will also prompt you to add the following lines to your `schema.ex`
 
-    import_types(AshTplWeb.Schema.ModelTypes)
+    import_types(AshServerWeb.Schema.ModelTypes)
 
     query do
       import_field(:model_queries)
