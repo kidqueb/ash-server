@@ -19,20 +19,9 @@ defmodule AshServerWeb.RegistrationController do
 
         json(conn, response)
 
-      {:error, changeset, conn} ->
-        {:error, errors} = ErrorHelper.format_errors(changeset)
-
-        response = %{
-          error: %{
-            status: 500,
-            message: "Couldn't register",
-            errors: errors
-          }
-        }
-
-        conn
-        |> put_status(500)
-        |> json(response)
+      {:error, changeset, _conn} ->
+        response = AshServerWeb.ChangesetView.render("error.json", %{changeset: changeset})
+        json(conn, response)
     end
   end
 end
