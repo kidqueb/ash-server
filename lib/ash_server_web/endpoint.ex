@@ -1,9 +1,9 @@
 defmodule AshServerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :ash_server
 
-  socket "/socket", AshServerWeb.UserSocket,
-    websocket: true,
-    longpoll: false
+  # socket "/socket", AshServerWeb.UserSocket,
+  #   websocket: true,
+  #   longpoll: false
 
   plug Corsica,
     origins: "*",
