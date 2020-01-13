@@ -26,8 +26,6 @@ defmodule AshTplWeb.UserResolverTest do
             id
             email
             username
-            firstName
-            lastName
           }
         }
       """
@@ -37,9 +35,7 @@ defmodule AshTplWeb.UserResolverTest do
       assert response["data"]["user"] == %{
         "id" => to_string(user.id),
         "email" => user.email,
-        "username" => user.username,
-        "firstName" => user.first_name,
-        "lastName" => user.last_name
+        "username" => user.username
       }
     end
 
@@ -60,8 +56,8 @@ defmodule AshTplWeb.UserResolverTest do
       user_params = params_for(:user, %{
         email: "tim@tebow.com",
         username: "teboned",
-        first_name: "Tim",
-        last_name: "Tebow"
+        password: "somepassword",
+        confirm_password: "somepassword",
       })
 
       query = """
@@ -69,13 +65,11 @@ defmodule AshTplWeb.UserResolverTest do
           createUser(
             email: "#{user_params.email}",
             username: "#{user_params.username}",
-            firstName: "#{user_params.first_name}",
-            lastName: "#{user_params.last_name}"
+            password: "#{user_params.password}",
+            confirmPassword: "#{user_params.confirm_password}"
           ) {
             email
             username
-            firstName
-            lastName
           }
         }
       """
@@ -84,23 +78,24 @@ defmodule AshTplWeb.UserResolverTest do
 
       assert response["data"]["createUser"] == %{
         "email" => user_params.email,
-        "username" => user_params.username,
-        "firstName" => user_params.first_name,
-        "lastName" => user_params.last_name
+        "username" => user_params.username
       }
     end
 
     test "updates a user", %{conn: conn} do
-      user = insert(:user)
+      user_params = params_for(:user, %{
+        password: "password",
+        confirm_password: "password"
+      })
+
+      {:ok, user} = AshTpl.Accounts.create_user(user_params)
 
       query = """
         mutation UpdateUser($id: ID!, $user: UpdateUserParams!) {
-          updateUser(id:$id, user:$user) {
+          updateUser(id: $id, user: $user) {
             id
             email
             username
-            firstName
-            lastName
           }
         }
       """
@@ -108,38 +103,36 @@ defmodule AshTplWeb.UserResolverTest do
       variables = %{
         id: user.id,
         user: %{
-          email: "tim@tebow.com",
-          username: "teboned",
-          firstName: "Tim",
-          lastName: "Tebow"
+          email: "new@email.com",
+          username: "new_username",
+          current_password: "password",
         }
       }
 
+      conn = Pow.Plug.assign_current_user(conn, user, otp_app: :ash_tpl)
       response = post_gql(conn, %{query: query, variables: variables})
 
       assert response["data"]["updateUser"] == %{
         "id" => to_string(user.id),
-        "email" => "tim@tebow.com",
-        "username" => "teboned",
-        "firstName" => "Tim",
-        "lastName" => "Tebow"
+        "email" => "new@email.com",
+        "username" => "new_username"
       }
     end
-  end
 
-  test "deletes a user", %{conn: conn} do
-    user = insert(:user)
+    test "deletes a user", %{conn: conn} do
+      user = insert(:user)
 
-    query = """
-      mutation {
-        deleteUser(id: #{user.id}) { id }
+      query = """
+        mutation {
+          deleteUser(id: #{user.id}) { id }
+        }
+      """
+
+      response = post_gql(conn, %{query: query})
+
+      assert response["data"]["deleteUser"] == %{
+        "id" => to_string(user.id)
       }
-    """
-
-    response = post_gql(conn, %{query: query})
-
-    assert response["data"]["deleteUser"] == %{
-      "id" => to_string(user.id)
-    }
+    end
   end
 end

@@ -5,9 +5,8 @@ defmodule AshTpl.UserFactory do
     quote do
       def user_factory do
         %User{
-          email: sequence("tombrady@nfl.com"),
-          password: "test",
-          confirm_password: "test",
+          email: sequence("some@email.com"),
+          username: sequence("username"),
         }
       end
     end

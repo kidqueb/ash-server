@@ -6,10 +6,6 @@ config :ash_tpl, AshTplWeb.Endpoint,
   http: [port: 4002],
   server: false
 
-# Email dispatch
-config :ash_tpl, AshTpl.Mailer,
-  adapter: Bamboo.TestAdapter
-
 # Print only warnings and errors during test
 config :logger, level: :warn
 
@@ -17,6 +13,6 @@ config :logger, level: :warn
 config :ash_tpl, AshTpl.Repo,
   username: "postgres",
   password: "postgres",
-  database: "ash_test",
+  database: "ash_tpl_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

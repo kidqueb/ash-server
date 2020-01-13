@@ -3,16 +3,17 @@ defmodule AshTpl.AccountsTest do
   import AshTpl.Factory
 
   alias AshTpl.Accounts
-  alias AshTplWeb.Endpoint
 
   describe "users" do
-    alias AshTpl.Accounts.{User, AuthToken}
+    alias AshTpl.Accounts.User
 
-    @invalid_attrs %{email: nil}
+    @invalid_attrs %{email: nil, username: nil}
 
     test "list_users/0 returns all users" do
-      user = insert(:user)
-      assert Accounts.list_users() == [user]
+      user1 = insert(:user)
+      user2 = insert(:user)
+
+      assert Accounts.list_users() == [user1, user2]
     end
 
     test "get_user!/1 returns the user with given id" do
@@ -26,7 +27,11 @@ defmodule AshTpl.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      user_params = params_for(:user)
+      user_params = params_for(:user, %{
+        password: "some password",
+        confirm_password: "some password",
+      })
+
       assert {:ok, %User{} = user} = Accounts.create_user(user_params)
       assert user.email == user_params.email
     end
@@ -37,7 +42,10 @@ defmodule AshTpl.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = insert(:user)
-      user_params = params_for(:user)
+      user_params = params_for(:user, %{
+        password: "some password",
+        confirm_password: "some password",
+      })
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, user_params)
 

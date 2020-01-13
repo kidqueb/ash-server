@@ -37,6 +37,6 @@ config :phoenix, :plug_init_mode, :runtime
 config :ash_tpl, AshTpl.Repo,
   username: "postgres",
   password: "postgres",
-  database: "ash_dev",
+  database: "ash_tpl_dev",
   hostname: "localhost",
   pool_size: 10

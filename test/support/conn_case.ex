@@ -40,7 +40,11 @@ defmodule AshTplWeb.ConnCase do
     end
 
     conn = if tags[:authenticated] do
-      user = insert(:user)
+      user = insert(:user, %{
+        password: "password",
+        confirm_password: "password"
+      })
+
       Pow.Plug.assign_current_user(conn, user, otp_app: :ash_tpl)
     else
       conn
