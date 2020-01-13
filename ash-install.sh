@@ -105,5 +105,5 @@ success "Done!\n"
 # success "Done!\n"
 
 header "Removing boilerplate setup script"
-run rm -fr boilerplate-setup.sh
+run rm -fr ash-install.sh
 success "Done!\n"
