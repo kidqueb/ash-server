@@ -7,7 +7,7 @@ defmodule AshServer.MixProject do
       version: "0.1.0",
       elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -68,7 +68,6 @@ defmodule AshServer.MixProject do
       {:bodyguard, "~> 2.4"},
 
       # Misc
-      {:gettext, "~> 0.11"},      # Translations
       {:proper_case, "~> 1.3.0"}, # snake_case to camelCase
 
       # Test Utils

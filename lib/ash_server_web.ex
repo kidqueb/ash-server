@@ -22,7 +22,6 @@ defmodule AshServerWeb do
       use Phoenix.Controller, namespace: AshServerWeb
 
       import Plug.Conn
-      import AshServerWeb.Gettext
       alias AshServerWeb.Router.Helpers, as: Routes
     end
   end
@@ -36,8 +35,6 @@ defmodule AshServerWeb do
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
 
-      import AshServerWeb.ErrorHelpers
-      import AshServerWeb.Gettext
       alias AshServerWeb.Router.Helpers, as: Routes
     end
   end
@@ -53,7 +50,6 @@ defmodule AshServerWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import AshServerWeb.Gettext
     end
   end
 

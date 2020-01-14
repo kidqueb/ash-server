@@ -8,8 +8,11 @@ defmodule AshServerWeb.ChangesetView do
   `AshServerWeb.ErrorHelpers.translate_error/1` for more details.
   """
   def translate_errors(changeset) do
-    Ecto.Changeset.traverse_errors(changeset, &translate_error/1)
+    Ecto.Changeset.traverse_errors(changeset, fn {msg, _opts} ->
+      %{message: msg}
+    end)
   end
+
 
   def render("error.json", %{changeset: changeset}) do
     # When encoded, the changeset returns its errors
