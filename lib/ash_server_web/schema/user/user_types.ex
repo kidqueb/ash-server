@@ -18,6 +18,17 @@ defmodule AshServerWeb.Schema.UserTypes do
     field :current_password, :string
   end
 
+  input_object :user_filter do
+    field :email, :string
+    field :username, :string
+  end
+
+  input_object :user_order_by do
+    field :id, :id
+    field :email, :string
+    field :username, :string
+  end
+
   object :user_queries do
     field :user, non_null(:user) do
       arg :id, non_null(:id)
@@ -25,6 +36,8 @@ defmodule AshServerWeb.Schema.UserTypes do
     end
 
     field :users, list_of(:user) do
+      arg :filter, :user_filter
+      arg :order_by, :user_order_by
       resolve &UserResolver.all/2
     end
   end

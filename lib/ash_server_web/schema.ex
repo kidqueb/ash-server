@@ -6,6 +6,11 @@ defmodule AshServerWeb.Schema do
   import_types(Absinthe.Type.Custom)
   import_types(AshServerWeb.Schema.UserTypes)
 
+  enum :sort_order do
+    value :asc
+    value :desc
+  end
+
   # """
   # Queries
   # """
@@ -50,4 +55,5 @@ defmodule AshServerWeb.Schema do
   # def middleware(middleware, _field, _object) do
   #   middleware
   # end
+
 end

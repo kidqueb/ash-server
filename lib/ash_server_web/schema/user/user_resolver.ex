@@ -2,8 +2,8 @@ defmodule AshServerWeb.Schema.UserResolver do
   alias AshServer.Accounts
   alias AshServerWeb.ErrorHelper
 
-  def all(_args, _info) do
-    {:ok, Accounts.list_users()}
+  def all(args, _info) do
+    {:ok, Accounts.list_users(args)}
   end
 
   def find(%{id: id}, _info) do
