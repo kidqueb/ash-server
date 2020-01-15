@@ -12,7 +12,7 @@ defmodule AshServer.Accounts do
 
   @doc """
   Returns a filtered list of users.
-s
+
   ## Examples
 
       iex> list_users(%{email: "example@email.com"})
