@@ -30,8 +30,9 @@ defmodule AshServerWeb.Schema.UserTypes do
   end
 
   object :user_queries do
-    field :user, non_null(:user) do
-      arg :id, non_null(:id)
+    field :user, :user do
+      arg :id, :id
+      arg :filter, :user_filter
       resolve &UserResolver.find/2
     end
 

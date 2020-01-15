@@ -9,7 +9,7 @@ defmodule AshServer.AccountsTest do
 
     @invalid_attrs %{email: nil, username: nil}
 
-    test "list_users/0 returns all users" do
+    test "list_users/1 returns all users" do
       user1 = insert(:user)
       user2 = insert(:user)
 

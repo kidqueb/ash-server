@@ -6,37 +6,23 @@ defmodule AshServer.Accounts do
   import Ecto.Query, warn: false
   use AshServer.Helpers.UsePolicy
 
-  alias AshServer.{Repo, Helpers}
+  alias AshServer.Repo
+  alias AshServer.Helpers.QueryHelpers
   alias AshServer.Accounts.User
 
   @doc """
   Returns a filtered list of users.
-
+s
   ## Examples
 
       iex> list_users(%{email: "example@email.com"})
       [%User{}, ...]
 
   """
-  def list_users(args) do
-    args
-    |> Enum.reduce(User, fn
-      {:filter, filter}, query ->
-        filter_users_with(query, filter)
-      {:order_by, order}, query ->
-        Helpers.order_list_by(query, order)
-    end)
+  def list_users(args \\ %{}) do
+    User
+    |> QueryHelpers.build_query(args)
     |> Repo.all
-
-  end
-
-  def filter_users_with(query, filter) do
-    Enum.reduce(filter, query, fn
-      {:email, email}, query ->
-        from q in query, where: ilike(q.email, ^"%#{email}%")
-      {:username, username}, query ->
-        from q in query, where: ilike(q.username, ^"%#{username}%")
-    end)
   end
 
   @doc """
@@ -57,6 +43,13 @@ defmodule AshServer.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+
+  def get_user_by(args \\ %{}) do
+    User
+    |> QueryHelpers.build_query(args)
+    |> first
+    |> Repo.one
+  end
 
   @doc """
   Gets a single user by their email.

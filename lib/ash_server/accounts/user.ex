@@ -1,5 +1,6 @@
 defmodule AshServer.Accounts.User do
   use Ecto.Schema
+  import Ecto.Query, warn: false
   import Ecto.Changeset
   use Pow.Ecto.Schema
 
@@ -17,5 +18,14 @@ defmodule AshServer.Accounts.User do
     |> cast(attrs, [:username])
     |> validate_required([:username])
     |> unique_constraint(:username)
+  end
+
+  def filter_with(query, filter) do
+    Enum.reduce(filter, query, fn
+      {:email, email}, query ->
+        from q in query, where: ilike(q.email, ^"%#{email}%")
+      {:username, username}, query ->
+        from q in query, where: ilike(q.username, ^"%#{username}%")
+    end)
   end
 end
