@@ -48,7 +48,7 @@ defmodule AshServerWeb.UserResolverTest do
 
       response = post_gql(conn, %{query: query})
 
-      assert response["data"] == nil
+      assert response["data"]["user"] == nil
       assert response["errors"]
     end
 
