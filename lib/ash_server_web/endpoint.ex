@@ -36,7 +36,6 @@ defmodule AshServerWeb.Endpoint do
     signing_salt: "Q/W647/4"
 
   plug Pow.Plug.Session, otp_app: :ash_server
-  plug PowPersistentSession.Plug.Cookie
 
   plug AshServerWeb.Router
 end
