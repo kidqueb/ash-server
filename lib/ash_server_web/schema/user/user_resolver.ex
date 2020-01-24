@@ -56,6 +56,7 @@ defmodule AshServerWeb.Schema.UserResolver do
 
       case Accounts.permit(:delete_user, current_user, user) do
         :ok -> Accounts.delete_user(user)
+        error -> error
       end
     rescue
       error -> {:error, Exception.message(error)}
