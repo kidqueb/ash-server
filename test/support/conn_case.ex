@@ -40,10 +40,12 @@ defmodule AshServerWeb.ConnCase do
     end
 
     conn = if tags[:authenticated] do
-      user = insert(:user, %{
+      user_params = params_for(:user, %{
         password: "password",
         confirm_password: "password"
       })
+
+      {:ok, user} = AshServer.Accounts.create_user(user_params)
 
       Pow.Plug.assign_current_user(conn, user, otp_app: :ash_server)
     else

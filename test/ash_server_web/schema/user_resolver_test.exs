@@ -82,13 +82,41 @@ defmodule AshServerWeb.UserResolverTest do
       }
     end
 
-    test "updates a user", %{conn: conn} do
-      user_params = params_for(:user, %{
-        password: "password",
-        confirm_password: "password"
-      })
+    @tag :authenticated
+    test "users can update themselves", %{conn: conn} do
+      %{current_user: current_user} = conn.assigns
 
-      {:ok, user} = AshServer.Accounts.create_user(user_params)
+      query = """
+        mutation UpdateUser($id: ID!, $user: UpdateUserParams!) {
+          updateUser(id: $id, user: $user) {
+            id
+            email
+            username
+          }
+        }
+      """
+
+      variables = %{
+        id: current_user.id,
+        user: %{
+          email: "new@email.com",
+          username: "new_username",
+          current_password: "password",
+        }
+      }
+
+      response = post_gql(conn, %{query: query, variables: variables})
+
+      assert response["data"]["updateUser"] == %{
+        "id" => to_string(current_user.id),
+        "email" => "new@email.com",
+        "username" => "new_username"
+      }
+    end
+
+    @tag :authenticated
+    test "users can't update someone else", %{conn: conn} do
+      user = insert(:user)
 
       query = """
         mutation UpdateUser($id: ID!, $user: UpdateUserParams!) {
@@ -109,14 +137,10 @@ defmodule AshServerWeb.UserResolverTest do
         }
       }
 
-      conn = Pow.Plug.assign_current_user(conn, user, otp_app: :ash_server)
       response = post_gql(conn, %{query: query, variables: variables})
 
-      assert response["data"]["updateUser"] == %{
-        "id" => to_string(user.id),
-        "email" => "new@email.com",
-        "username" => "new_username"
-      }
+      assert response["data"]["updateUser"] == nil
+      assert response["errors"]
     end
 
     @tag :authenticated

@@ -33,35 +33,32 @@ defmodule AshServerWeb.Schema.UserResolver do
     end
   end
 
-  def update(%{id: id, user: user_params}, %{context: %{current_user: current_user}}) do
+  def update(%{id: id, user: user_params}, info) do
+    %{current_user: current_user} = info.context
+
     try do
       user = Accounts.get_user!(id)
 
-      with :ok <- Accounts.permit(:update_user, current_user, user) do
-        Accounts.update_user(user, user_params)
+      case Accounts.permit(:update_user, current_user, user) do
+        :ok -> Accounts.update_user(user, user_params)
+        error -> error
       end
     rescue
       error -> {:error, Exception.message(error)}
     end
   end
 
-  def update(_args, _info) do
-    {:error, :unauthorized}
-  end
+  def delete(%{id: id}, info) do
+    %{current_user: current_user} = info.context
 
-  def delete(%{id: id}, %{context: %{current_user: current_user}}) do
     try do
       user = Accounts.get_user!(id)
 
-      with :ok <- Accounts.permit(:delete_user, current_user, user) do
-        Accounts.delete_user(user)
+      case Accounts.permit(:delete_user, current_user, user) do
+        :ok -> Accounts.delete_user(user)
       end
     rescue
       error -> {:error, Exception.message(error)}
     end
-  end
-
-  def delete(_args, _info) do
-    {:error, :unauthorized}
   end
 end

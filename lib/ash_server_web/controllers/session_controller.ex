@@ -33,6 +33,7 @@ defmodule AshServerWeb.SessionController do
             renewToken: conn.private[:api_renew_token],
             user: %{
               email: conn.assigns.current_user.email,
+              username: conn.assigns.current_user.username,
             }
           }
         })
