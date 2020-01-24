@@ -119,7 +119,25 @@ defmodule AshServerWeb.UserResolverTest do
       }
     end
 
-    test "deletes a user", %{conn: conn} do
+    @tag :authenticated
+    test "users can delete themselves", %{conn: conn} do
+      current_user = conn.assigns.current_user
+
+      query = """
+        mutation {
+          deleteUser(id: #{current_user.id}) { id }
+        }
+      """
+
+      response = post_gql(conn, %{query: query})
+
+      assert response["data"]["deleteUser"] == %{
+        "id" => to_string(current_user.id)
+      }
+    end
+
+    @tag :authenticated
+    test "other users cannot delete a different user", %{conn: conn} do
       user = insert(:user)
 
       query = """
@@ -130,9 +148,8 @@ defmodule AshServerWeb.UserResolverTest do
 
       response = post_gql(conn, %{query: query})
 
-      assert response["data"]["deleteUser"] == %{
-        "id" => to_string(user.id)
-      }
+      assert response["data"]["deleteUser"] == nil
+      assert response["errors"]
     end
   end
 end

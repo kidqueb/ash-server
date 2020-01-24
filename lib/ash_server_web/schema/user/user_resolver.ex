@@ -11,18 +11,18 @@ defmodule AshServerWeb.Schema.UserResolver do
       user = Accounts.get_user!(id)
       {:ok, user}
     rescue
-      e -> {:error, Exception.message(e)}
+      error -> {:error, Exception.message(error)}
     end
   end
 
   def find(args, _info) do
     try do
       case Accounts.get_user_by(args) do
-        nil -> {:error, "Can't find a user with given parameters"}
+        nil -> {:error, "Can't find a user with given parameters."}
         user -> {:ok, user}
       end
     rescue
-      e -> {:error, Exception.message(e)}
+      error -> {:error, Exception.message(error)}
     end
   end
 
@@ -33,17 +33,35 @@ defmodule AshServerWeb.Schema.UserResolver do
     end
   end
 
-  def update(%{id: id, user: user_params}, _info) do
-    Accounts.get_user!(id)
-    |> Accounts.update_user(user_params)
+  def update(%{id: id, user: user_params}, %{context: %{current_user: current_user}}) do
+    try do
+      user = Accounts.get_user!(id)
+
+      with :ok <- Accounts.permit(:update_user, current_user, user) do
+        Accounts.update_user(user, user_params)
+      end
+    rescue
+      error -> {:error, Exception.message(error)}
+    end
   end
 
-  def delete(%{id: id}, _info) do
+  def update(_args, _info) do
+    {:error, :unauthorized}
+  end
+
+  def delete(%{id: id}, %{context: %{current_user: current_user}}) do
     try do
-      Accounts.get_user!(id)
-      |> Accounts.delete_user()
+      user = Accounts.get_user!(id)
+
+      with :ok <- Accounts.permit(:delete_user, current_user, user) do
+        Accounts.delete_user(user)
+      end
     rescue
-      e -> {:error, Exception.message(e)}
+      error -> {:error, Exception.message(error)}
     end
+  end
+
+  def delete(_args, _info) do
+    {:error, :unauthorized}
   end
 end
