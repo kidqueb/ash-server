@@ -4,6 +4,7 @@
 * Phoenix - Web Framework
 * Ecto - ORM
 * Absinthe - GraphQL
+* Ash Gen - Opinionated Absinthe generators
 * Pow - Authorization
 * ExMachina - Test factories
 
