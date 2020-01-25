@@ -155,6 +155,34 @@ defmodule AshServerWeb.UserResolverTest do
       }
     end
 
+    test "errors when updating nonexistent user", %{conn: conn} do
+      query = """
+        mutation UpdateUser($id: ID!, $user: UpdateUserParams!) {
+          updateUser(id: $id, user: $user) {
+            id
+            email
+            username
+          }
+        }
+      """
+
+      variables = %{
+        id: "-1",
+        user: %{}
+      }
+
+      response = post_gql(conn, %{query: query, variables: variables})
+
+      assert response == %{
+        "data" => %{"updateUser" => nil},
+        "errors" => [%{
+          "locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "User not found",
+          "path" => ["updateUser"]
+        }]
+      }
+    end
+
     @tag :authenticated
     test "users can delete themselves", %{conn: conn} do
       current_user = conn.assigns.current_user
@@ -169,6 +197,25 @@ defmodule AshServerWeb.UserResolverTest do
 
       assert response["data"]["deleteUser"] == %{
         "id" => to_string(current_user.id)
+      }
+    end
+
+    test "errors when deleting nonexistent users", %{conn: conn} do
+      query = """
+        mutation {
+          deleteUser(id: -1) { id }
+        }
+      """
+
+      response = post_gql(conn, %{query: query})
+
+      assert response == %{
+        "data" => %{"deleteUser" => nil},
+        "errors" => [%{
+          "locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "User not found",
+          "path" => ["deleteUser"]
+        }]
       }
     end
 
