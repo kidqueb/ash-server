@@ -39,17 +39,23 @@ defmodule AshServerWeb.UserResolverTest do
       }
     end
 
-    test "errors when looking for a nonexistent user by id", %{conn: conn} do
+    test "errors when finding nonexistent user by id", %{conn: conn} do
       query = """
         {
-          user(id: "doesnt_exist") { id }
+          user(id: -1) { id }
         }
       """
 
       response = post_gql(conn, %{query: query})
 
-      assert response["data"]["user"] == nil
-      assert response["errors"]
+      assert response == %{
+        "data" => %{"user" => nil},
+        "errors" => [%{
+          "locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "User not found",
+          "path" => ["user"]
+        }]
+      }
     end
 
     test "creates a new user", %{conn: conn} do
@@ -139,8 +145,14 @@ defmodule AshServerWeb.UserResolverTest do
 
       response = post_gql(conn, %{query: query, variables: variables})
 
-      assert response["data"]["updateUser"] == nil
-      assert response["errors"]
+      assert response == %{
+        "data" => %{"updateUser" => nil},
+        "errors" => [%{
+          "locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "unauthorized",
+          "path" => ["updateUser"]
+        }]
+      }
     end
 
     @tag :authenticated
@@ -172,8 +184,14 @@ defmodule AshServerWeb.UserResolverTest do
 
       response = post_gql(conn, %{query: query})
 
-      assert response["data"]["deleteUser"] == nil
-      assert response["errors"]
+      assert response == %{
+        "data" => %{"deleteUser" => nil},
+        "errors" => [%{
+          "locations" => [%{"column" => 0, "line" => 2}],
+          "message" => "unauthorized",
+          "path" => ["deleteUser"]
+        }]
+      }
     end
   end
 end

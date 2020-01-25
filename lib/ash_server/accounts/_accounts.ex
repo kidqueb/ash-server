@@ -26,6 +26,20 @@ defmodule AshServer.Accounts do
   end
 
   @doc """
+  Gets a single user and returns a tuple with result.
+
+  ## Examples
+
+      iex> fetch_user(123)
+      {:ok, %User{}}
+
+      iex> fetch_user(456)
+      {:error, %EctoQuery{}}
+
+  """
+  def fetch_user(id), do: Repo.fetch(User, id)
+
+  @doc """
   Gets a single user.
 
   Raises `Ecto.NoResultsError` if the User does not exist.
@@ -44,6 +58,20 @@ defmodule AshServer.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  Gets a single user by specified criteria.
+
+  Raises `Ecto.NoResultsError` if the User does not exist.
+
+  ## Examples
+
+      iex> get_user_by(%{username: "existing_user"})
+      %User{}
+
+      iex> get_user_by(%{username: "not_a_user"})
+      ** (Ecto.NoResultsError)
+
+  """
   def get_user_by(args \\ %{}) do
     User
     |> QueryHelpers.build_query(args)
