@@ -1,4 +1,4 @@
-defmodule AshServerWeb.ChangesetErrors do
+defmodule AshServerWeb.Middleware.ChangesetErrors do
   @behaviour Absinthe.Middleware
 
   def call(res, _) do

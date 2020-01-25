@@ -1,4 +1,4 @@
-defmodule AshServerWeb.QueryErrors do
+defmodule AshServerWeb.Middleware.QueryErrors do
   @behaviour Absinthe.Middleware
 
   def call(res, _) do

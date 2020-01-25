@@ -1,4 +1,4 @@
-defmodule AshServerWeb.AuthMiddleware do
+defmodule AshServerWeb.Middleware.Authentication do
   @behaviour Absinthe.Middleware
 
   def call(resolution = %{context: %{current_user: _}}, _config) do

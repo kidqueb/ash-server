@@ -2,7 +2,7 @@ defmodule AshServerWeb.Schema do
   use Absinthe.Schema
 
   alias AshServer.Accounts
-  alias AshServerWeb.{ChangesetErrors, QueryErrors}
+  alias AshServerWeb.Middleware
 
   import_types(Absinthe.Type.Custom)
   import_types(AshServerWeb.Schema.UserTypes)
@@ -55,11 +55,11 @@ defmodule AshServerWeb.Schema do
   # end
   def middleware(middleware, _field, %{identifier: identifier})
       when identifier in [:query, :mutation] do
-    middleware ++ [QueryErrors]
+    middleware ++ [Middleware.QueryErrors]
   end
 
   def middleware(middleware, _field, %{identifier: :mutation}) do
-    middleware ++ [ChangesetErrors]
+    middleware ++ [Middleware.ChangesetErrors]
   end
 
   def middleware(middleware, _field, _object), do: middleware
