@@ -7,27 +7,26 @@ defmodule AshServer.Accounts.Policy do
     @param {struct} resource - the thing we're authorizing against
   """
   @behaviour Bodyguard.Policy
-  alias AshServer.Accounts.User
 
   # """
   # User
   # """
+  alias AshServer.Accounts.User
 
   @doc "Anyone can create a user"
   def authorize(:create_user, _user, _resource), do: true
 
   @doc "Only a user can update their account"
-  def authorize(:update_user, %User{} = current_user, %User{} = user),
-    do: current_user.id == user.id
+  def authorize(:update_user, %User{id: current_user_id}, %User{id: user_id}),
+    do: current_user_id == user_id
 
   @doc "Only a user can delete their account"
-  def authorize(:delete_user, %User{} = current_user, %User{} = user),
-    do: current_user.id == user.id
+  def authorize(:delete_user, %User{id: current_user_id}, %User{id: user_id}),
+    do: current_user_id == user_id
 
   # """
-  # Accounts Context
+  # Default
   # """
 
-  # Deny everything else
   def authorize(_action, _user, _resource), do: false
 end
