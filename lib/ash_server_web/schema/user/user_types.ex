@@ -12,21 +12,17 @@ defmodule AshServerWeb.Schema.UserTypes do
 
   input_object :update_user_params do
     field :email, :string
-    field :username, :string
     field :password, :string
     field :confirm_password, :string
-    field :current_password, :string
   end
 
   input_object :user_filter do
     field :email, :string
-    field :username, :string
   end
 
   input_object :user_order_by do
     field :id, :id
     field :email, :string
-    field :username, :string
   end
 
   object :user_queries do
@@ -45,10 +41,9 @@ defmodule AshServerWeb.Schema.UserTypes do
 
   object :user_mutations do
     field :create_user, :user do
-      arg :email, :string
-      arg :username, :string
-      arg :password, :string
-      arg :confirm_password, :string
+      arg :email, non_null(:string)
+      arg :password, non_null(:string)
+      arg :confirm_password, non_null(:string)
 
       resolve &UserResolver.create/2
     end

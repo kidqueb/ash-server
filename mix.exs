@@ -64,7 +64,7 @@ defmodule AshServer.MixProject do
       {:dataloader, "~> 1.0.0"},
 
       # Authorization
-      {:pow, "~> 1.0.16"},
+      {:argon2_elixir, "~> 2.0"},
       {:bodyguard, "~> 2.4"},
 
       # Misc

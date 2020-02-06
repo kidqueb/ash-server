@@ -6,7 +6,6 @@ defmodule AshServer.UserFactory do
       def user_factory do
         %User{
           email: sequence("some@email.com"),
-          username: sequence("username"),
         }
       end
     end
