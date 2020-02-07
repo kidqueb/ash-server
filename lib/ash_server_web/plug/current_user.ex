@@ -9,6 +9,8 @@ defmodule AshServerWeb.Plug.SetCurrentUser do
   end
 
   def call(conn, _params) do
+    conn = fetch_cookies(conn)
+
     with session_token <- conn.req_cookies[@session_token_cookie],
     {:ok, user} <- Authentication.validate_session_token(session_token) do
       conn |> assign(@session_token_cookie, user)
