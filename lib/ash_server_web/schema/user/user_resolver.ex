@@ -24,9 +24,8 @@ defmodule AshServerWeb.Schema.UserResolver do
   end
 
   def update(%{id: id, user: user_params}, info) do
-    %{current_user: current_user} = info.context
-
-    with {:ok, user} <- Accounts.fetch_user(id) do
+    with %{current_user: current_user} = info.context,
+    {:ok, user} <- Accounts.fetch_user(id) do
       case Accounts.permit(:update_user, current_user, user) do
         :ok -> Accounts.update_user(user, user_params)
         error -> error
@@ -35,9 +34,8 @@ defmodule AshServerWeb.Schema.UserResolver do
   end
 
   def delete(%{id: id}, info) do
-    %{current_user: current_user} = info.context
-
-    with {:ok, user} <- Accounts.fetch_user(id) do
+    with %{current_user: current_user} = info.context,
+    {:ok, user} <- Accounts.fetch_user(id) do
       case Accounts.permit(:delete_user, current_user, user) do
         :ok -> Accounts.delete_user(user)
         error -> error

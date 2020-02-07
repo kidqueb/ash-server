@@ -14,6 +14,7 @@ defmodule AshServerWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Plug.Conn
   import AshServer.Factory
 
   using do
@@ -40,17 +41,18 @@ defmodule AshServerWeb.ConnCase do
     end
 
     conn = if tags[:authenticated] do
-      user_params = params_for(:user, %{
-        password: "password",
-        confirm_password: "password"
-      })
+      user = insert(:user)
+      [session_token, _] = AshServerWeb.Authentication.create_tokens(user)
 
-      {:ok, user} = AshServer.Accounts.create_user(user_params)
-
-      Pow.Plug.assign_current_user(conn, user, otp_app: :ash_server)
+      conn
+      |> Phoenix.ConnTest.put_req_cookie("session_token", session_token)
+      |> Conn.fetch_cookies()
+      |> Conn.assign(:current_user, user)
     else
       conn
     end
+
+    conn = Conn.fetch_cookies(conn)
 
     {:ok, conn: conn}
   end

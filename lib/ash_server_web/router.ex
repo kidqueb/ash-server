@@ -1,13 +1,14 @@
 defmodule AshServerWeb.Router do
   use AshServerWeb, :router
 
-  pipeline :api do
+  pipeline :graphql do
     plug :accepts, ["json"]
     plug ProperCase.Plug.SnakeCaseParams
+    plug AshServerWeb.Plug.GraphqlContext
   end
 
   scope "/" do
-    pipe_through [:api]
+    pipe_through [:graphql]
     forward "/graphql", Absinthe.Plug, schema: AshServerWeb.Schema
 
     if Mix.env() == :dev do

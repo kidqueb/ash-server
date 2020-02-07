@@ -28,12 +28,11 @@ defmodule AshServer.AccountsTest do
 
     test "create_user/1 with valid data creates a user" do
       user_params = params_for(:user, %{
-        password: "some password",
-        confirm_password: "some password",
+        password: "some_password",
+        confirm_password: "some_password",
       })
 
       assert {:ok, %User{} = user} = Accounts.create_user(user_params)
-      assert user.email == user_params.email
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -42,14 +41,13 @@ defmodule AshServer.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = insert(:user)
-      user_params = params_for(:user, %{
-        password: "some password",
-        confirm_password: "some password",
-      })
+      user_params = %{
+        password: "some_password",
+        confirm_password: "some_password",
+        current_password: "test_password"
+      }
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, user_params)
-
-      assert user.email == user_params.email
     end
 
     test "update_user/2 with invalid data returns error changeset" do

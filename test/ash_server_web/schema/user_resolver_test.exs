@@ -25,7 +25,6 @@ defmodule AshServerWeb.UserResolverTest do
           user(id: #{user.id}) {
             id
             email
-            username
           }
         }
       """
@@ -35,14 +34,13 @@ defmodule AshServerWeb.UserResolverTest do
       assert response["data"]["user"] == %{
         "id" => to_string(user.id),
         "email" => user.email,
-        "username" => user.username
       }
     end
 
     test "errors when finding nonexistent user by id", %{conn: conn} do
       query = """
         {
-          user(id: -1) { id }
+          user(id: 0) { id }
         }
       """
 
@@ -61,7 +59,6 @@ defmodule AshServerWeb.UserResolverTest do
     test "creates a new user", %{conn: conn} do
       user_params = params_for(:user, %{
         email: "tim@tebow.com",
-        username: "teboned",
         password: "somepassword",
         confirm_password: "somepassword",
       })
@@ -70,12 +67,10 @@ defmodule AshServerWeb.UserResolverTest do
         mutation {
           createUser(
             email: "#{user_params.email}",
-            username: "#{user_params.username}",
             password: "#{user_params.password}",
             confirmPassword: "#{user_params.confirm_password}"
           ) {
             email
-            username
           }
         }
       """
@@ -83,8 +78,7 @@ defmodule AshServerWeb.UserResolverTest do
       response = post_gql(conn, %{query: query})
 
       assert response["data"]["createUser"] == %{
-        "email" => user_params.email,
-        "username" => user_params.username
+        "email" => user_params.email
       }
     end
 
@@ -97,7 +91,6 @@ defmodule AshServerWeb.UserResolverTest do
           updateUser(id: $id, user: $user) {
             id
             email
-            username
           }
         }
       """
@@ -105,9 +98,9 @@ defmodule AshServerWeb.UserResolverTest do
       variables = %{
         id: current_user.id,
         user: %{
-          email: "new@email.com",
-          username: "new_username",
-          current_password: "password",
+          password: "password",
+          confirmPassword: "password",
+          currentPassword: "test_password"
         }
       }
 
@@ -115,8 +108,7 @@ defmodule AshServerWeb.UserResolverTest do
 
       assert response["data"]["updateUser"] == %{
         "id" => to_string(current_user.id),
-        "email" => "new@email.com",
-        "username" => "new_username"
+        "email" => current_user.email,
       }
     end
 
@@ -129,7 +121,6 @@ defmodule AshServerWeb.UserResolverTest do
           updateUser(id: $id, user: $user) {
             id
             email
-            username
           }
         }
       """
@@ -137,9 +128,9 @@ defmodule AshServerWeb.UserResolverTest do
       variables = %{
         id: user.id,
         user: %{
-          email: "new@email.com",
-          username: "new_username",
-          current_password: "password",
+          password: "password",
+          confirmPassword: "password",
+          currentPassword: "test_password"
         }
       }
 
@@ -161,13 +152,12 @@ defmodule AshServerWeb.UserResolverTest do
           updateUser(id: $id, user: $user) {
             id
             email
-            username
           }
         }
       """
 
       variables = %{
-        id: "-1",
+        id: "0",
         user: %{}
       }
 
@@ -203,7 +193,7 @@ defmodule AshServerWeb.UserResolverTest do
     test "errors when deleting nonexistent users", %{conn: conn} do
       query = """
         mutation {
-          deleteUser(id: -1) { id }
+          deleteUser(id: 0) { id }
         }
       """
 

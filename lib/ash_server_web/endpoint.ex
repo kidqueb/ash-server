@@ -35,8 +35,7 @@ defmodule AshServerWeb.Endpoint do
     key: "_api_key",
     signing_salt: "Q/W647/4"
 
-  plug Absinthe.Plug,
-    schema: AshServerWeb.Schema
+  plug AshServerWeb.Plug.SetCurrentUser
 
   plug AshServerWeb.Router
 end

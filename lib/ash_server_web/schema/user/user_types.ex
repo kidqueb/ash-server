@@ -7,13 +7,12 @@ defmodule AshServerWeb.Schema.UserTypes do
   object :user do
     field :id, :id
     field :email, :string
-    field :username, :string
   end
 
   input_object :update_user_params do
-    field :email, :string
     field :password, :string
     field :confirm_password, :string
+    field :current_password, :string
   end
 
   input_object :user_filter do

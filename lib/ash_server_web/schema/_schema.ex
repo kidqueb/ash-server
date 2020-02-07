@@ -5,6 +5,7 @@ defmodule AshServerWeb.Schema do
   alias AshServerWeb.Middleware
 
   import_types(Absinthe.Type.Custom)
+  import_types(AshServerWeb.Schema.SessionTypes)
   import_types(AshServerWeb.Schema.UserTypes)
 
   enum :sort_order do
@@ -23,6 +24,7 @@ defmodule AshServerWeb.Schema do
   # Mutations
   # """
   mutation do
+    import_fields(:session_mutations)
     import_fields(:user_mutations)
   end
 
