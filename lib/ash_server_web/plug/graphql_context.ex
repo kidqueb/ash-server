@@ -9,11 +9,6 @@ defmodule AshServerWeb.Plug.GraphqlContext do
   end
 
   # https://hexdocs.pm/absinthe/context-and-authentication.html#content
-  defp build_context(conn) do
-    with %{current_user: current_user} <- conn.assigns do
-      %{current_user: current_user}
-    else
-      _ -> %{current_user: nil}
-    end
-  end
+  defp build_context(%{ assigns: %{current_user: _} = assigns }), do: assigns
+  defp build_context(_conn), do: %{current_user: nil}
 end
