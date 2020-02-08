@@ -55,13 +55,14 @@ defmodule AshServerWeb.Schema do
   #     when identifier in [:query, :subscription, :mutation] do
   #   [AshServerWeb.AuthMiddleware | middleware]
   # end
-  def middleware(middleware, _field, %{identifier: :mutation}) do
-    middleware ++ [Middleware.ChangesetErrors]
-  end
 
   def middleware(middleware, _field, %{identifier: identifier})
       when identifier in [:query, :mutation] do
     middleware ++ [Middleware.QueryErrors]
+  end
+
+  def middleware(middleware, _field, %{identifier: :mutation}) do
+    middleware ++ [Middleware.ChangesetErrors]
   end
 
   def middleware(middleware, _field, _object), do: middleware
