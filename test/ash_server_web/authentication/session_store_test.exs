@@ -3,7 +3,8 @@ defmodule AshServerWeb.Authentication.SessionStoreTest do
   alias AshServerWeb.Authentication.SessionStore
 
   @table :session_store
-  @ttl 1 # 1ms
+  @test_ttl 1
+  def ttl_delay, do: Process.sleep(100)
 
   setup do
     token = Ecto.UUID.generate
@@ -17,10 +18,10 @@ defmodule AshServerWeb.Authentication.SessionStoreTest do
   end
 
   test "add/expire session token", %{token: token, payload: payload} do
-    SessionStore.add_session_token(token, payload, @ttl)
+    SessionStore.add_session_token(token, payload, @test_ttl)
 
     assert :ets.lookup(@table, token) == [{token, payload}]
-    Process.sleep(@ttl)
+    ttl_delay()
     assert :ets.lookup(@table, token) == []
   end
 
@@ -28,7 +29,7 @@ defmodule AshServerWeb.Authentication.SessionStoreTest do
     SessionStore.add_refresh_token(token, payload, 1)
 
     assert :ets.lookup(@table, token) == [{token, payload}]
-    Process.sleep(@ttl)
+    ttl_delay()
     assert :ets.lookup(@table, token) == []
   end
 
