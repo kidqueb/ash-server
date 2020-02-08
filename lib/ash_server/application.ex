@@ -8,12 +8,9 @@ defmodule AshServer.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
       AshServer.Repo,
-      # Start the endpoint when the application starts
-      AshServerWeb.Endpoint
-      # Starts a worker by calling: AshServer.Worker.start_link(arg)
-      # {AshServer.Worker, arg},
+      AshServerWeb.Endpoint,
+      AshServerWeb.Authentication.SessionStore
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

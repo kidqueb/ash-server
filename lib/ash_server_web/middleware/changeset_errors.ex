@@ -3,14 +3,11 @@ defmodule AshServerWeb.Middleware.ChangesetErrors do
 
   def call(res, _) do
     with %{errors: [%Ecto.Changeset{} = changeset]} <- res do
-      %{res |
-        value: %{errors: transform_errors(changeset)},
-        errors: []
-      }
+      %{res | errors: transform_errors(changeset)}
     end
   end
 
-  defp transform_errors(changeset) do
+  def transform_errors(changeset) do
     changeset
     |> Ecto.Changeset.traverse_errors(&format_error/1)
     |> Enum.map(fn

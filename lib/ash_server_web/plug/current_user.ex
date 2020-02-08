@@ -3,7 +3,7 @@ defmodule AshServerWeb.Plug.SetCurrentUser do
 
   alias AshServerWeb.Authentication
 
-  @session_token_cookie :session_token
+  @session_token_cookie Application.get_env(:ash_server, :session_cookie_name)
 
   def init(_params) do
   end
@@ -13,7 +13,7 @@ defmodule AshServerWeb.Plug.SetCurrentUser do
 
     with session_token <- conn.req_cookies[@session_token_cookie],
     {:ok, user} <- Authentication.validate_session_token(session_token) do
-      conn |> assign(@session_token_cookie, user)
+      conn |> assign(:current_user, user)
     else
       _ -> conn
     end

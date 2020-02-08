@@ -36,6 +36,10 @@ defmodule AshServerWeb.Schema.UserTypes do
       arg :order_by, :user_order_by
       resolve &UserResolver.all/2
     end
+
+    field :me, :user do
+      resolve &UserResolver.me/2
+    end
   end
 
   object :user_mutations do
