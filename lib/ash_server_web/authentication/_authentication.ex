@@ -16,22 +16,32 @@ defmodule AshServerWeb.Authentication do
 
   def create_tokens(session_payload) do
     session_token = Ecto.UUID.generate()
-    refresh_token = Ecto.UUID.generate()
+    renew_token = Ecto.UUID.generate()
 
     SessionStore.add_session_token(session_token, session_payload)
-    SessionStore.add_refresh_token(refresh_token, session_payload)
+    SessionStore.add_renew_token(renew_token, session_payload)
 
-    [session_token, refresh_token]
+    {session_token, renew_token}
   end
 
   def validate_session_token(token) do
     SessionStore.validate_token(token)
   end
 
-  def validate_refresh_token(token) do
+  def validate_renew_token(token) do
     case SessionStore.validate_token(token) do
-      {:ok, session_payload} -> create_tokens(session_payload)
-      {:error, error} -> {:error, error}
+      {:ok, session_payload} ->
+        {session_token, renew_token} = create_tokens(session_payload)
+
+        {:ok,
+         %{
+           session_payload: session_payload,
+           session_token: session_token,
+           renew_token: renew_token
+         }}
+
+      {:error, error} ->
+        {:error, error}
     end
   end
 end

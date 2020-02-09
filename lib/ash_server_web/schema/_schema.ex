@@ -17,6 +17,7 @@ defmodule AshServerWeb.Schema do
   # Queries
   # """
   query do
+    import_fields(:session_queries)
     import_fields(:user_queries)
   end
 

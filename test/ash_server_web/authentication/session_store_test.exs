@@ -25,8 +25,8 @@ defmodule AshServerWeb.Authentication.SessionStoreTest do
     assert :ets.lookup(@table, token) == []
   end
 
-  test "add/expire refresh token", %{token: token, payload: payload} do
-    SessionStore.add_refresh_token(token, payload, 1)
+  test "add/expire renew token", %{token: token, payload: payload} do
+    SessionStore.add_renew_token(token, payload, 1)
 
     assert :ets.lookup(@table, token) == [{token, payload}]
     ttl_delay()

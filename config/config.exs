@@ -11,9 +11,9 @@ config :ash_server,
   namespace: AshServer,
   ecto_repos: [AshServer.Repo],
   session_cookie_name: "session_token",
-  refresh_cookie_name: "refresh_token",
+  renew_cookie_name: "renew_token",
   session_ttl: 1000 * 60 * 15,           # 15 minutes in milliseconds
-  refresh_ttl: 1000 * 60 * 60 * 24 * 7   # 7 days in milliseconds
+  renew_ttl: 1000 * 60 * 60 * 24 * 7   # 7 days in milliseconds
 
 # Configures the endpoint
 config :ash_server, AshServerWeb.Endpoint,

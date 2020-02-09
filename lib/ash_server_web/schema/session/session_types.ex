@@ -6,7 +6,14 @@ defmodule AshServerWeb.Schema.SessionTypes do
 
   object :session do
     field :session_token, :string
-    field :refresh_token, :string
+    field :renew_token, :string
+    field :user, :user
+  end
+
+  object :session_queries do
+    field :renew, :session do
+      resolve &SessionResolver.renew/2
+    end
   end
 
   object :session_mutations do

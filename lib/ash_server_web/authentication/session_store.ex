@@ -3,7 +3,7 @@ defmodule AshServerWeb.Authentication.SessionStore do
 
   @table :session_store
   @session_ttl Application.get_env(:ash_server, :session_ttl)
-  @refresh_ttl Application.get_env(:ash_server, :refresh_ttl)
+  @renew_ttl Application.get_env(:ash_server, :renew_ttl)
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
@@ -13,7 +13,7 @@ defmodule AshServerWeb.Authentication.SessionStore do
     insert(token, session_payload, ttl)
   end
 
-  def add_refresh_token(token, session_payload, ttl \\ @refresh_ttl) do
+  def add_renew_token(token, session_payload, ttl \\ @renew_ttl) do
     insert(token, session_payload, ttl)
   end
 

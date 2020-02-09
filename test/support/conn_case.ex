@@ -17,6 +17,9 @@ defmodule AshServerWeb.ConnCase do
   alias Plug.Conn
   import AshServer.Factory
 
+  @session_cookie_name Application.get_env(:ash_server, :session_cookie_name)
+  @renew_cookie_name Application.get_env(:ash_server, :renew_cookie_name)
+
   using do
     quote do
       # Import conveniences for testing with connections
@@ -42,12 +45,15 @@ defmodule AshServerWeb.ConnCase do
 
     conn = if tags[:authenticated] do
       user = insert(:user)
-      [session_token, _] = AshServerWeb.Authentication.create_tokens(user)
+      {session_token, renew_token} = AshServerWeb.Authentication.create_tokens(user)
 
       conn
-      |> Phoenix.ConnTest.put_req_cookie("session_token", session_token)
+      |> Phoenix.ConnTest.put_req_cookie(@session_cookie_name, session_token)
+      |> Phoenix.ConnTest.put_req_cookie(@renew_cookie_name, renew_token)
       |> Conn.fetch_cookies()
       |> Conn.assign(:current_user, user)
+      |> Conn.assign(:session_token, session_token)
+      |> Conn.assign(:renew_token, renew_token)
     else
       conn
     end
