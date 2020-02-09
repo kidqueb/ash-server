@@ -1,8 +1,6 @@
 defmodule AshServerWeb.Schema.SessionResolver do
   alias AshServerWeb.Authentication
 
-  @renew_cookie_name Application.get_env(:ash_server, :renew_cookie_name)
-
   def login(%{email: email, password: password}, _info) do
     case Authentication.validate_password(email, password) do
       {:ok, user} ->
@@ -15,7 +13,7 @@ defmodule AshServerWeb.Schema.SessionResolver do
   end
 
   def renew(_params, info) do
-    with renew_token <- Map.get(info.context, String.to_atom(@renew_cookie_name)),
+    with renew_token <- Map.get(info.context, :renew_token),
          {:ok, session} <- Authentication.validate_renew_token(renew_token) do
       {:ok,
        %{
