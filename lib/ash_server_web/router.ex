@@ -9,10 +9,14 @@ defmodule AshServerWeb.Router do
 
   scope "/" do
     pipe_through [:graphql]
-    forward "/graphql", Absinthe.Plug, schema: AshServerWeb.Schema
+    forward "/graphql", Absinthe.Plug,
+      schema: AshServerWeb.Schema,
+      before_send: {AshServerWeb.Plug.BeforeSend, :handle_response}
 
     if Mix.env() == :dev do
-      forward "/", Absinthe.Plug.GraphiQL, schema: AshServerWeb.Schema
+      forward "/", Absinthe.Plug.GraphiQL,
+        schema: AshServerWeb.Schema,
+        before_send: {AshServerWeb.Plug.BeforeSend, :handle_response}
     end
   end
 end

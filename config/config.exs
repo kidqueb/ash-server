@@ -10,10 +10,10 @@ use Mix.Config
 config :ash_server,
   namespace: AshServer,
   ecto_repos: [AshServer.Repo],
-  session_cookie_name: "session_token",
-  renew_cookie_name: "renew_token",
-  session_ttl: 1000 * 60 * 15,           # 15 minutes in milliseconds
-  renew_ttl: 1000 * 60 * 60 * 24 * 7   # 7 days in milliseconds
+  session_cookie_name: "session-token",
+  renew_cookie_name: "renew-token",
+  session_ttl: 60 * 15,         # 15 minutes in seconds
+  renew_ttl: 60 * 60 * 24 * 7   # 7 days in seconds
 
 # Configures the endpoint
 config :ash_server, AshServerWeb.Endpoint,
@@ -29,7 +29,6 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
-
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

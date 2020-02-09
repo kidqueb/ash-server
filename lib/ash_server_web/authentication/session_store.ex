@@ -9,11 +9,11 @@ defmodule AshServerWeb.Authentication.SessionStore do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
-  def add_session_token(token, session_payload, ttl \\ @session_ttl) do
+  def add_session_token(token, session_payload, ttl \\ :timer.seconds(@session_ttl)) do
     insert(token, session_payload, ttl)
   end
 
-  def add_renew_token(token, session_payload, ttl \\ @renew_ttl) do
+  def add_renew_token(token, session_payload, ttl \\ :timer.seconds(@renew_ttl)) do
     insert(token, session_payload, ttl)
   end
 
