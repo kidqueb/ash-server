@@ -10,7 +10,7 @@ defmodule AshServerWeb.Schema.SessionResolver do
         {:ok, %{session_token: session_token, renew_token: renew_token, user: user}}
 
       {:error, _error} ->
-        {:error, "Invalid credentials"}
+        {:error, :invalid}
     end
   end
 

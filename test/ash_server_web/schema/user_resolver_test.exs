@@ -175,7 +175,7 @@ defmodule AshServerWeb.UserResolverTest do
 
     @tag :authenticated
     test "users can delete themselves", %{conn: conn} do
-      current_user = conn.assigns.current_user
+      %{current_user: current_user} = conn.assigns
 
       query = """
         mutation {

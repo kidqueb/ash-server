@@ -39,6 +39,35 @@ defmodule AshServerWeb.SessionResolverTest do
       }
     end
 
+
+    test "errors with incorrect credentials", %{conn: conn} do
+      query = """
+        mutation {
+          login(
+            email: "none@nothing.com",
+            password: "wrong"
+          ) {
+            session_token
+          }
+        }
+      """
+
+      response = post_gql(conn, %{query: query})
+
+      assert response == %{
+        "data" => %{ "login" => nil },
+        "errors" => [%{
+          "locations" => [%{
+            "column" => 0,
+            "line" => 2}
+          ],
+          "message" => "invalid",
+          "path" => ["login"]
+        }]
+      }
+    end
+
+
     @tag :authenticated
     test "renew tokens effectively renew the session", %{conn: conn} do
       %{current_user: current_user,
