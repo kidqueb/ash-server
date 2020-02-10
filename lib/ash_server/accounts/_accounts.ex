@@ -59,27 +59,6 @@ defmodule AshServer.Accounts do
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
-  Gets a single user by specified criteria.
-
-  Raises `Ecto.NoResultsError` if the User does not exist.
-
-  ## Examples
-
-      iex> get_user_by(%{username: "existing_user"})
-      %User{}
-
-      iex> get_user_by(%{username: "not_a_user"})
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_user_by(args \\ %{}) do
-    User
-    |> QueryHelpers.build_query(args)
-    |> first
-    |> Repo.one
-  end
-
-  @doc """
   Gets a single user by their email.
 
   Raises `Ecto.NoResultsError` if the User does not exist.
@@ -94,22 +73,6 @@ defmodule AshServer.Accounts do
 
   """
   def get_user_by_email!(email), do: Repo.get_by(User, email: email)
-
-  @doc """
-  Gets a single user by their username.
-
-  Raises `Ecto.NoResultsError` if the User does not exist.
-
-  ## Examples
-
-      iex> get_user_by_email!("user@gmail.com")
-      %User{}
-
-      iex> get_user_by_email!("notuser@gmail.com")
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_user_by_username!(username), do: Repo.get_by(User, username: username)
 
   @doc """
   Creates a user.

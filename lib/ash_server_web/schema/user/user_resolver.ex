@@ -9,15 +9,8 @@ defmodule AshServerWeb.Schema.UserResolver do
     Accounts.fetch_user(id)
   end
 
-  def find(args, _info) do
-    case Accounts.get_user_by(args) do
-      nil -> {:error, "Can't find a user with given parameters."}
-      user -> {:ok, user}
-    end
-  end
-
-  def create(args, _info) do
-    case Accounts.create_user(args) do
+  def create(%{user: user}, _info) do
+    case Accounts.create_user(user) do
       {:ok, user} -> {:ok, user}
       {:error, error} -> {:error, error}
     end

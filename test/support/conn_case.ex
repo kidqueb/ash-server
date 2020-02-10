@@ -43,23 +43,25 @@ defmodule AshServerWeb.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(AshServer.Repo, {:shared, self()})
     end
 
-    conn = if tags[:authenticated] do
-      user = insert(:user)
-      {session_token, renew_token} = AshServerWeb.Authentication.create_tokens(user)
+    {conn, current_user} = if tags[:authenticated] do
+      current_user = insert(:user)
+      {session_token, renew_token} = AshServerWeb.Authentication.create_tokens(current_user)
 
-      conn
+      conn = conn
       |> Phoenix.ConnTest.put_req_cookie(@session_cookie_name, session_token)
       |> Phoenix.ConnTest.put_req_cookie(@renew_cookie_name, renew_token)
       |> Conn.fetch_cookies()
-      |> Conn.assign(:current_user, user)
+      |> Conn.assign(:current_user, current_user)
       |> Conn.assign(:session_token, session_token)
       |> Conn.assign(:renew_token, renew_token)
+
+      {conn, current_user}
     else
-      conn
+      {conn, nil}
     end
 
     conn = Conn.fetch_cookies(conn)
 
-    {:ok, conn: conn}
+    {:ok, conn: conn, current_user: current_user}
   end
 end
