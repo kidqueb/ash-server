@@ -38,7 +38,7 @@ defmodule AshServerWeb.Schema do
 
   def dataloader do
     Dataloader.new()
-    |> Dataloader.add_source(Accounts, Accounts.Loader.data())
+    |> Dataloader.add_source(:accounts, Accounts.Loader.data())
   end
 
   def context(ctx) do
