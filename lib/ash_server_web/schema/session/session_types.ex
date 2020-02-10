@@ -11,8 +11,8 @@ defmodule AshServerWeb.Schema.SessionTypes do
   end
 
   object :session_queries do
-    field :renew, :session do
-      resolve &SessionResolver.renew/2
+    field :renew_session, :session do
+      resolve &SessionResolver.renew_session/2
     end
   end
 

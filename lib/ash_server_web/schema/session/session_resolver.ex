@@ -12,7 +12,7 @@ defmodule AshServerWeb.Schema.SessionResolver do
     end
   end
 
-  def renew(_params, info) do
+  def renew_session(_params, info) do
     with renew_token <- Map.get(info.context, :renew_token),
          {:ok, session} <- Authentication.validate_renew_token(renew_token) do
       {:ok,

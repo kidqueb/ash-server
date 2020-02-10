@@ -1,6 +1,5 @@
 defmodule AshServerWeb.Schema.Mutations.CreateUserTest do
   use AshServerWeb.ConnCase
-  import AshServer.Factory
 
   @query """
     mutation CreateUser($user: CreateUserParams!) {
