@@ -1,4 +1,4 @@
-defmodule AshServerWeb.Schema.Mutations.RenewSessionTest do
+defmodule AshServerWeb.Schema.Queries.RenewSessionTest do
   use AshServerWeb.ConnCase
 
   @query """
