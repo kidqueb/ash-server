@@ -39,10 +39,5 @@ defmodule AshServerWeb.Schema.UserResolver do
     end
   end
 
-  def me(_args, info) do
-    case info.context do
-      %{current_user: %Accounts.User{} = current_user} -> {:ok, current_user}
-      _ -> {:error, :unauthorized}
-    end
-  end
+  def me(_args, info), do: get_current_user(info)
 end
