@@ -24,13 +24,14 @@ defmodule AshServer.Helpers.QueryHelpers do
     order_by(query, ^orderings)
   end
 
-  def filter_integer_with(field, query) do
-    field = Map.merge(%{eq: nil, gt: nil, gte: nil, lt: nil, lte: nil}, field)
+  def filter_integer_with(field_name, field_value, query) do
+    field_value = Map.merge(%{eq: nil, gt: nil, gte: nil, lt: nil, lte: nil}, field_value)
+
     from q in query, where:
-      q.field == type(^field.eq, :integer) or
-      q.field < type(^field.lt, :integer) or
-      q.field <= type(^field.lte, :integer) or
-      q.field > type(^field.gt, :integer) or
-      q.field >= type(^field.gte, :integer)
+      field(q, ^field_name) == type(^field_value.eq, :integer) or
+      field(q, ^field_name) < type(^field_value.lt, :integer) or
+      field(q, ^field_name) <= type(^field_value.lte, :integer) or
+      field(q, ^field_name) > type(^field_value.gt, :integer) or
+      field(q, ^field_name) >= type(^field_value.gte, :integer)
   end
 end
