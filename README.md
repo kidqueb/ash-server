@@ -1,10 +1,10 @@
 # Ash Server
 
 ## Dependencies
+* [`Ash Gen - Opinionated Absinthe generators`](https://github.com/kidqueb/ash-gen)
 * Phoenix - Web Framework
 * Ecto - ORM
 * Absinthe - GraphQL
-* [`Ash Gen - Opinionated Absinthe generators`](https://github.com/kidqueb/ash-gen)
 * Pow - Authorization
 * ExMachina - Test factories
 
