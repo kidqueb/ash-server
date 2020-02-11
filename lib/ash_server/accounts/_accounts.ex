@@ -11,18 +11,21 @@ defmodule AshServer.Accounts do
   alias AshServer.Accounts.User
 
   @doc """
-  Returns a filtered list of users.
+  Creates a user.
 
   ## Examples
 
-      iex> list_users(%{email: "example@email.com"})
-      [%User{}, ...]
+      iex> create_user(%{field: value})
+      {:ok, %User{}}
+
+      iex> create_user(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
 
   """
-  def list_users(args \\ %{}) do
-    User
-    |> QueryHelpers.build_query(args)
-    |> Repo.all
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.create_changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """
@@ -75,21 +78,18 @@ defmodule AshServer.Accounts do
   def get_user_by_email!(email), do: Repo.get_by(User, email: email)
 
   @doc """
-  Creates a user.
+  Returns a filtered list of users.
 
   ## Examples
 
-      iex> create_user(%{field: value})
-      {:ok, %User{}}
-
-      iex> create_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      iex> list_users(%{email: "example@email.com"})
+      [%User{}, ...]
 
   """
-  def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.create_changeset(attrs)
-    |> Repo.insert()
+  def list_users(args \\ %{}) do
+    User
+    |> QueryHelpers.build_query(args)
+    |> Repo.all
   end
 
   @doc """
