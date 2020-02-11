@@ -13,6 +13,14 @@ defmodule AshServerWeb.Schema do
     value(:desc)
   end
 
+  input_object :integer_filter do
+    field :eq, :integer
+    field :lt, :integer
+    field :lte, :integer
+    field :gt, :integer
+    field :gte, :integer
+  end
+
   # """
   # Queries
   # """
