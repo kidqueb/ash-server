@@ -11,7 +11,6 @@ defmodule AshServer.AccountsTest do
 
     test "list_users/1 returns all users" do
       users = insert_list(3, :user)
-
       assert Accounts.list_users() == users
     end
 
