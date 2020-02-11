@@ -9,9 +9,19 @@ defmodule AshServer.AccountsTest do
 
     @invalid_attrs %{email: nil, username: nil}
 
-    test "list_users/1 returns all users" do
-      users = insert_list(3, :user)
-      assert Accounts.list_users() == users
+    test "create_user/1 with valid data creates a user" do
+      user_params =
+        params_for(:user, %{
+          password: "some_password",
+          confirm_password: "some_password"
+        })
+
+      assert {:ok, %User{} = user} = Accounts.create_user(user_params)
+      assert user.email == user_params.email
+    end
+
+    test "create_user/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
     end
 
     test "get_user!/1 returns the user with given id" do
@@ -24,22 +34,14 @@ defmodule AshServer.AccountsTest do
       assert Accounts.get_user_by_email!(user.email) == user
     end
 
-    test "create_user/1 with valid data creates a user" do
-      user_params = params_for(:user, %{
-        password: "some_password",
-        confirm_password: "some_password",
-      })
-
-      assert {:ok, %User{} = user} = Accounts.create_user(user_params)
-      assert user.email == user_params.email
-    end
-
-    test "create_user/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
+    test "list_users/1 returns all users" do
+      users = insert_list(3, :user)
+      assert Accounts.list_users() == users
     end
 
     test "update_user/2 with valid data updates the user" do
       user = insert(:user)
+
       user_params = %{
         password: "some_password",
         confirm_password: "some_password",
