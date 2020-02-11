@@ -4,7 +4,7 @@ defmodule AshServer.Accounts.Policy do
 
     @param {atom} action - the function being called in the module
     @param {struct} user - the user (typically current_user) to authorize
-    @param {struct} resource - the thing we're authorizing against
+    @param {any} resource - typically a thing we're authorizing against, or an ID
   """
   @behaviour Bodyguard.Policy
 
@@ -17,22 +17,25 @@ defmodule AshServer.Accounts.Policy do
   def authorize(:create_user, _user, _resource), do: true
 
   @doc "Only a user can view their account"
-  def authorize(:get_user, %User{id: current_user_id}, %User{id: user_id}),
+  def authorize(:fetch_user, %User{id: current_user_id}, user_id),
     do: current_user_id == user_id
 
-  def authorize(:get_user_by_email!, %User{id: current_user_id}, %User{id: user_id}),
+  def authorize(:get_user, %User{id: current_user_id}, user_id),
+    do: current_user_id == user_id
+
+  def authorize(:get_user_by_email!, %User{id: current_user_id}, user_id),
     do: current_user_id == user_id
 
   @doc "Only a user can update their account"
-  def authorize(:update_user, %User{id: current_user_id}, %User{id: user_id}),
+  def authorize(:update_user, %User{id: current_user_id}, user_id),
     do: current_user_id == user_id
 
   @doc "Only a user can delete their account"
-  def authorize(:delete_user, %User{id: current_user_id}, %User{id: user_id}),
+  def authorize(:delete_user, %User{id: current_user_id}, user_id),
     do: current_user_id == user_id
 
   @doc "Only a user can create themselves a changeset"
-  def authorize(:change_user, %User{id: current_user_id}, %User{id: user_id}),
+  def authorize(:change_user, %User{id: current_user_id}, user_id),
     do: current_user_id == user_id
 
   # """

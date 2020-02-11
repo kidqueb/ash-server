@@ -1,6 +1,5 @@
 defmodule AshServerWeb.Schema.GetUserTest do
   use AshServerWeb.ConnCase
-  import AshServer.Factory
 
   @query """
     query GetUser($id: ID!) {
@@ -11,32 +10,16 @@ defmodule AshServerWeb.Schema.GetUserTest do
     }
   """
 
-  test "finds a user by id", %{conn: conn} do
-    user = insert(:user)
+  @tag :authenticated
+  test "finds a user by id", %{conn: conn, current_user: current_user} do
     response = post_gql(conn, %{
       query: @query,
-      variables: %{id: user.id}
+      variables: %{id: current_user.id}
     })
 
     assert response["data"]["user"] == %{
-      "id" => to_string(user.id),
-      "email" => user.email,
-    }
-  end
-
-  test "errors when finding nonexistent user by id", %{conn: conn} do
-    response = post_gql(conn, %{
-      query: @query,
-      variables: %{id: 0}
-    })
-
-    assert response == %{
-      "data" => %{"user" => nil},
-      "errors" => [%{
-        "locations" => [%{"column" => 0, "line" => 2}],
-        "message" => "User not found",
-        "path" => ["user"]
-      }]
+      "id" => to_string(current_user.id),
+      "email" => current_user.email,
     }
   end
 end

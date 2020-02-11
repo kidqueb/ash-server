@@ -61,23 +61,4 @@ defmodule AshServerWeb.Schema.UpdateUserTest do
       ]
     }
   end
-
-  @tag :authenticated
-  test "errors when updating nonexistent user", %{conn: conn} do
-    response = post_gql(conn, %{
-      query: @query,
-      variables: %{id: "0", user: %{}}
-    })
-
-    assert response == %{
-      "data" => %{"updateUser" => nil},
-      "errors" => [
-        %{
-          "locations" => [%{"column" => 0, "line" => 2}],
-          "message" => "User not found",
-          "path" => ["updateUser"]
-        }
-      ]
-    }
-  end
 end

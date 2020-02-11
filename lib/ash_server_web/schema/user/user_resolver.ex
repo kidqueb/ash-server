@@ -9,8 +9,14 @@ defmodule AshServerWeb.Schema.UserResolver do
     end
   end
 
-  def find(%{id: id}, _info) do
-    Accounts.fetch_user(id)
+  def find(%{id: id}, info) do
+    with {:ok, current_user} <- get_current_user(info),
+    :ok <- Accounts.permit(:fetch_user, current_user, dirty_id(id)) do
+      Accounts.fetch_user(id)
+    else
+      {:error, error} -> {:error, error}
+      _ -> {:error, "Something went wrong"}
+    end
   end
 
   def all(args, _info) do
@@ -19,8 +25,8 @@ defmodule AshServerWeb.Schema.UserResolver do
 
   def update(%{id: id, user: user_params}, info) do
     with {:ok, current_user} <- get_current_user(info),
-    {:ok, user} <- Accounts.fetch_user(id),
-    :ok <- Accounts.permit(:update_user, current_user, user) do
+    :ok <- Accounts.permit(:update_user, current_user, dirty_id(id)),
+    {:ok, user} = Accounts.fetch_user(id) do
       Accounts.update_user(user, user_params)
     else
       {:error, error} -> {:error, error}
@@ -30,8 +36,8 @@ defmodule AshServerWeb.Schema.UserResolver do
 
   def delete(%{id: id}, info) do
     with {:ok, current_user} <- get_current_user(info),
-    {:ok, user} <- Accounts.fetch_user(id),
-    :ok <- Accounts.permit(:delete_user, current_user, user) do
+    :ok <- Accounts.permit(:delete_user, current_user, dirty_id(id)),
+    {:ok, user} <- Accounts.fetch_user(id) do
       Accounts.delete_user(user)
     else
       {:error, error} -> {:error, error}

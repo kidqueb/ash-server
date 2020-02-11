@@ -11,4 +11,7 @@ defmodule AshServer.Helpers.PolicyHelpers do
       _ -> {:error, :unauthorized}
     end
   end
+
+  def dirty_id(id) when is_integer(id), do: id
+  def dirty_id(id), do: String.to_integer(id)
 end
