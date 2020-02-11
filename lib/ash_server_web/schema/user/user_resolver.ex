@@ -1,4 +1,5 @@
 defmodule AshServerWeb.Schema.UserResolver do
+  import AshServer.Helpers.PolicyHelpers
   alias AshServer.Accounts
 
   def create(%{user: user}, _info) do
@@ -17,22 +18,24 @@ defmodule AshServerWeb.Schema.UserResolver do
   end
 
   def update(%{id: id, user: user_params}, info) do
-    with %{current_user: current_user} = info.context,
-    {:ok, user} <- Accounts.fetch_user(id) do
-      case Accounts.permit(:update_user, current_user, user) do
-        :ok -> Accounts.update_user(user, user_params)
-        {:error, error} -> {:error, error}
-      end
+    with {:ok, current_user} <- get_current_user(info),
+    {:ok, user} <- Accounts.fetch_user(id),
+    :ok <- Accounts.permit(:update_user, current_user, user) do
+      Accounts.update_user(user, user_params)
+    else
+      {:error, error} -> {:error, error}
+      _ -> {:error, "Something went wrong"}
     end
   end
 
   def delete(%{id: id}, info) do
-    with %{current_user: current_user} = info.context,
-    {:ok, user} <- Accounts.fetch_user(id) do
-      case Accounts.permit(:delete_user, current_user, user) do
-        :ok -> Accounts.delete_user(user)
-        {:error, error} -> {:error, error}
-      end
+    with {:ok, current_user} <- get_current_user(info),
+    {:ok, user} <- Accounts.fetch_user(id),
+    :ok <- Accounts.permit(:delete_user, current_user, user) do
+      Accounts.delete_user(user)
+    else
+      {:error, error} -> {:error, error}
+      _ -> {:error, "Something went wrong"}
     end
   end
 

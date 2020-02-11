@@ -62,6 +62,7 @@ defmodule AshServerWeb.Schema.UpdateUserTest do
     }
   end
 
+  @tag :authenticated
   test "errors when updating nonexistent user", %{conn: conn} do
     response = post_gql(conn, %{
       query: @query,

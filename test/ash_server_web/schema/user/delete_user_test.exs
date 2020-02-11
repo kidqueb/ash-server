@@ -44,6 +44,7 @@ defmodule AshServerWeb.Schema.DeleteUserTest do
     }
   end
 
+  @tag :authenticated
   test "errors when deleting nonexistent users", %{conn: conn} do
     response = post_gql(conn, %{
       query: @query,
