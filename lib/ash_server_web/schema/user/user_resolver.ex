@@ -1,19 +1,19 @@
 defmodule AshServerWeb.Schema.UserResolver do
   alias AshServer.Accounts
 
-  def all(args, _info) do
-    {:ok, Accounts.list_users(args)}
+  def create(%{user: user}, _info) do
+    case Accounts.create_user(user) do
+      {:ok, user} -> {:ok, user}
+      {:error, error} -> {:error, error}
+    end
   end
 
   def find(%{id: id}, _info) do
     Accounts.fetch_user(id)
   end
 
-  def create(%{user: user}, _info) do
-    case Accounts.create_user(user) do
-      {:ok, user} -> {:ok, user}
-      {:error, error} -> {:error, error}
-    end
+  def all(args, _info) do
+    {:ok, Accounts.list_users(args)}
   end
 
   def update(%{id: id, user: user_params}, info) do
