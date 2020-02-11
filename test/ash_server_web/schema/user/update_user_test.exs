@@ -1,4 +1,4 @@
-defmodule AshServerWeb.Schema.Mutations.UpdateUserTest do
+defmodule AshServerWeb.Schema.UpdateUserTest do
   use AshServerWeb.ConnCase
   import AshServer.Factory
 

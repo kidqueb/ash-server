@@ -1,4 +1,4 @@
-defmodule AshServerWeb.Schema.Mutations.DeleteUserTest do
+defmodule AshServerWeb.Schema.DeleteUserTest do
   use AshServerWeb.ConnCase
   import AshServer.Factory
 

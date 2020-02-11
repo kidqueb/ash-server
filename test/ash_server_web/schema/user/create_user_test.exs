@@ -1,4 +1,4 @@
-defmodule AshServerWeb.Schema.Mutations.CreateUserTest do
+defmodule AshServerWeb.Schema.CreateUserTest do
   use AshServerWeb.ConnCase
 
   @query """

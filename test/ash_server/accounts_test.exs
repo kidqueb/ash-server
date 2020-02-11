@@ -10,10 +10,9 @@ defmodule AshServer.AccountsTest do
     @invalid_attrs %{email: nil, username: nil}
 
     test "list_users/1 returns all users" do
-      user1 = insert(:user)
-      user2 = insert(:user)
+      users = insert_list(3, :user)
 
-      assert Accounts.list_users() == [user1, user2]
+      assert Accounts.list_users() == users
     end
 
     test "get_user!/1 returns the user with given id" do
@@ -33,6 +32,7 @@ defmodule AshServer.AccountsTest do
       })
 
       assert {:ok, %User{} = user} = Accounts.create_user(user_params)
+      assert user.email == user_params.email
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -58,7 +58,6 @@ defmodule AshServer.AccountsTest do
 
     test "delete_user/1 deletes the user" do
       user = insert(:user)
-
       assert {:ok, %User{}} = Accounts.delete_user(user)
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_user!(user.id) end
     end

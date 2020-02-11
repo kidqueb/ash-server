@@ -1,4 +1,4 @@
-defmodule AshServerWeb.Schema.Queries.GetUserTest do
+defmodule AshServerWeb.Schema.GetUserTest do
   use AshServerWeb.ConnCase
   import AshServer.Factory
 
