@@ -7,7 +7,6 @@ defmodule AshServerWeb.Schema do
   import_types(Absinthe.Type.Custom)
   import_types(AshServerWeb.Schema.SessionTypes)
   import_types(AshServerWeb.Schema.UserTypes)
-  import_types(AshServerWeb.Schema.PostTypes)
 
   enum :sort_order do
     value(:asc)
@@ -28,7 +27,6 @@ defmodule AshServerWeb.Schema do
   query do
     import_fields(:session_queries)
     import_fields(:user_queries)
-    import_fields(:post_queries)
   end
 
   # """
@@ -37,7 +35,6 @@ defmodule AshServerWeb.Schema do
   mutation do
     import_fields(:session_mutations)
     import_fields(:user_mutations)
-    import_fields(:post_mutations)
   end
 
   # """
