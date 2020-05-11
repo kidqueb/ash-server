@@ -104,6 +104,7 @@ success "Done!\n"
 # run rm -fr CODE_OF_CONDUCT.md CONTRIBUTING.md
 # success "Done!\n"
 
-header "Removing boilerplate setup script"
+header "Removing boilerplate script"
+run rm -fr ash-test.sh
 run rm -fr ash-install.sh
 success "Done!\n"
