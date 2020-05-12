@@ -105,6 +105,7 @@ success "Done!\n"
 # success "Done!\n"
 
 header "Removing boilerplate script"
-run rm -fr ash-test.sh
+run rm -fr ash-create-test.sh
+run rm -fr ash-run-test.shs
 run rm -fr ash-install.sh
 success "Done!\n"
