@@ -15,7 +15,7 @@ defmodule AshServerWeb.Schema.UserResolver do
       Accounts.fetch_user(id)
     else
       {:error, error} -> {:error, error}
-      _ -> {:error, "Something went wrong"}
+      _ -> {:error, :internal_server_error}
     end
   end
 
@@ -30,7 +30,7 @@ defmodule AshServerWeb.Schema.UserResolver do
       Accounts.update_user(user, user_params)
     else
       {:error, error} -> {:error, error}
-      _ -> {:error, "Something went wrong"}
+      _ -> {:error, :internal_server_error}
     end
   end
 
@@ -41,7 +41,7 @@ defmodule AshServerWeb.Schema.UserResolver do
       Accounts.delete_user(user)
     else
       {:error, error} -> {:error, error}
-      _ -> {:error, "Something went wrong"}
+      _ -> {:error, :internal_server_error}
     end
   end
 
